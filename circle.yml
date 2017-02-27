@@ -12,3 +12,7 @@ dependencies:
     - /usr/local/android-sdk-linux/platforms/android-25
     - /usr/local/android-sdk-linux/build-tools/25.0.2
     - /usr/local/android-sdk-linux/extras/android/m2repository
+
+general:
+  artifacts:
+    - lib/build/outputs/aar
