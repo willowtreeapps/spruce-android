@@ -51,7 +51,7 @@ public class DistancedSort extends SortFunction {
     }
 
     @Override
-    public List<SpruceTimedView> getTimeOffsets(List<View> children, long timeOffset) {
+    public List<SpruceTimedView> getViewListWithTimeOffsets(List<View> children) {
         final PointF comparisonPoint = getDistancePoint(children);
 
         Collections.sort(children, new Comparator<View>() {

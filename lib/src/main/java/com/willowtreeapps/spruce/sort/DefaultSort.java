@@ -24,16 +24,32 @@ package com.willowtreeapps.spruce.sort;
 
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public abstract class SortFunction {
+public class DefaultSort extends SortFunction {
+
+    private final long interObjectDelay;
 
     /**
-     * Get a list of SpruceTimedView
-     *
-     * @param children List of views to be animated
-     * @return List of SpruceTimedView objects that contain the view and it's offset
+     * Default sort; handles views with a provided offset delay
+     * @param interObjectDelay (long) delay between object animations
      */
-    public abstract List<SpruceTimedView> getViewListWithTimeOffsets(List<View> children);
+    public DefaultSort(long interObjectDelay) {
+        this.interObjectDelay = interObjectDelay;
+    }
+
+    @Override
+    public List<SpruceTimedView> getViewListWithTimeOffsets(List<View> children) {
+        List<SpruceTimedView> childTimedViews = new ArrayList<>();
+        long currentTimeOffset = 0L;
+
+        for (View childView : children) {
+            childTimedViews.add(new SpruceTimedView(childView, currentTimeOffset));
+            currentTimeOffset += interObjectDelay;
+        }
+
+        return childTimedViews;
+    }
 
 }
