@@ -1,0 +1,134 @@
+/*
+ *     Spruce
+ *
+ *     Copyright (c) 2017 WillowTree, Inc.
+ *     Permission is hereby granted, free of charge, to any person obtaining a copy
+ *     of this software and associated documentation files (the "Software"), to deal
+ *     in the Software without restriction, including without limitation the rights
+ *     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *     copies of the Software, and to permit persons to whom the Software is
+ *     furnished to do so, subject to the following conditions:
+ *     The above copyright notice and this permission notice shall be included in
+ *     all copies or substantial portions of the Software.
+ *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *     THE SOFTWARE.
+ *
+ */
+
+package com.willowtreeapps.spruce.sort;
+
+import android.graphics.PointF;
+import android.view.View;
+
+import com.willowtreeapps.spruce.utils.DistanceUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * DistancedSort
+ */
+public class DistancedSort extends SortFunction {
+
+    private final long interObjectDelay;
+    private boolean reversed;
+
+    /**
+     * Establishes the delay between object animations based on distance and a delay
+     * @param interObjectDelay delay between object animations
+     * @param reversed flag to indicate if the animation should be reversed
+     */
+    public DistancedSort(long interObjectDelay, boolean reversed) {
+        this.interObjectDelay = interObjectDelay;
+        this.reversed = reversed;
+    }
+
+    @Override
+    public List<SpruceTimedView> getTimeOffsets(List<View> children, long timeOffset) {
+        final PointF comparisonPoint = getDistancePoint(children);
+
+        Collections.sort(children, new Comparator<View>() {
+            @Override
+            public int compare(View left, View right) {
+                double leftDistance = getDistanceBetweenPoints(viewToPoint(left), comparisonPoint);
+                double rightDistance = getDistanceBetweenPoints(viewToPoint(right), comparisonPoint);
+                if (reversed) {
+                    return leftDistance > rightDistance? 1 : -1;
+                }
+                return leftDistance < rightDistance? 0 : 1;
+            }
+        });
+
+        PointF lastDistance = viewToPoint(children.get(0));
+        long currentTimeOffset = 0L;
+        List<SpruceTimedView> childViews = new ArrayList<>();
+
+        for (View childView : children) {
+            if (lastDistance != viewToPoint(childView)) {
+                lastDistance = viewToPoint(childView);
+                currentTimeOffset += interObjectDelay;
+            }
+            childViews.add(new SpruceTimedView(childView, currentTimeOffset));
+        }
+
+        return childViews;
+    }
+
+    /**
+     * Get the point that's closest to the start point
+     * @param children List of views to sort by distance
+     * @return PointF of the distance between a point and 0, 0
+     */
+    private PointF getDistancePoint(List<View> children) {
+        PointF distancePoint = new PointF(0, 0);
+        return translate(distancePoint, children);
+    }
+
+    /**
+     * Find the double value of the distance between two points.
+     * See {@link DistanceUtils#euclideanDistance(PointF, PointF) euclideanDistance} method.
+     *
+     * @param left PointF
+     * @param right PointF
+     * @return the euclidean distance (float value) between the parameter points
+     */
+    private double getDistanceBetweenPoints(PointF left, PointF right) {
+        return DistanceUtils.euclideanDistance(left, right);
+    }
+
+    /**
+     * Return the view that is the closest to the distancePoint
+     *
+     * @param distancePoint Point for comparison
+     * @param children List of Views to compare
+     * @return Point closet to the distance point
+     */
+    private PointF translate(final PointF distancePoint, List<View> children) {
+        Collections.sort(children, new Comparator<View>() {
+            @Override
+            public int compare(View left, View right) {
+                double leftDistance = DistanceUtils.euclideanDistance(viewToPoint(left), distancePoint);
+                double rightDistance = DistanceUtils.euclideanDistance(viewToPoint(right), distancePoint);
+                return leftDistance < rightDistance? 0 : 1;
+            }
+        });
+        return viewToPoint(children.get(0));
+    }
+
+    /**
+     * Convert a view into it's coordinates as a Point
+     * @param view Object
+     * @return PointF containing the x, y coordinates of the view
+     */
+    private PointF viewToPoint(View view) {
+        return new PointF(Math.round(view.getX()), Math.round(view.getY()));
+    }
+
+}

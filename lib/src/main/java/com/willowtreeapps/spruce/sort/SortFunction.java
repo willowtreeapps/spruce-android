@@ -20,25 +20,21 @@
  *
  */
 
-package com.willowtreeapps.spruce.SortFunctions;
+package com.willowtreeapps.spruce.sort;
 
 import android.view.View;
 
-public class SpruceTimedView {
+import java.util.List;
 
-    private final View view;
-    private final long timeOffset;
+public abstract class SortFunction {
 
-    public SpruceTimedView(View view, long timeOffset) {
-        this.view = view;
-        this.timeOffset = timeOffset;
-    }
+    /**
+     * Get a list of SpruceTimedView
+     *
+     * @param children List of views to be animated
+     * @param timeOffset (long) time offset in milliseconds
+     * @return List of SpruceTimedView objects that contain the view and it's offset
+     */
+    public abstract List<SpruceTimedView> getTimeOffsets(List<View> children, long timeOffset);
 
-    public View getView() {
-        return view;
-    }
-
-    public long getTimeOffset() {
-        return timeOffset;
-    }
 }

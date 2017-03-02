@@ -25,7 +25,7 @@ package com.willowtreeapps.spruce;
 import android.animation.Animator;
 import android.view.ViewGroup;
 
-import com.willowtreeapps.spruce.SortFunctions.SortFunction;
+import com.willowtreeapps.spruce.sort.SortFunction;
 
 public class Spruce {
 
