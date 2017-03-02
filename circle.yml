@@ -16,3 +16,4 @@ dependencies:
 general:
   artifacts:
     - lib/build/outputs/aar
+    - app/build/outputs/apk
