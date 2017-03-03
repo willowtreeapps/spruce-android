@@ -23,33 +23,67 @@
 package com.willowtreeapps.spruce;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.willowtreeapps.spruce.sort.SortFunction;
+import com.willowtreeapps.spruce.sort.SpruceTimedView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Spruce {
 
     private final ViewGroup viewGroup;
-    private final Animator animator;
+    private final Animator[] animators;
     private final SortFunction sortFunction;
 
-    private Spruce(SpruceBuilder builder) {
+    private Spruce(SpruceBuilder builder) throws IllegalArgumentException {
         this.viewGroup = builder.viewGroup;
-        this.animator = builder.animator;
+        this.animators = builder.animators;
         this.sortFunction = builder.sortFunction;
 
-        if (animator != null) {
-            animator.setTarget(viewGroup);
-            animator.start();
+        if (animators == null) {
+            throw new IllegalArgumentException("Animator array must not be null");
+        } else if (sortFunction == null) {
+            throw new IllegalArgumentException("SortFunction must not be null");
         }
+
+        getAnimatorSetForSort(animators, sortFunction).start();
+    }
+
+    private AnimatorSet getAnimatorSetForSort(Animator[] animators, SortFunction sortFunction) {
+        List<SpruceTimedView> childrenWithTime;
+        List<View> children = new ArrayList<>();
+
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            children.add(viewGroup.getChildAt(i));
+        }
+
+        childrenWithTime = sortFunction.getViewListWithTimeOffsets(children);
+        AnimatorSet animatorSet = new AnimatorSet();
+        List<Animator> animatorsList = new ArrayList<>();
+
+        for (SpruceTimedView childView : childrenWithTime) {
+            for (Animator animatorChild : animators) {
+                Animator animatorCopy = animatorChild.clone();
+                animatorCopy.setTarget(childView.getView());
+                animatorCopy.setStartDelay(childView.getTimeOffset());
+                animatorsList.add(animatorCopy);
+            }
+        }
+        animatorSet.playTogether(animatorsList);
+
+        return animatorSet;
     }
 
     public ViewGroup getViewGroup() {
         return viewGroup;
     }
 
-    public Animator getAnimator() {
-        return animator;
+    public Animator[] getAnimators() {
+        return animators;
     }
 
     public SortFunction getSortFunction() {
@@ -60,7 +94,7 @@ public class Spruce {
     public static class SpruceBuilder {
 
         private final ViewGroup viewGroup;
-        private Animator animator;
+        private Animator[] animators;
         private SortFunction sortFunction;
 
         /**
@@ -85,13 +119,12 @@ public class Spruce {
         }
 
         /**
-         * Apply an animator for animating the ViewGroup
-         *
-         * @param animator to apply to the ViewGroup
+         * Apply one to many animations to the ViewGroup
+         * @param animators Animator array to apply to the ViewGroup children
          * @return SpruceBuilder object
          */
-        public SpruceBuilder animateWith(Animator animator) {
-            this.animator = animator;
+        public SpruceBuilder animateWith(Animator... animators) {
+            this.animators = animators;
             return this;
         }
 
