@@ -25,4 +25,5 @@
     <color name="colorPrimary">#3BB894</color>
     <color name="colorPrimaryDark">#2e7d32</color>
     <color name="colorAccent">#8BC34A</color>
+    <color name="spruceViewColor">#4bc495</color>
 </resources>
