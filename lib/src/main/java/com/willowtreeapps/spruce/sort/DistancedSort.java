@@ -24,6 +24,7 @@ package com.willowtreeapps.spruce.sort;
 
 import android.graphics.PointF;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.willowtreeapps.spruce.utils.DistanceUtils;
 
@@ -38,7 +39,7 @@ import java.util.List;
 public class DistancedSort extends SortFunction {
 
     private final long interObjectDelay;
-    private boolean reversed;
+    private final boolean reversed;
 
     /**
      * Establishes the delay between object animations based on distance and a delay
@@ -51,8 +52,8 @@ public class DistancedSort extends SortFunction {
     }
 
     @Override
-    public List<SpruceTimedView> getViewListWithTimeOffsets(List<View> children) {
-        final PointF comparisonPoint = getDistancePoint(children);
+    public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
+        final PointF comparisonPoint = getDistancePoint(parent, children);
 
         Collections.sort(children, new Comparator<View>() {
             @Override
@@ -60,19 +61,19 @@ public class DistancedSort extends SortFunction {
                 double leftDistance = getDistanceBetweenPoints(viewToPoint(left), comparisonPoint);
                 double rightDistance = getDistanceBetweenPoints(viewToPoint(right), comparisonPoint);
                 if (reversed) {
-                    return leftDistance > rightDistance? 1 : -1;
+                    return leftDistance > rightDistance? -1 : 1;
                 }
-                return leftDistance < rightDistance? 0 : 1;
+                return leftDistance < rightDistance? -1 : 1;
             }
         });
 
-        PointF lastDistance = viewToPoint(children.get(0));
+        double lastDistance = getDistanceBetweenPoints(viewToPoint(children.get(0)), comparisonPoint);
         long currentTimeOffset = 0L;
         List<SpruceTimedView> childViews = new ArrayList<>();
 
         for (View childView : children) {
-            if (lastDistance != viewToPoint(childView)) {
-                lastDistance = viewToPoint(childView);
+            if (lastDistance != getDistanceBetweenPoints(viewToPoint(childView), comparisonPoint)) {
+                lastDistance = getDistanceBetweenPoints(viewToPoint(childView), comparisonPoint);
                 currentTimeOffset += interObjectDelay;
             }
             childViews.add(new SpruceTimedView(childView, currentTimeOffset));
@@ -86,7 +87,7 @@ public class DistancedSort extends SortFunction {
      * @param children List of views to sort by distance
      * @return PointF of the distance between a point and 0, 0
      */
-    private PointF getDistancePoint(List<View> children) {
+    public PointF getDistancePoint(ViewGroup parent, List<View> children) {
         PointF distancePoint = new PointF(0, 0);
         return translate(distancePoint, children);
     }
@@ -99,7 +100,7 @@ public class DistancedSort extends SortFunction {
      * @param right PointF
      * @return the euclidean distance (float value) between the parameter points
      */
-    private double getDistanceBetweenPoints(PointF left, PointF right) {
+    public double getDistanceBetweenPoints(PointF left, PointF right) {
         return DistanceUtils.euclideanDistance(left, right);
     }
 
@@ -114,9 +115,9 @@ public class DistancedSort extends SortFunction {
         Collections.sort(children, new Comparator<View>() {
             @Override
             public int compare(View left, View right) {
-                double leftDistance = DistanceUtils.euclideanDistance(viewToPoint(left), distancePoint);
-                double rightDistance = DistanceUtils.euclideanDistance(viewToPoint(right), distancePoint);
-                return leftDistance < rightDistance? 0 : 1;
+                double leftDistance = getDistanceBetweenPoints(viewToPoint(left), distancePoint);
+                double rightDistance = getDistanceBetweenPoints(viewToPoint(right), distancePoint);
+                return leftDistance < rightDistance? 1 : -1;
             }
         });
         return viewToPoint(children.get(0));

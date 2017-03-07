@@ -23,6 +23,7 @@
 package com.willowtreeapps.spruce.sort;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class DefaultSort extends SortFunction {
     }
 
     @Override
-    public List<SpruceTimedView> getViewListWithTimeOffsets(List<View> children) {
+    public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
         List<SpruceTimedView> childTimedViews = new ArrayList<>();
         long currentTimeOffset = 0L;
 
