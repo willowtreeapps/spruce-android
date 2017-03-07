@@ -36,13 +36,12 @@ import java.util.List;
 public class Spruce {
 
     private final ViewGroup viewGroup;
-    private final Animator[] animators;
-    private final SortFunction sortFunction;
+    private AnimatorSet animatorSet;
 
     private Spruce(SpruceBuilder builder) throws IllegalArgumentException {
         this.viewGroup = builder.viewGroup;
-        this.animators = builder.animators;
-        this.sortFunction = builder.sortFunction;
+        Animator[] animators = builder.animators;
+        SortFunction sortFunction = builder.sortFunction;
 
         if (animators == null) {
             throw new IllegalArgumentException("Animator array must not be null");
@@ -62,7 +61,7 @@ public class Spruce {
         }
 
         childrenWithTime = sortFunction.getViewListWithTimeOffsets(children);
-        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet = new AnimatorSet();
         List<Animator> animatorsList = new ArrayList<>();
 
         for (SpruceTimedView childView : childrenWithTime) {
@@ -78,24 +77,12 @@ public class Spruce {
         return animatorSet;
     }
 
-    public ViewGroup getViewGroup() {
-        return viewGroup;
-    }
-
-    public Animator[] getAnimators() {
-        return animators;
-    }
-
-    public SortFunction getSortFunction() {
-        return sortFunction;
-    }
-
-
     public static class SpruceBuilder {
 
         private final ViewGroup viewGroup;
         private Animator[] animators;
         private SortFunction sortFunction;
+        private Spruce spruce;
 
         /**
          * SpruceBuilder constructor that takes a ViewGroup
@@ -133,9 +120,9 @@ public class Spruce {
          *
          * @return Spruce The Spruce object to apply operations to.
          */
-        public Spruce start() {
-            return new Spruce(this);
+        public Animator start() {
+            spruce = new Spruce(this);
+            return spruce.animatorSet;
         }
-
     }
 }
