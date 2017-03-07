@@ -63,7 +63,56 @@
                 android:id="@+id/sort_selection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/spinnerGrey"
                 android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/directional_radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="visible">
+
+                    <RadioButton
+                        android:id="@+id/bottom_to_top"
+                        android:text="@string/bottom_to_top"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:id="@+id/top_to_bottom"
+                        android:text="@string/top_to_bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:id="@+id/right_to_left"
+                        android:text="@string/right_to_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:id="@+id/left_to_right"
+                        android:text="@string/left_to_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </RadioGroup>
+
+                <CheckBox
+                    android:id="@+id/linear_reversed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/reversed"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
 
             <SeekBar
                 android:id="@+id/animation_seek"
