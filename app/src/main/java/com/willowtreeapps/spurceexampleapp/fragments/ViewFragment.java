@@ -23,23 +23,31 @@
 package com.willowtreeapps.spurceexampleapp.fragments;
 
 import android.animation.Animator;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
 import com.willowtreeapps.spruce.Spruce;
+import com.willowtreeapps.spruce.animation.DefaultAnimations;
 import com.willowtreeapps.spruce.sort.DefaultSort;
+import com.willowtreeapps.spruce.sort.LinearSort;
+import com.willowtreeapps.spruce.sort.SortFunction;
 import com.willowtreeapps.spurceexampleapp.R;
 
 import java.util.ArrayList;
@@ -48,11 +56,16 @@ import java.util.List;
 
 public class ViewFragment extends Fragment {
 
-    private Spruce.SpruceBuilder spruce;
+    private Animator spruceAnimator;
+    private GridLayout parent;
     private SeekBar seekBar;
+    private Spinner sortDropDown;
+    private RadioGroup linearRadioGroup;
+    private CheckBox linearReversed;
 
     private List<View> children = new ArrayList<>();
     private Animator[] animators;
+    private LinearSort.SpruceDirection direction;
 
     public static ViewFragment newInstance(){
         return new ViewFragment();
@@ -61,15 +74,19 @@ public class ViewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final GridLayout parent = (GridLayout) container.findViewById(R.id.view_group_to_animate);
-        spruce = new Spruce.SpruceBuilder(parent);
-
+        parent = (GridLayout) container.findViewById(R.id.view_group_to_animate);
+        linearRadioGroup = (RadioGroup) container.findViewById(R.id.directional_radio_group);
+        linearReversed = (CheckBox) container.findViewById(R.id.linear_reversed);
         seekBar = (SeekBar) container.findViewById(R.id.animation_seek);
+
+        Resources res = getResources();
+        int tileWidthAndHeight = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, res.getDisplayMetrics()));
+        int tileMargins = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, res.getDisplayMetrics()));
 
         for (int i = 0; i < 100; i++) {
             View childView = new View(getContext());
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(60, 60);
-            params.setMargins(4, 4, 4, 4);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(tileWidthAndHeight, tileWidthAndHeight);
+            params.setMargins(tileMargins, tileMargins, tileMargins, tileMargins);
             childView.setLayoutParams(params);
             childView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.spruceViewColor));
             childView.setAlpha(0F);
@@ -77,15 +94,10 @@ public class ViewFragment extends Fragment {
             children.add(childView);
         }
 
-        // TODO - move to the default animations once they're flushed out and available
-        final ObjectAnimator growAnim = ObjectAnimator.ofPropertyValuesHolder(parent,
-                PropertyValuesHolder.ofFloat(View.SCALE_X, 0.1F, 1.0F),
-                PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.1F, 1.0F))
-                .setDuration(800);
-        final ObjectAnimator alphaAnim = ObjectAnimator.ofFloat(parent, View.ALPHA, 1F)
-                .setDuration(800);
-
-        animators = new Animator[]{growAnim, alphaAnim};
+        animators = new Animator[] {
+                DefaultAnimations.shrinkAnimator(parent, /*duration=*/800),
+                DefaultAnimations.fadeInAnimator(parent, /*duration=*/800)
+        };
 
         View.OnClickListener click = new View.OnClickListener() {
             @Override
@@ -96,13 +108,63 @@ public class ViewFragment extends Fragment {
         container.setOnClickListener(click);
         parent.setOnClickListener(click);
 
-        Spinner sortDropDown = (Spinner) container.findViewById(R.id.sort_selection);
+        sortDropDown = (Spinner) container.findViewById(R.id.sort_selection);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.sort_functions,
                 R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         sortDropDown.setAdapter(adapter);
-        sortDropDown.setEnabled(false);
+
+        sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                resetChildViewsAndStartSort();
+                if (position == 1) {
+                    linearRadioGroup.setVisibility(View.VISIBLE);
+                    linearReversed.setVisibility(View.VISIBLE);
+                } else {
+                    linearRadioGroup.setVisibility(View.GONE);
+                    linearReversed.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                resetChildViewsAndStartSort();
+            }
+        });
+
+        // set default direction
+        direction = LinearSort.SpruceDirection.BOTTOM_TO_TOP;
+        linearRadioGroup.check(R.id.bottom_to_top);
+        linearRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId)
+                {
+                    case R.id.bottom_to_top:
+                        direction = LinearSort.SpruceDirection.BOTTOM_TO_TOP;
+                        break;
+                    case R.id.top_to_bottom:
+                        direction = LinearSort.SpruceDirection.TOP_TO_BOTTOM;
+                        break;
+                    case R.id.left_to_right:
+                        direction = LinearSort.SpruceDirection.LEFT_TO_RIGHT;
+                        break;
+                    case R.id.right_to_left:
+                        direction = LinearSort.SpruceDirection.RIGHT_TO_LEFT;
+                        break;
+                }
+                resetChildViewsAndStartSort();
+            }
+        });
+
+        linearReversed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                resetChildViewsAndStartSort();
+            }
+        });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -127,13 +189,33 @@ public class ViewFragment extends Fragment {
     }
 
     private void resetChildViewsAndStartSort() {
-        //spruce.stop(); TODO: Once stop is available
+        if (spruceAnimator != null) {
+            spruceAnimator.cancel();
+        }
         for (View view : children) {
             view.setAlpha(0);
         }
-        spruce.sortWith(new DefaultSort(seekBar.getProgress()))
+        setupSort();
+    }
+
+    private void setupSort() {
+        SortFunction sortFunction;
+        switch (sortDropDown.getSelectedItemPosition()) {
+            case 0:
+                sortFunction = new DefaultSort(seekBar.getProgress());
+                break;
+            case 1:
+                sortFunction = new LinearSort(seekBar.getProgress(), linearReversed.isChecked(), direction);
+                break;
+            default:
+                sortFunction = new DefaultSort(seekBar.getProgress());
+                break;
+        }
+
+        spruceAnimator = new Spruce.SpruceBuilder(parent).sortWith(sortFunction)
                 .animateWith(animators)
                 .start();
+
     }
 
 }

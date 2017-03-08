@@ -23,7 +23,7 @@
 
 <resources>
     <string-array name="sort_functions">
-        <item>Default Sort</item>
-        <item>Distanced Sort</item>
+        <item>@string/default_sort</item>
+        <item>@string/linear_sort</item>
     </string-array>
 </resources>

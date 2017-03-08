@@ -21,5 +21,14 @@
   -->
 
 <resources>
-    <string name="app_name">Spurce Example</string>
+    <string name="app_name">Spruce Example</string>
+
+    <!-- Sort options -->
+    <string name="default_sort">Default Sort</string>
+    <string name="linear_sort">Linear Sort</string>
+    <string name="bottom_to_top">Bottom to Top</string>
+    <string name="top_to_bottom">Top to Bottom</string>
+    <string name="left_to_right">Left to Right</string>
+    <string name="right_to_left">Right to Left</string>
+    <string name="reversed">Reversed</string>
 </resources>
