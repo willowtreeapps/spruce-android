@@ -65,7 +65,7 @@ public class ViewFragment extends Fragment {
 
     private List<View> children = new ArrayList<>();
     private Animator[] animators;
-    private LinearSort.SpruceDirection direction;
+    private LinearSort.Direction direction;
 
     public static ViewFragment newInstance(){
         return new ViewFragment();
@@ -135,7 +135,7 @@ public class ViewFragment extends Fragment {
         });
 
         // set default direction
-        direction = LinearSort.SpruceDirection.BOTTOM_TO_TOP;
+        direction = LinearSort.Direction.BOTTOM_TO_TOP;
         linearRadioGroup.check(R.id.bottom_to_top);
         linearRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -143,16 +143,16 @@ public class ViewFragment extends Fragment {
                 switch (checkedId)
                 {
                     case R.id.bottom_to_top:
-                        direction = LinearSort.SpruceDirection.BOTTOM_TO_TOP;
+                        direction = LinearSort.Direction.BOTTOM_TO_TOP;
                         break;
                     case R.id.top_to_bottom:
-                        direction = LinearSort.SpruceDirection.TOP_TO_BOTTOM;
+                        direction = LinearSort.Direction.TOP_TO_BOTTOM;
                         break;
                     case R.id.left_to_right:
-                        direction = LinearSort.SpruceDirection.LEFT_TO_RIGHT;
+                        direction = LinearSort.Direction.LEFT_TO_RIGHT;
                         break;
                     case R.id.right_to_left:
-                        direction = LinearSort.SpruceDirection.RIGHT_TO_LEFT;
+                        direction = LinearSort.Direction.RIGHT_TO_LEFT;
                         break;
                 }
                 resetChildViewsAndStartSort();

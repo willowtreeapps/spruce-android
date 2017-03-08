@@ -32,9 +32,9 @@ import java.util.List;
 
 public class LinearSort extends DistancedSort {
 
-    private final SpruceDirection direction;
+    private final Direction direction;
 
-    public enum SpruceDirection {
+    public enum Direction {
         TOP_TO_BOTTOM,
         BOTTOM_TO_TOP,
         LEFT_TO_RIGHT,
@@ -43,13 +43,16 @@ public class LinearSort extends DistancedSort {
 
     /**
      * Establishes the delay between object animations and their direction based on distance,
-     * delay, and a value from the SpruceDirection enum
+     * delay, and a value from the Direction enum
      * @param interObjectDelay delay between object animations
      * @param reversed flag to indicate if the animation should be reversed
      * @param direction enum value of the direction the animation should start from and end with
      */
-    public LinearSort(long interObjectDelay, boolean reversed, SpruceDirection direction) {
+    public LinearSort(long interObjectDelay, boolean reversed, Direction direction) {
         super(interObjectDelay, reversed);
+        if (direction == null) {
+            throw new NullPointerException("Direction can't be null and must be of a valid type");
+        }
         this.direction = direction;
     }
 
@@ -72,7 +75,7 @@ public class LinearSort extends DistancedSort {
             case RIGHT_TO_LEFT:
                 return new PointF(parent.getWidth(), parent.getHeight() / 2.0F);
             default:
-                return point;
+                throw new AssertionError("Must be a valid Direction argument type");
         }
     }
 
