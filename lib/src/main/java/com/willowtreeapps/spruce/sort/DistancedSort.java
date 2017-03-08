@@ -36,17 +36,18 @@ import java.util.List;
 /**
  * DistancedSort
  */
-public class DistancedSort extends SortFunction {
+class DistancedSort extends SortFunction {
 
     private final long interObjectDelay;
     private final boolean reversed;
 
     /**
      * Establishes the delay between object animations based on distance and a delay
+     *
      * @param interObjectDelay delay between object animations
      * @param reversed flag to indicate if the animation should be reversed
      */
-    public DistancedSort(long interObjectDelay, boolean reversed) {
+    DistancedSort(long interObjectDelay, boolean reversed) {
         this.interObjectDelay = interObjectDelay;
         this.reversed = reversed;
     }
@@ -61,9 +62,9 @@ public class DistancedSort extends SortFunction {
                 double leftDistance = getDistanceBetweenPoints(viewToPoint(left), comparisonPoint);
                 double rightDistance = getDistanceBetweenPoints(viewToPoint(right), comparisonPoint);
                 if (reversed) {
-                    return leftDistance > rightDistance? -1 : 1;
+                    return Double.compare(rightDistance, leftDistance);
                 }
-                return leftDistance < rightDistance? -1 : 1;
+                return Double.compare(leftDistance, rightDistance);
             }
         });
 
@@ -84,6 +85,7 @@ public class DistancedSort extends SortFunction {
 
     /**
      * Get the point that's closest to the start point
+     *
      * @param children List of views to sort by distance
      * @return PointF of the distance between a point and 0, 0
      */
@@ -96,7 +98,7 @@ public class DistancedSort extends SortFunction {
      * Find the double value of the distance between two points.
      * See {@link DistanceUtils#euclideanDistance(PointF, PointF) euclideanDistance} method.
      *
-     * @param left PointF
+     * @param left  PointF
      * @param right PointF
      * @return the euclidean distance (float value) between the parameter points
      */
@@ -111,13 +113,13 @@ public class DistancedSort extends SortFunction {
      * @param children List of Views to compare
      * @return Point closet to the distance point
      */
-    private PointF translate(final PointF distancePoint, List<View> children) {
+    PointF translate(final PointF distancePoint, List<View> children) {
         Collections.sort(children, new Comparator<View>() {
             @Override
             public int compare(View left, View right) {
                 double leftDistance = getDistanceBetweenPoints(viewToPoint(left), distancePoint);
                 double rightDistance = getDistanceBetweenPoints(viewToPoint(right), distancePoint);
-                return leftDistance < rightDistance? 1 : -1;
+                return Double.compare(leftDistance, rightDistance);
             }
         });
         return viewToPoint(children.get(0));
@@ -125,6 +127,7 @@ public class DistancedSort extends SortFunction {
 
     /**
      * Convert a view into it's coordinates as a Point
+     *
      * @param view Object
      * @return PointF containing the x, y coordinates of the view
      */
