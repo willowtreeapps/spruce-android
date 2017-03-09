@@ -37,7 +37,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -47,25 +46,29 @@ import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
 import com.willowtreeapps.spruce.sort.DefaultSort;
 import com.willowtreeapps.spruce.sort.LinearSort;
+import com.willowtreeapps.spruce.sort.RadialSort;
 import com.willowtreeapps.spruce.sort.SortFunction;
 import com.willowtreeapps.spurceexampleapp.R;
+import com.willowtreeapps.spurceexampleapp.widgets.RadioGroupGridLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ViewFragment extends Fragment {
+public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnChangedListener {
 
     private Animator spruceAnimator;
     private GridLayout parent;
     private SeekBar seekBar;
     private Spinner sortDropDown;
     private RadioGroup linearRadioGroup;
+    private RadioGroupGridLayout positionalRadioGroup;
     private CheckBox linearReversed;
 
     private List<View> children = new ArrayList<>();
     private Animator[] animators;
     private LinearSort.Direction direction;
+    private RadialSort.Position position;
 
     public static ViewFragment newInstance(){
         return new ViewFragment();
@@ -76,6 +79,7 @@ public class ViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         parent = (GridLayout) container.findViewById(R.id.view_group_to_animate);
         linearRadioGroup = (RadioGroup) container.findViewById(R.id.directional_radio_group);
+        positionalRadioGroup = (RadioGroupGridLayout) container.findViewById(R.id.positional_radio_group);
         linearReversed = (CheckBox) container.findViewById(R.id.linear_reversed);
         seekBar = (SeekBar) container.findViewById(R.id.animation_seek);
 
@@ -85,7 +89,9 @@ public class ViewFragment extends Fragment {
 
         for (int i = 0; i < 100; i++) {
             View childView = new View(getContext());
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(tileWidthAndHeight, tileWidthAndHeight);
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+            params.height = tileWidthAndHeight;
+            params.width = tileWidthAndHeight;
             params.setMargins(tileMargins, tileMargins, tileMargins, tileMargins);
             childView.setLayoutParams(params);
             childView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.spruceViewColor));
@@ -122,9 +128,15 @@ public class ViewFragment extends Fragment {
                 if (position == 1) {
                     linearRadioGroup.setVisibility(View.VISIBLE);
                     linearReversed.setVisibility(View.VISIBLE);
-                } else {
+                    positionalRadioGroup.setVisibility(View.GONE);
+                } else if (position == 2) {
+                    positionalRadioGroup.setVisibility(View.VISIBLE);
+                    linearReversed.setVisibility(View.VISIBLE);
                     linearRadioGroup.setVisibility(View.GONE);
+                } else {
                     linearReversed.setVisibility(View.GONE);
+                    positionalRadioGroup.setVisibility(View.GONE);
+                    linearRadioGroup.setVisibility(View.GONE);
                 }
             }
 
@@ -136,7 +148,6 @@ public class ViewFragment extends Fragment {
 
         // set default direction
         direction = LinearSort.Direction.BOTTOM_TO_TOP;
-        linearRadioGroup.check(R.id.bottom_to_top);
         linearRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -183,9 +194,15 @@ public class ViewFragment extends Fragment {
             }
         });
 
+        positionalRadioGroup.setGroupChildChangedListener(this);
         resetChildViewsAndStartSort();
 
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onRadioGroupChildChanged() {
+        resetChildViewsAndStartSort();
     }
 
     private void resetChildViewsAndStartSort() {
@@ -206,6 +223,9 @@ public class ViewFragment extends Fragment {
                 break;
             case 1:
                 sortFunction = new LinearSort(seekBar.getProgress(), linearReversed.isChecked(), direction);
+                break;
+            case 2:
+                sortFunction = new RadialSort(seekBar.getProgress(), linearReversed.isChecked(), positionalRadioGroup.getPosition());
                 break;
             default:
                 sortFunction = new DefaultSort(seekBar.getProgress());
