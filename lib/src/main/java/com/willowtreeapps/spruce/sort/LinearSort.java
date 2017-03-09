@@ -26,8 +26,6 @@ import android.graphics.PointF;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.willowtreeapps.spruce.utils.DistanceUtils;
-
 import java.util.List;
 
 public class LinearSort extends DistancedSort {
@@ -93,6 +91,6 @@ public class LinearSort extends DistancedSort {
                 right.y = 0F;
                 break;
         }
-        return DistanceUtils.euclideanDistance(left, right);
+        return Utils.euclideanDistance(left, right);
     }
 }
