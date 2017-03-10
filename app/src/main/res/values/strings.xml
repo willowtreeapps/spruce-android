@@ -26,9 +26,22 @@
     <!-- Sort options -->
     <string name="default_sort">Default Sort</string>
     <string name="linear_sort">Linear Sort</string>
+    <string name="radial_sort">Radial Sort</string>
+    <!-- Linear -->
     <string name="bottom_to_top">Bottom to Top</string>
     <string name="top_to_bottom">Top to Bottom</string>
     <string name="left_to_right">Left to Right</string>
     <string name="right_to_left">Right to Left</string>
+    <!-- Radial -->
+    <string name="top_left">Top Left</string>
+    <string name="top_middle">Top Middle</string>
+    <string name="top_right">Top Right</string>
+    <string name="right">Right</string>
+    <string name="middle">Middle</string>
+    <string name="left">Left</string>
+    <string name="bottom_left">Bottom Left</string>
+    <string name="bottom_middle">Bottom Middle</string>
+    <string name="bottom_right">Bottom Right</string>
+
     <string name="reversed">Reversed</string>
 </resources>

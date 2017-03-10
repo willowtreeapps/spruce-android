@@ -25,5 +25,6 @@
     <string-array name="sort_functions">
         <item>@string/default_sort</item>
         <item>@string/linear_sort</item>
+        <item>@string/radial_sort</item>
     </string-array>
 </resources>
