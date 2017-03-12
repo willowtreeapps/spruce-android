@@ -49,7 +49,7 @@ class Utils {
      * @return float value representing the horizontal (or x) distance between two points
      */
     public static float horizontalDistance(PointF firstPoint, PointF secondPoint) {
-        return secondPoint.x - firstPoint.x;
+        return Math.abs(secondPoint.x - firstPoint.x);
     }
 
     /**
@@ -60,7 +60,7 @@ class Utils {
      * @return float value representing the vertical (or y) distance between two points
      */
     public static float verticalDistance(PointF firstPoint, PointF secondPoint) {
-        return secondPoint.y - firstPoint.y;
+        return Math.abs(secondPoint.y - firstPoint.y);
     }
 
     /**
