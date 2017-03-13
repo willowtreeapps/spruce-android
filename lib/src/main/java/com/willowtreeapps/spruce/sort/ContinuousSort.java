@@ -39,7 +39,7 @@ public class ContinuousSort extends RadialSort {
 
     /**
      * Establishes the delay between object animations and their starting position based on distance,
-     * delay, and a value from the SprucePosition enum
+     * delay, and a value from the Position enum
      *
      * @param interObjectDelay delay between object animations
      * @param reversed flag to indicate if the animation should be reversed
