@@ -28,14 +28,13 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class RandomSort extends SortFunction {
 
     private final long interObjectDelay;
 
     /**
-     * Random sort pattern that utilizes {@link Collections#shuffle(List, Random) shuffle()}
+     * Random sort pattern that utilizes {@link Collections#shuffle(List) shuffle()}
      *
      * @param interObjectDelay
      */
@@ -46,7 +45,7 @@ public class RandomSort extends SortFunction {
     @Override
     public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
         // randomize view list
-        Collections.shuffle(children, new Random(System.nanoTime()));
+        Collections.shuffle(children);
 
         List<SpruceTimedView> timedViews = new ArrayList<>();
         long currentTimeOffset = 0;
