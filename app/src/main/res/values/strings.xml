@@ -25,8 +25,11 @@
 
     <!-- Sort options -->
     <string name="default_sort">Default Sort</string>
+    <string name="cornered_sort">Cornered Sort</string>
+    <string name="continuous_sort">Continuous Sort</string>
     <string name="linear_sort">Linear Sort</string>
     <string name="radial_sort">Radial Sort</string>
+    <string name="random_sort">Random Sort</string>
     <!-- Linear -->
     <string name="bottom_to_top">Bottom to Top</string>
     <string name="top_to_bottom">Top to Bottom</string>

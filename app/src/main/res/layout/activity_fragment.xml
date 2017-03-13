@@ -71,103 +71,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioGroup
-                    android:id="@+id/directional_radio_group"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="gone">
+                <include layout="@layout/directional_radio_group" />
 
-                    <RadioButton
-                        android:id="@+id/bottom_to_top"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="@string/bottom_to_top"/>
+                <include layout="@layout/positional_radio_group" />
 
-                    <RadioButton
-                        android:id="@+id/top_to_bottom"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/top_to_bottom"/>
-
-                    <RadioButton
-                        android:id="@+id/right_to_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/right_to_left"/>
-
-                    <RadioButton
-                        android:id="@+id/left_to_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/left_to_right"/>
-
-                </RadioGroup>
-
-                <com.willowtreeapps.spurceexampleapp.widgets.RadioGroupGridLayout
-                    android:id="@+id/positional_radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:visibility="visible">
-
-                    <RadioButton
-                        android:id="@+id/top_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="@string/top_left"/>
-
-                    <RadioButton
-                        android:id="@+id/top_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/top_right"/>
-
-                    <RadioButton
-                        android:id="@+id/left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/left"/>
-
-                    <RadioButton
-                        android:id="@+id/bottom_middle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/bottom_middle"/>
-
-                    <RadioButton
-                        android:id="@+id/middle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/middle"/>
-
-                    <RadioButton
-                        android:id="@+id/right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/right"/>
-
-                    <RadioButton
-                        android:id="@+id/top_middle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/top_middle"/>
-
-                    <RadioButton
-                        android:id="@+id/bottom_right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/bottom_right"/>
-
-                    <RadioButton
-                        android:id="@+id/bottom_left"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/bottom_left"/>
-
-                </com.willowtreeapps.spurceexampleapp.widgets.RadioGroupGridLayout>
+                <include layout="@layout/cornered_radio_group" />
 
                 <CheckBox
                     android:id="@+id/linear_reversed"
