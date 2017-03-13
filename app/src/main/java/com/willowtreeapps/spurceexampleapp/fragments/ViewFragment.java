@@ -60,6 +60,13 @@ import java.util.List;
 
 public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnChangedListener {
 
+    private static final int DEFAULT_SORT = 0;
+    private static final int CORNERED_SORT = 1;
+    private static final int CONTINUOUS_SORT = 2;
+    private static final int LINEAR_SORT = 3;
+    private static final int RADIAL_SORT = 4;
+    private static final int RANDOM_SORT = 5;
+
     private Animator spruceAnimator;
     private GridLayout parent;
     private SeekBar seekBar;
@@ -130,17 +137,17 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 resetChildViewsAndStartSort();
-                if (position == 1) {
+                if (position == CORNERED_SORT) {
                     linearRadioGroup.setVisibility(View.GONE);
-                    linearReversed.setVisibility(View.GONE);
+                    linearReversed.setVisibility(View.VISIBLE);
                     positionalRadioGroup.setVisibility(View.GONE);
                     corneredRadioGroup.setVisibility(View.VISIBLE);
-                } else if (position == 3) {
+                } else if (position == LINEAR_SORT) {
                     linearRadioGroup.setVisibility(View.VISIBLE);
                     linearReversed.setVisibility(View.VISIBLE);
                     positionalRadioGroup.setVisibility(View.GONE);
                     corneredRadioGroup.setVisibility(View.GONE);
-                } else if (position == 2 || position == 4) {
+                } else if (position == CONTINUOUS_SORT || position == RADIAL_SORT) {
                     positionalRadioGroup.setVisibility(View.VISIBLE);
                     linearReversed.setVisibility(View.VISIBLE);
                     linearRadioGroup.setVisibility(View.GONE);
@@ -238,6 +245,12 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        positionalRadioGroup.onResume();
+    }
+
+    @Override
     public void onRadioGroupChildChanged() {
         resetChildViewsAndStartSort();
     }
@@ -255,22 +268,22 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     private void setupSort() {
         SortFunction sortFunction;
         switch (sortDropDown.getSelectedItemPosition()) {
-            case 0:
+            case DEFAULT_SORT:
                 sortFunction = new DefaultSort(seekBar.getProgress());
                 break;
-            case 1:
+            case CORNERED_SORT:
                 sortFunction = new CorneredSort(seekBar.getProgress(), linearReversed.isChecked(), corner);
                 break;
-            case 2:
-                sortFunction = new ContinuousSort(seekBar.getProgress() * 20, linearReversed.isChecked(), positionalRadioGroup.getPosition());
+            case CONTINUOUS_SORT:
+                sortFunction = new ContinuousSort(seekBar.getProgress() * /*timePaddingOffset=*/20, linearReversed.isChecked(), positionalRadioGroup.getPosition());
                 break;
-            case 3:
+            case LINEAR_SORT:
                 sortFunction = new LinearSort(seekBar.getProgress(), linearReversed.isChecked(), direction);
                 break;
-            case 4:
+            case RADIAL_SORT:
                 sortFunction = new RadialSort(seekBar.getProgress(), linearReversed.isChecked(), positionalRadioGroup.getPosition());
                 break;
-            case 5:
+            case RANDOM_SORT:
                 sortFunction = new RandomSort(seekBar.getProgress());
                 break;
             default:
