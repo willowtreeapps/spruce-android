@@ -33,6 +33,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -107,23 +108,35 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
         horizontalWeightLayout = (LinearLayout) container.findViewById(R.id.horizontal_weight);
         linearReversed = (CheckBox) container.findViewById(R.id.linear_reversed);
         seekBar = (SeekBar) container.findViewById(R.id.animation_seek);
+        final int CHILD_VIEW_COUNT = parent.getColumnCount() * parent.getRowCount();
 
-        Resources res = getResources();
-        int tileWidthAndHeight = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, res.getDisplayMetrics()));
-        int tileMargins = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, res.getDisplayMetrics()));
-
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < CHILD_VIEW_COUNT; i++) {
             View childView = new View(getContext());
-            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-            params.height = tileWidthAndHeight;
-            params.width = tileWidthAndHeight;
-            params.setMargins(tileMargins, tileMargins, tileMargins, tileMargins);
-            childView.setLayoutParams(params);
             childView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.spruceViewColor));
             childView.setAlpha(0F);
             parent.addView(childView);
             children.add(childView);
         }
+
+        parent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Resources res = getResources();
+                int tileMargins = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, res.getDisplayMetrics()));
+                final int childWidth = Math.round(parent.getWidth() / parent.getColumnCount() - parent.getColumnCount());
+                final int childHeight = Math.round(parent.getHeight() / parent.getRowCount() - parent.getColumnCount());
+
+                for (int i = 0; i < parent.getChildCount(); i++) {
+                    View childView = parent.getChildAt(i);
+                    GridLayout.LayoutParams params = (GridLayout.LayoutParams) childView.getLayoutParams();
+                    params.width = childWidth;
+                    params.height = childHeight;
+                    params.setMargins(tileMargins, tileMargins, tileMargins, tileMargins);
+                    childView.setLayoutParams(params);
+                }
+                parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
 
         animators = new Animator[] {
                 DefaultAnimations.shrinkAnimator(parent, /*duration=*/800),

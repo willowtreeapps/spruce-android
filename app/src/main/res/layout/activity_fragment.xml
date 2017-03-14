@@ -28,30 +28,30 @@
               android:orientation="vertical">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_weight="1.5">
+        android:layout_weight="2">
 
         <GridLayout
             android:id="@+id/view_group_to_animate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginTop="4dp"
             android:clickable="true"
-            android:columnCount="10"
-            android:rowCount="10"/>
+            android:columnCount="11"
+            android:rowCount="11"/>
 
     </FrameLayout>
 
     <ScrollView
         android:id="@+id/control_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight=".5">
 
         <LinearLayout
@@ -92,7 +92,8 @@
             <SeekBar
                 android:id="@+id/animation_seek"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:progress="25"/>
 
         </LinearLayout>
 
