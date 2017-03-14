@@ -75,17 +75,19 @@
 
                 <include layout="@layout/positional_radio_group" />
 
+                <include layout="@layout/continuous_radio_group" />
+
                 <include layout="@layout/cornered_radio_group" />
 
-                <CheckBox
-                    android:id="@+id/linear_reversed"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/reversed"
-                    android:visibility="gone"/>
-
             </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/linear_reversed"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/reversed"
+                android:visibility="gone"/>
 
             <SeekBar
                 android:id="@+id/animation_seek"

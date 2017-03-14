@@ -26,6 +26,8 @@
         <item>@string/default_sort</item>
         <item>@string/cornered_sort</item>
         <item>@string/continuous_sort</item>
+        <item>@string/continuous_weighted_sort</item>
+        <item>@string/inline_sort</item>
         <item>@string/linear_sort</item>
         <item>@string/radial_sort</item>
         <item>@string/random_sort</item>
