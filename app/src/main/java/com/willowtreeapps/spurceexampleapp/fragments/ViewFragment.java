@@ -38,6 +38,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -45,8 +46,10 @@ import android.widget.Spinner;
 import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
 import com.willowtreeapps.spruce.sort.ContinuousSort;
+import com.willowtreeapps.spruce.sort.ContinuousWeightedSort;
 import com.willowtreeapps.spruce.sort.CorneredSort;
 import com.willowtreeapps.spruce.sort.DefaultSort;
+import com.willowtreeapps.spruce.sort.InlineSort;
 import com.willowtreeapps.spruce.sort.LinearSort;
 import com.willowtreeapps.spruce.sort.RadialSort;
 import com.willowtreeapps.spruce.sort.RandomSort;
@@ -63,9 +66,11 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     private static final int DEFAULT_SORT = 0;
     private static final int CORNERED_SORT = 1;
     private static final int CONTINUOUS_SORT = 2;
-    private static final int LINEAR_SORT = 3;
-    private static final int RADIAL_SORT = 4;
-    private static final int RANDOM_SORT = 5;
+    private static final int CONTINUOUS_WEIGHTED_SORT = 3;
+    private static final int INLINE_SORT = 4;
+    private static final int LINEAR_SORT = 5;
+    private static final int RADIAL_SORT = 6;
+    private static final int RANDOM_SORT = 7;
 
     private Animator spruceAnimator;
     private GridLayout parent;
@@ -74,7 +79,11 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     private RadioGroup linearRadioGroup;
     private RadioGroup corneredRadioGroup;
     private RadioGroupGridLayout positionalRadioGroup;
+    private double verticalWeight;
+    private double horizontalWeight;
     private CheckBox linearReversed;
+    private LinearLayout verticalWeightLayout;
+    private LinearLayout horizontalWeightLayout;
 
     private List<View> children = new ArrayList<>();
     private Animator[] animators;
@@ -92,6 +101,10 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
         linearRadioGroup = (RadioGroup) container.findViewById(R.id.directional_radio_group);
         corneredRadioGroup = (RadioGroup) container.findViewById(R.id.cornered_radio_group);
         positionalRadioGroup = (RadioGroupGridLayout) container.findViewById(R.id.positional_radio_group);
+        RadioGroup verticalWeightedRadioGroup = (RadioGroup) container.findViewById(R.id.vertical_weighted_radio_group);
+        RadioGroup horizontalWeightedRadioGroup = (RadioGroup) container.findViewById(R.id.horizontal_weighted_radio_group);
+        verticalWeightLayout = (LinearLayout) container.findViewById(R.id.vertical_weight);
+        horizontalWeightLayout = (LinearLayout) container.findViewById(R.id.horizontal_weight);
         linearReversed = (CheckBox) container.findViewById(R.id.linear_reversed);
         seekBar = (SeekBar) container.findViewById(R.id.animation_seek);
 
@@ -137,31 +150,95 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 resetChildViewsAndStartSort();
-                if (position == CORNERED_SORT) {
-                    linearRadioGroup.setVisibility(View.GONE);
-                    linearReversed.setVisibility(View.VISIBLE);
-                    positionalRadioGroup.setVisibility(View.GONE);
-                    corneredRadioGroup.setVisibility(View.VISIBLE);
-                } else if (position == LINEAR_SORT) {
-                    linearRadioGroup.setVisibility(View.VISIBLE);
-                    linearReversed.setVisibility(View.VISIBLE);
-                    positionalRadioGroup.setVisibility(View.GONE);
-                    corneredRadioGroup.setVisibility(View.GONE);
-                } else if (position == CONTINUOUS_SORT || position == RADIAL_SORT) {
-                    positionalRadioGroup.setVisibility(View.VISIBLE);
-                    linearReversed.setVisibility(View.VISIBLE);
-                    linearRadioGroup.setVisibility(View.GONE);
-                    corneredRadioGroup.setVisibility(View.GONE);
-                } else {
-                    linearReversed.setVisibility(View.GONE);
-                    positionalRadioGroup.setVisibility(View.GONE);
-                    linearRadioGroup.setVisibility(View.GONE);
-                    corneredRadioGroup.setVisibility(View.GONE);
+                switch (position) {
+                    case CORNERED_SORT:
+                    case INLINE_SORT:
+                        linearRadioGroup.setVisibility(View.GONE);
+                        linearReversed.setVisibility(View.VISIBLE);
+                        positionalRadioGroup.setVisibility(View.GONE);
+                        verticalWeightLayout.setVisibility(View.GONE);
+                        horizontalWeightLayout.setVisibility(View.GONE);
+                        corneredRadioGroup.setVisibility(View.VISIBLE);
+                        break;
+                    case LINEAR_SORT:
+                        linearRadioGroup.setVisibility(View.VISIBLE);
+                        linearReversed.setVisibility(View.VISIBLE);
+                        positionalRadioGroup.setVisibility(View.GONE);
+                        verticalWeightLayout.setVisibility(View.GONE);
+                        horizontalWeightLayout.setVisibility(View.GONE);
+                        corneredRadioGroup.setVisibility(View.GONE);
+                        break;
+                    case CONTINUOUS_SORT:
+                    case RADIAL_SORT:
+                        positionalRadioGroup.setVisibility(View.VISIBLE);
+                        verticalWeightLayout.setVisibility(View.GONE);
+                        horizontalWeightLayout.setVisibility(View.GONE);
+                        linearReversed.setVisibility(View.VISIBLE);
+                        linearRadioGroup.setVisibility(View.GONE);
+                        corneredRadioGroup.setVisibility(View.GONE);
+                        break;
+                    case CONTINUOUS_WEIGHTED_SORT:
+                        positionalRadioGroup.setVisibility(View.VISIBLE);
+                        verticalWeightLayout.setVisibility(View.VISIBLE);
+                        horizontalWeightLayout.setVisibility(View.VISIBLE);
+                        linearReversed.setVisibility(View.VISIBLE);
+                        linearRadioGroup.setVisibility(View.GONE);
+                        corneredRadioGroup.setVisibility(View.GONE);
+                        break;
+                    default:
+                        linearReversed.setVisibility(View.GONE);
+                        positionalRadioGroup.setVisibility(View.GONE);
+                        verticalWeightLayout.setVisibility(View.GONE);
+                        horizontalWeightLayout.setVisibility(View.GONE);
+                        linearRadioGroup.setVisibility(View.GONE);
+                        corneredRadioGroup.setVisibility(View.GONE);
+                        break;
+
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                resetChildViewsAndStartSort();
+            }
+        });
+
+        // set default vertical weight
+        verticalWeight = ContinuousWeightedSort.MEDIUM_WEIGHT;
+        verticalWeightedRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId) {
+                    case R.id.vertical_light:
+                        verticalWeight = ContinuousWeightedSort.LIGHT_WEIGHT;
+                        break;
+                    case R.id.vertical_medium:
+                        verticalWeight = ContinuousWeightedSort.MEDIUM_WEIGHT;
+                        break;
+                    case R.id.vertical_heavy:
+                        verticalWeight = ContinuousWeightedSort.HEAVY_WEIGHT;
+                        break;
+                }
+                resetChildViewsAndStartSort();
+            }
+        });
+
+        // set default horizontal weight
+        horizontalWeight = ContinuousWeightedSort.MEDIUM_WEIGHT;
+        horizontalWeightedRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId) {
+                    case R.id.horizontal_light:
+                        horizontalWeight = ContinuousWeightedSort.LIGHT_WEIGHT;
+                        break;
+                    case R.id.horizontal_medium:
+                        horizontalWeight = ContinuousWeightedSort.MEDIUM_WEIGHT;
+                        break;
+                    case R.id.horizontal_heavy:
+                        horizontalWeight = ContinuousWeightedSort.HEAVY_WEIGHT;
+                        break;
+                }
                 resetChildViewsAndStartSort();
             }
         });
@@ -275,7 +352,19 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
                 sortFunction = new CorneredSort(seekBar.getProgress(), linearReversed.isChecked(), corner);
                 break;
             case CONTINUOUS_SORT:
-                sortFunction = new ContinuousSort(seekBar.getProgress() * /*timePaddingOffset=*/20, linearReversed.isChecked(), positionalRadioGroup.getPosition());
+                sortFunction = new ContinuousSort(seekBar.getProgress() * /*timePaddingOffset=*/20,
+                        linearReversed.isChecked(),
+                        positionalRadioGroup.getPosition());
+                break;
+            case CONTINUOUS_WEIGHTED_SORT:
+                sortFunction = new ContinuousWeightedSort(seekBar.getProgress() * /*timePaddingOffset=*/20,
+                        linearReversed.isChecked(),
+                        positionalRadioGroup.getPosition(),
+                        horizontalWeight,
+                        verticalWeight);
+                break;
+            case INLINE_SORT:
+                sortFunction = new InlineSort(seekBar.getProgress(), linearReversed.isChecked(), corner);
                 break;
             case LINEAR_SORT:
                 sortFunction = new LinearSort(seekBar.getProgress(), linearReversed.isChecked(), direction);

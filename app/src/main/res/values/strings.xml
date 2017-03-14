@@ -27,6 +27,8 @@
     <string name="default_sort">Default Sort</string>
     <string name="cornered_sort">Cornered Sort</string>
     <string name="continuous_sort">Continuous Sort</string>
+    <string name="continuous_weighted_sort">Continuous Weighted Sort</string>
+    <string name="inline_sort">Inline Sort</string>
     <string name="linear_sort">Linear Sort</string>
     <string name="radial_sort">Radial Sort</string>
     <string name="random_sort">Random Sort</string>
@@ -45,6 +47,13 @@
     <string name="bottom_left">Bottom Left</string>
     <string name="bottom_middle">Bottom Middle</string>
     <string name="bottom_right">Bottom Right</string>
+    <!-- Continuous -->
+    <string name="light">Light</string>
+    <string name="medium">Medium</string>
+    <string name="heavy">Heavy</string>
 
     <string name="reversed">Reversed</string>
+
+    <string name="vertical">Vertical</string>
+    <string name="horizontal">Horizontal</string>
 </resources>
