@@ -44,9 +44,12 @@ import android.widget.Spinner;
 
 import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
+import com.willowtreeapps.spruce.sort.ContinuousSort;
+import com.willowtreeapps.spruce.sort.CorneredSort;
 import com.willowtreeapps.spruce.sort.DefaultSort;
 import com.willowtreeapps.spruce.sort.LinearSort;
 import com.willowtreeapps.spruce.sort.RadialSort;
+import com.willowtreeapps.spruce.sort.RandomSort;
 import com.willowtreeapps.spruce.sort.SortFunction;
 import com.willowtreeapps.spurceexampleapp.R;
 import com.willowtreeapps.spurceexampleapp.widgets.RadioGroupGridLayout;
@@ -57,18 +60,26 @@ import java.util.List;
 
 public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnChangedListener {
 
+    private static final int DEFAULT_SORT = 0;
+    private static final int CORNERED_SORT = 1;
+    private static final int CONTINUOUS_SORT = 2;
+    private static final int LINEAR_SORT = 3;
+    private static final int RADIAL_SORT = 4;
+    private static final int RANDOM_SORT = 5;
+
     private Animator spruceAnimator;
     private GridLayout parent;
     private SeekBar seekBar;
     private Spinner sortDropDown;
     private RadioGroup linearRadioGroup;
+    private RadioGroup corneredRadioGroup;
     private RadioGroupGridLayout positionalRadioGroup;
     private CheckBox linearReversed;
 
     private List<View> children = new ArrayList<>();
     private Animator[] animators;
     private LinearSort.Direction direction;
-    private RadialSort.Position position;
+    private CorneredSort.Corner corner;
 
     public static ViewFragment newInstance(){
         return new ViewFragment();
@@ -79,6 +90,7 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         parent = (GridLayout) container.findViewById(R.id.view_group_to_animate);
         linearRadioGroup = (RadioGroup) container.findViewById(R.id.directional_radio_group);
+        corneredRadioGroup = (RadioGroup) container.findViewById(R.id.cornered_radio_group);
         positionalRadioGroup = (RadioGroupGridLayout) container.findViewById(R.id.positional_radio_group);
         linearReversed = (CheckBox) container.findViewById(R.id.linear_reversed);
         seekBar = (SeekBar) container.findViewById(R.id.animation_seek);
@@ -125,18 +137,26 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 resetChildViewsAndStartSort();
-                if (position == 1) {
+                if (position == CORNERED_SORT) {
+                    linearRadioGroup.setVisibility(View.GONE);
+                    linearReversed.setVisibility(View.VISIBLE);
+                    positionalRadioGroup.setVisibility(View.GONE);
+                    corneredRadioGroup.setVisibility(View.VISIBLE);
+                } else if (position == LINEAR_SORT) {
                     linearRadioGroup.setVisibility(View.VISIBLE);
                     linearReversed.setVisibility(View.VISIBLE);
                     positionalRadioGroup.setVisibility(View.GONE);
-                } else if (position == 2) {
+                    corneredRadioGroup.setVisibility(View.GONE);
+                } else if (position == CONTINUOUS_SORT || position == RADIAL_SORT) {
                     positionalRadioGroup.setVisibility(View.VISIBLE);
                     linearReversed.setVisibility(View.VISIBLE);
                     linearRadioGroup.setVisibility(View.GONE);
+                    corneredRadioGroup.setVisibility(View.GONE);
                 } else {
                     linearReversed.setVisibility(View.GONE);
                     positionalRadioGroup.setVisibility(View.GONE);
                     linearRadioGroup.setVisibility(View.GONE);
+                    corneredRadioGroup.setVisibility(View.GONE);
                 }
             }
 
@@ -164,6 +184,30 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
                         break;
                     case R.id.right_to_left:
                         direction = LinearSort.Direction.RIGHT_TO_LEFT;
+                        break;
+                }
+                resetChildViewsAndStartSort();
+            }
+        });
+
+        // set default corner
+        corner = CorneredSort.Corner.TOP_LEFT;
+        corneredRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId)
+                {
+                    case R.id.top_left:
+                        corner = CorneredSort.Corner.TOP_LEFT;
+                        break;
+                    case R.id.top_right:
+                        corner = CorneredSort.Corner.TOP_RIGHT;
+                        break;
+                    case R.id.bottom_left:
+                        corner = CorneredSort.Corner.BOTTOM_LEFT;
+                        break;
+                    case R.id.bottom_right:
+                        corner = CorneredSort.Corner.BOTTOM_RIGHT;
                         break;
                 }
                 resetChildViewsAndStartSort();
@@ -201,6 +245,12 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        positionalRadioGroup.onResume();
+    }
+
+    @Override
     public void onRadioGroupChildChanged() {
         resetChildViewsAndStartSort();
     }
@@ -218,14 +268,23 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     private void setupSort() {
         SortFunction sortFunction;
         switch (sortDropDown.getSelectedItemPosition()) {
-            case 0:
+            case DEFAULT_SORT:
                 sortFunction = new DefaultSort(seekBar.getProgress());
                 break;
-            case 1:
+            case CORNERED_SORT:
+                sortFunction = new CorneredSort(seekBar.getProgress(), linearReversed.isChecked(), corner);
+                break;
+            case CONTINUOUS_SORT:
+                sortFunction = new ContinuousSort(seekBar.getProgress() * /*timePaddingOffset=*/20, linearReversed.isChecked(), positionalRadioGroup.getPosition());
+                break;
+            case LINEAR_SORT:
                 sortFunction = new LinearSort(seekBar.getProgress(), linearReversed.isChecked(), direction);
                 break;
-            case 2:
+            case RADIAL_SORT:
                 sortFunction = new RadialSort(seekBar.getProgress(), linearReversed.isChecked(), positionalRadioGroup.getPosition());
+                break;
+            case RANDOM_SORT:
+                sortFunction = new RandomSort(seekBar.getProgress());
                 break;
             default:
                 sortFunction = new DefaultSort(seekBar.getProgress());

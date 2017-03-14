@@ -24,7 +24,10 @@
 <resources>
     <string-array name="sort_functions">
         <item>@string/default_sort</item>
+        <item>@string/cornered_sort</item>
+        <item>@string/continuous_sort</item>
         <item>@string/linear_sort</item>
         <item>@string/radial_sort</item>
+        <item>@string/random_sort</item>
     </string-array>
 </resources>

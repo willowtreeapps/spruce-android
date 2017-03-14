@@ -36,7 +36,7 @@ import com.willowtreeapps.spurceexampleapp.R;
 
 public class RadioGroupGridLayout extends GridLayout implements View.OnClickListener {
 
-    private RadioButton activeRadioButton;
+    private AppCompatRadioButton activeRadioButton;
     private RadialSort.Position position;
     private OnChangedListener listener;
 
@@ -48,6 +48,7 @@ public class RadioGroupGridLayout extends GridLayout implements View.OnClickList
     public RadioGroupGridLayout(Context context, OnChangedListener listener) {
         super(context);
         this.listener = listener;
+        init();
     }
 
     public RadioGroupGridLayout(Context context, AttributeSet attrs) {
@@ -62,7 +63,7 @@ public class RadioGroupGridLayout extends GridLayout implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        final RadioButton rb = (RadioButton) view;
+        final AppCompatRadioButton rb = (AppCompatRadioButton) view;
         if ( activeRadioButton != null ) {
             activeRadioButton.setChecked(false);
         }
@@ -102,12 +103,18 @@ public class RadioGroupGridLayout extends GridLayout implements View.OnClickList
         listener.onRadioGroupChildChanged();
     }
 
-
-
     @Override
     public void addView(View child, ViewGroup.LayoutParams params) {
         super.addView(child, params);
         setChildrenOnClickListener((AppCompatRadioButton) child);
+    }
+
+    public void onResume() {
+        // reset to default
+        AppCompatRadioButton activeRadioButton = this.activeRadioButton;
+        clearCheckedChildren();
+        this.activeRadioButton = activeRadioButton;
+        this.activeRadioButton.setChecked(true);
     }
 
     private void setChildrenOnClickListener(AppCompatRadioButton child) {
@@ -120,6 +127,14 @@ public class RadioGroupGridLayout extends GridLayout implements View.OnClickList
                     activeRadioButton = (AppCompatRadioButton) v;
                 }
                 v.setOnClickListener(this);
+            }
+        }
+    }
+
+    private void clearCheckedChildren() {
+        for (int i = 0; i < getChildCount(); i++) {
+            if (getChildAt(i) instanceof AppCompatRadioButton) {
+                ((AppCompatRadioButton) getChildAt(i)).setChecked(false);
             }
         }
     }
