@@ -20,31 +20,25 @@
  *
  */
 
-apply plugin: 'com.android.library'
+package com.willowtreeapps.spruce.sort;
 
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-    defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
+import android.view.View;
 
-dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.17'
+public class SpruceTimedView {
+
+    private final View view;
+    private final long timeOffset;
+
+    public SpruceTimedView(View view, long timeOffset) {
+        this.view = view;
+        this.timeOffset = timeOffset;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public long getTimeOffset() {
+        return timeOffset;
+    }
 }

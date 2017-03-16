@@ -1,0 +1,59 @@
+<!--
+  ~     Spruce
+  ~
+  ~     Copyright (c) 2017 WillowTree, Inc.
+  ~     Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~     of this software and associated documentation files (the "Software"), to deal
+  ~     in the Software without restriction, including without limitation the rights
+  ~     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~     copies of the Software, and to permit persons to whom the Software is
+  ~     furnished to do so, subject to the following conditions:
+  ~     The above copyright notice and this permission notice shall be included in
+  ~     all copies or substantial portions of the Software.
+  ~     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~     THE SOFTWARE.
+  ~
+  -->
+
+<resources>
+    <string name="app_name">Spruce Example</string>
+
+    <!-- Sort options -->
+    <string name="default_sort">Default Sort</string>
+    <string name="cornered_sort">Cornered Sort</string>
+    <string name="continuous_sort">Continuous Sort</string>
+    <string name="continuous_weighted_sort">Continuous Weighted Sort</string>
+    <string name="inline_sort">Inline Sort</string>
+    <string name="linear_sort">Linear Sort</string>
+    <string name="radial_sort">Radial Sort</string>
+    <string name="random_sort">Random Sort</string>
+    <!-- Linear -->
+    <string name="bottom_to_top">Bottom to Top</string>
+    <string name="top_to_bottom">Top to Bottom</string>
+    <string name="left_to_right">Left to Right</string>
+    <string name="right_to_left">Right to Left</string>
+    <!-- Radial -->
+    <string name="top_left">Top Left</string>
+    <string name="top_middle">Top Middle</string>
+    <string name="top_right">Top Right</string>
+    <string name="right">Right</string>
+    <string name="middle">Middle</string>
+    <string name="left">Left</string>
+    <string name="bottom_left">Bottom Left</string>
+    <string name="bottom_middle">Bottom Middle</string>
+    <string name="bottom_right">Bottom Right</string>
+    <!-- Continuous -->
+    <string name="light">Light</string>
+    <string name="medium">Medium</string>
+    <string name="heavy">Heavy</string>
+
+    <string name="reversed">Reversed</string>
+
+    <string name="vertical">Vertical</string>
+    <string name="horizontal">Horizontal</string>
+</resources>

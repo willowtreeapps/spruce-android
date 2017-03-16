@@ -20,31 +20,37 @@
  *
  */
 
-apply plugin: 'com.android.library'
+package com.willowtreeapps.spruce.sort;
 
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-    defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class DefaultSort extends SortFunction {
+
+    private final long interObjectDelay;
+
+    /**
+     * Default sort; handles views with a provided offset delay
+     * @param interObjectDelay (long) delay between object animations
+     */
+    public DefaultSort(long interObjectDelay) {
+        this.interObjectDelay = interObjectDelay;
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+    @Override
+    public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
+        List<SpruceTimedView> childTimedViews = new ArrayList<>();
+        long currentTimeOffset = 0L;
+
+        for (View childView : children) {
+            childTimedViews.add(new SpruceTimedView(childView, currentTimeOffset));
+            currentTimeOffset += interObjectDelay;
         }
-    }
-}
 
-dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.17'
+        return childTimedViews;
+    }
+
 }

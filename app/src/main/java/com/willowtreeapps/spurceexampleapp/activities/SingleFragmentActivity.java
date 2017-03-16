@@ -20,31 +20,40 @@
  *
  */
 
-apply plugin: 'com.android.library'
+package com.willowtreeapps.spurceexampleapp.activities;
 
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-    defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+import android.os.Bundle;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+
+import com.willowtreeapps.spurceexampleapp.R;
+
+
+public abstract class SingleFragmentActivity extends AppCompatActivity {
+
+    protected abstract Fragment createViewFragment();
+
+    @LayoutRes
+    protected int getLayoutResId() {
+        return R.layout.activity_fragment;
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getLayoutResId());
+
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment viewFragment = fm.findFragmentById(R.id.view_fragment);
+
+        if (viewFragment == null) {
+            viewFragment = createViewFragment();
+            fm.beginTransaction()
+                    .add(R.id.view_fragment, viewFragment)
+                    .commit();
         }
     }
-}
-
-dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.17'
 }

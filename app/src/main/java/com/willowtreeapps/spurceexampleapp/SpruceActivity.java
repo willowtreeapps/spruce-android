@@ -20,31 +20,18 @@
  *
  */
 
-apply plugin: 'com.android.library'
+package com.willowtreeapps.spurceexampleapp;
 
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-    defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
+import android.support.v4.app.Fragment;
 
-dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.17'
+import com.willowtreeapps.spurceexampleapp.activities.SingleFragmentActivity;
+import com.willowtreeapps.spurceexampleapp.fragments.ViewFragment;
+
+public class SpruceActivity extends SingleFragmentActivity {
+
+    @Override
+    protected Fragment createViewFragment() {
+        return ViewFragment.newInstance();
+    }
+
 }
