@@ -12,7 +12,7 @@ Spruce is a lightweight animation library that helps choreograph the animations 
 
 
 ## Contributing to Spruce
-Contributions are more than welcome! Please see the Contributing Guidelines and be mindful of our Code of Conduct.
+Contributions are more than welcome! Please see the Contributing Guidelines and be mindful of our [Code of Conduct](https://github.com/willowtreeapps/spruce-android/blob/docs/add-readme/code-of-conduct.md).
 
 ## Issues or Future Ideas
 If part of Spruce is not working correctly be sure to file a Github issue. In the issue provide as many details as possible. This could include example code or the exact steps that you did so that everyone can reproduce the issue. Sample projects are always the best way :). This makes it easy for our developers or someone from the open-source community to start working!
