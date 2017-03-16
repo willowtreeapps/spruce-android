@@ -1,4 +1,4 @@
-![Spruce Logo](https://github.com/willowtreeapps/spruce-android/blob/docs/add-readme/imgs/header_image.png)
+![Spruce Logo](https://github.com/willowtreeapps/spruce-android/blob/develop/imgs/header_image.png)
 
 # Spruce Android Animation Library
 [![CircleCI Build Status](https://circleci.com/gh/willowtreeapps/spruce-android.svg?style=shield)](https://circleci.com/gh/willowtreeapps/spruce-android)
@@ -20,7 +20,7 @@ If part of Spruce is not working correctly be sure to file a Github issue. In th
 If you have a feature idea submit an issue with a feature request or submit a pull request and we will work with you to merge it in!
 
 ## About WillowTree!
-![WillowTree Logo](https://github.com/willowtreeapps/spruce-android/blob/docs/add-readme/imgs/willowtree_logo.png)
+![WillowTree Logo](https://github.com/willowtreeapps/spruce-android/blob/develop/imgs/willowtree_logo.png)
 
 We build apps, responsive sites, bots—any digital product that lives on a screen—for the world’s leading companies. Our elite teams challenge themselves to build extraordinary experiences by bridging the latest strategy and design thinking with enterprise-grade software development.
 
