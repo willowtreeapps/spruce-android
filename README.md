@@ -1,2 +1,3 @@
-# spruce-android
-Spruce Animation Library
+# Spruce Android Animation Library
+
+### What is it?
