@@ -37,7 +37,7 @@ class Utils {
      * @param secondPoint PointF object
      * @return float value representing the distance in a straight line between two points
      */
-    public static float euclideanDistance(PointF firstPoint, PointF secondPoint) {
+    static float euclideanDistance(PointF firstPoint, PointF secondPoint) {
         return PointF.length(secondPoint.x - firstPoint.x, secondPoint.y - firstPoint.y);
     }
 
@@ -48,7 +48,7 @@ class Utils {
      * @param secondPoint PointF object
      * @return float value representing the horizontal (or x) distance between two points
      */
-    public static float horizontalDistance(PointF firstPoint, PointF secondPoint) {
+    static float horizontalDistance(PointF firstPoint, PointF secondPoint) {
         return Math.abs(secondPoint.x - firstPoint.x);
     }
 
@@ -59,7 +59,7 @@ class Utils {
      * @param secondPoint PointF object
      * @return float value representing the vertical (or y) distance between two points
      */
-    public static float verticalDistance(PointF firstPoint, PointF secondPoint) {
+    static float verticalDistance(PointF firstPoint, PointF secondPoint) {
         return Math.abs(secondPoint.y - firstPoint.y);
     }
 
@@ -69,7 +69,7 @@ class Utils {
      * @param view Object
      * @return PointF containing the x, y coordinates of the view
      */
-    public static PointF viewToPoint(View view) {
+    static PointF viewToPoint(View view) {
         return new PointF(Math.round(view.getX()), Math.round(view.getY()));
     }
 
