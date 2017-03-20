@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -39,40 +40,43 @@ import java.util.List;
 @RunWith(RobolectricTestRunner.class)
 public class DistancedSortTest {
 
+    private ViewGroup mockParent;
+    private List<View> mockChildren;
+
+    @Before
+    public void setup() {
+        mockParent = Mockito.mock(ViewGroup.class);
+        mockChildren = TestHelper.setupMockChildren();
+    }
+
     @Test
     public void test_positive_inter_object_delay() {
-        testTimedViews(/*interObjectDelay=*/1, /*reversed=*/false);
+        List<SpruceTimedView> resultViews = new DistancedSort(/*interObjectDelay=*/1,
+                /*reversed=*/false)
+                .getViewListWithTimeOffsets(mockParent, mockChildren);
+        Assert.assertEquals(0, resultViews.get(0).getTimeOffset());
+        Assert.assertEquals(1, resultViews.get(1).getTimeOffset());
+        Assert.assertEquals(2, resultViews.get(2).getTimeOffset());
     }
 
     @Test
     public void test_inter_object_delay_of_zero() {
-        testTimedViews(/*interObjectDelay=*/0, /*reversed=*/false);
+        List<SpruceTimedView> resultViews = new DistancedSort(/*interObjectDelay=*/0,
+                /*reversed=*/false)
+                .getViewListWithTimeOffsets(mockParent, mockChildren);
+        Assert.assertEquals(0, resultViews.get(0).getTimeOffset());
+        Assert.assertEquals(0, resultViews.get(1).getTimeOffset());
+        Assert.assertEquals(0, resultViews.get(2).getTimeOffset());
     }
 
     @Test
     public void test_negative_inter_object_delay() {
-        testTimedViews(/*interObjectDelay=*/-1, /*reversed=*/false);
-    }
-
-    private void testTimedViews(long interObjectDelay, boolean reversed) {
-        ViewGroup mockParent = Mockito.mock(ViewGroup.class);
-        List<View> mockChildren = new ArrayList<>();
-        float x = 0;
-        float y = 0;
-        for (int i = 0; i < 3; i++) {
-            View mockView = Mockito.mock(View.class);
-            Mockito.when(mockView.getX()).thenReturn(x);
-            Mockito.when(mockView.getY()).thenReturn(y);
-            mockChildren.add(mockView);
-            x++;
-            y++;
-        }
-        long comparisonValue = 0;
-        List<SpruceTimedView> resultViews = new DistancedSort(interObjectDelay, reversed).getViewListWithTimeOffsets(mockParent, mockChildren);
-        for (SpruceTimedView resultView : resultViews) {
-            Assert.assertEquals(comparisonValue, resultView.getTimeOffset());
-            comparisonValue += interObjectDelay;
-        }
+        List<SpruceTimedView> resultViews = new DistancedSort(/*interObjectDelay=*/-1,
+                /*reversed=*/false)
+                .getViewListWithTimeOffsets(mockParent, mockChildren);
+        Assert.assertEquals(0, resultViews.get(0).getTimeOffset());
+        Assert.assertEquals(-1, resultViews.get(1).getTimeOffset());
+        Assert.assertEquals(-2, resultViews.get(2).getTimeOffset());
     }
 
     @Test

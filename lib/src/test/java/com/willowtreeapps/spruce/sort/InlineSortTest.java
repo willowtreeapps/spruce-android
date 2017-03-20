@@ -32,12 +32,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(RobolectricTestRunner.class)
 public class InlineSortTest {
-
 
     private ViewGroup mockParent;
     private List<View> mockChildren;
@@ -45,17 +43,7 @@ public class InlineSortTest {
     @Before
     public void setup() {
         mockParent = Mockito.mock(ViewGroup.class);
-        mockChildren = new ArrayList<>();
-        float x = 0;
-        float y = 0;
-        for (int i = 0; i < 3; i++) {
-            View mockView = Mockito.mock(View.class);
-            Mockito.when(mockView.getX()).thenReturn(x);
-            Mockito.when(mockView.getY()).thenReturn(y);
-            mockChildren.add(mockView);
-            x++;
-            y++;
-        }
+        mockChildren = TestHelper.setupMockChildren();
     }
 
     @Test
