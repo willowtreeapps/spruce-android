@@ -26,41 +26,52 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@RunWith(RobolectricTestRunner.class)
 public class DefaultSortTest {
+
+    private ViewGroup mockParent;
+    private List<View> mockChildren;
+
+    @Before
+    public void setup() {
+        mockParent = Mockito.mock(ViewGroup.class);
+        mockChildren = TestHelper.setupMockChildren();
+    }
 
     @Test
     public void test_inter_object_delay_of_views_is_set_on_default_sort() {
-        testTimedViews(/*interObjectDelay=*/1);
+        List<SpruceTimedView> resultViews = new DefaultSort(/*interObjectDelay=*/1)
+                .getViewListWithTimeOffsets(mockParent, mockChildren);
+        Assert.assertEquals(0, resultViews.get(0).getTimeOffset());
+        Assert.assertEquals(1, resultViews.get(1).getTimeOffset());
+        Assert.assertEquals(2, resultViews.get(2).getTimeOffset());
     }
 
     @Test
     public void test_inter_object_delay_of_zero() {
-        testTimedViews(/*interObjectDelay=*/0);
+        List<SpruceTimedView> resultViews = new DefaultSort(/*interObjectDelay=*/0)
+                .getViewListWithTimeOffsets(mockParent, mockChildren);
+        Assert.assertEquals(0, resultViews.get(0).getTimeOffset());
+        Assert.assertEquals(0, resultViews.get(1).getTimeOffset());
+        Assert.assertEquals(0, resultViews.get(2).getTimeOffset());
     }
 
     @Test
     public void test_negative_inter_object_delay() {
-        testTimedViews(/*interObjectDelay=*/-1);
+        List<SpruceTimedView> resultViews = new DefaultSort(/*interObjectDelay=*/-1)
+                .getViewListWithTimeOffsets(mockParent, mockChildren);
+        Assert.assertEquals(0, resultViews.get(0).getTimeOffset());
+        Assert.assertEquals(-1, resultViews.get(1).getTimeOffset());
+        Assert.assertEquals(-2, resultViews.get(2).getTimeOffset());
     }
 
-    private void testTimedViews(long interObjectDelay) {
-        ViewGroup mockParent = Mockito.mock(ViewGroup.class);
-        List<View> mockChildren = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            mockChildren.add(Mockito.mock(View.class));
-        }
-        long comparisonValue = 0;
-        List<SpruceTimedView> resultViews = new DefaultSort(interObjectDelay).getViewListWithTimeOffsets(mockParent, mockChildren);
-        for (SpruceTimedView resultView : resultViews) {
-            Assert.assertEquals(comparisonValue, resultView.getTimeOffset());
-            comparisonValue += interObjectDelay;
-        }
-    }
 
 }
