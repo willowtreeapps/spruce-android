@@ -35,7 +35,6 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -48,21 +47,12 @@ public class RadialSortTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     private ViewGroup mockParent = Mockito.mock(ViewGroup.class);
-    private List<View> mockChildren = new ArrayList<>();
+    private List<View> mockChildren;
     private RadialSort radialSort;
 
     @Before
     public void setup() {
-        float x = 0;
-        float y = 0;
-        for (int i = 0; i < 3; i++) {
-            View mockView = Mockito.mock(View.class);
-            Mockito.when(mockView.getX()).thenReturn(x);
-            Mockito.when(mockView.getY()).thenReturn(y);
-            mockChildren.add(mockView);
-            x++;
-            y++;
-        }
+        mockChildren = TestHelper.setupMockChildren();
     }
 
 
