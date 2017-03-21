@@ -24,24 +24,46 @@ package com.willowtreeapps.spruce.sort;
 
 import android.graphics.PointF;
 
-import org.robolectric.annotation.Implementation;
+import android.graphics.Point;
+
 import org.robolectric.annotation.Implements;
+import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.RealObject;
 
+/**
+ * Shadow implementation of {@code PointF}
+ */
+@SuppressWarnings({"UnusedDeclaration"})
 @Implements(PointF.class)
 public class ShadowPointF {
+    @RealObject private PointF realPointF;
 
-    @RealObject
-    private PointF referencePoint;
-
-    public void __constructor__(int x, int y) {
-        this.referencePoint.x = x;
-        this.referencePoint.y = y;
+    public void __constructor__(float x, float y) {
+        realPointF.x = x;
+        realPointF.y = y;
     }
 
-    public void __constructor__(PointF src) {
-        referencePoint.x = src.x;
-        referencePoint.y = src.y;
+    public void __constructor__(Point src) {
+        realPointF.x = src.x;
+        realPointF.y = src.y;
+    }
+
+    @Implementation
+    public void set(float x, float y) {
+        realPointF.x = x;
+        realPointF.y = y;
+    }
+
+    @Implementation
+    public final void negate() {
+        realPointF.x = -realPointF.x;
+        realPointF.y = -realPointF.y;
+    }
+
+    @Implementation
+    public final void offset(float dx, float dy) {
+        realPointF.x += dx;
+        realPointF.y += dy;
     }
 
     @Override @Implementation
@@ -51,9 +73,30 @@ public class ShadowPointF {
         if (object.getClass() != PointF.class) return false;
 
         PointF that = (PointF) object;
-        if (this.referencePoint.x == that.x && this.referencePoint.y == that.y) return true;
+        if (this.realPointF.x == that.x && this.realPointF.y == that.y) return true;
 
         return false;
     }
 
+    @Override @Implementation
+    public int hashCode() {
+        return (int) (realPointF.x * 32713 + realPointF.y);
+    }
+
+    @Override @Implementation
+    public String toString() {
+        return "Point(" + realPointF.x + ", " + realPointF.y + ")";
+    }
+
+    /**
+     * Non-Android utility method for comparing a point to a well-known value
+     *
+     * @param x x
+     * @param y y
+     * @return this.x == x && this.y == y
+     */
+    @Implementation
+    public final boolean equals(float x, float y) {
+        return realPointF.x == x && realPointF.y == y;
+    }
 }
