@@ -56,4 +56,8 @@
 
     <string name="vertical">Vertical</string>
     <string name="horizontal">Horizontal</string>
+    <string name="sort_function">Sort function:</string>
+    <string name="sort_function_selection">Sort Function selection</string>
+    <string name="select">Select</string>
+    <string name="cancel">Cancel</string>
 </resources>
