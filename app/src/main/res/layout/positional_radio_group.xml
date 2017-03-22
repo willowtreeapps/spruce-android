@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="2"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RadioButton
             android:id="@+id/top_left"
