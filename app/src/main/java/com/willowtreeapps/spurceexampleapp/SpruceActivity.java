@@ -22,16 +22,64 @@
 
 package com.willowtreeapps.spurceexampleapp;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.willowtreeapps.spurceexampleapp.activities.SingleFragmentActivity;
 import com.willowtreeapps.spurceexampleapp.fragments.ViewFragment;
 
-public class SpruceActivity extends SingleFragmentActivity {
+public class SpruceActivity extends AppCompatActivity {
+
+    private Fragment viewFragment;
+    private FragmentManager fm;
 
     @Override
-    protected Fragment createViewFragment() {
-        return ViewFragment.newInstance();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_fragment);
+
+        fm = getSupportFragmentManager();
+        viewFragment = fm.findFragmentById(R.id.view_fragment);
+
+        if (viewFragment == null) {
+            viewFragment = ViewFragment.newInstance();
+            fm.beginTransaction()
+                    .add(R.id.view_fragment, viewFragment)
+                    .commit();
+        }
+
+        Toolbar toolBar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolBar);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sort_option:
+                if (viewFragment == null) {
+                    viewFragment = ViewFragment.newInstance();
+                    fm.beginTransaction()
+                            .replace(R.id.view_fragment, viewFragment)
+                            .commit();
+                }
+                break;
+            case R.id.recycler_option:
+                // TODO: Add recycler extensibility fragment
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
