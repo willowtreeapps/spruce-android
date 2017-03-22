@@ -44,6 +44,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
@@ -85,6 +86,7 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     private CheckBox linearReversed;
     private LinearLayout verticalWeightLayout;
     private LinearLayout horizontalWeightLayout;
+    private TextView animationEndText;
 
     private List<View> children = new ArrayList<>();
     private Animator[] animators;
@@ -109,6 +111,7 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
         horizontalWeightLayout = (LinearLayout) container.findViewById(R.id.horizontal_weight);
         linearReversed = (CheckBox) container.findViewById(R.id.linear_reversed);
         seekBar = (SeekBar) container.findViewById(R.id.animation_seek);
+        animationEndText = (TextView) container.findViewById(R.id.animation_end);
         final Button sortSelection = (Button) container.findViewById(R.id.sort_selection);
         final int CHILD_VIEW_COUNT = parent.getColumnCount() * parent.getRowCount();
 
@@ -396,6 +399,13 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
             default:
                 sortFunction = new DefaultSort(seekBar.getProgress());
                 break;
+        }
+
+        if (selectedSort == CONTINUOUS_SORT ||
+                selectedSort == CONTINUOUS_WEIGHTED_SORT) {
+            animationEndText.setText(R.string.animation_end_longer_duration);
+        } else {
+            animationEndText.setText(R.string.animation_end_duration);
         }
 
         spruceAnimator = new Spruce.SpruceBuilder(parent).sortWith(sortFunction)
