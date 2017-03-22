@@ -87,6 +87,7 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     private LinearLayout verticalWeightLayout;
     private LinearLayout horizontalWeightLayout;
     private TextView animationEndText;
+    private TextView seekBarTitle;
 
     private List<View> children = new ArrayList<>();
     private Animator[] animators;
@@ -112,6 +113,7 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
         seekBar = (SeekBar) container.findViewById(R.id.animation_seek);
         sortDropDown = (Spinner) container.findViewById(R.id.sort_selection);
         animationEndText = (TextView) container.findViewById(R.id.animation_end);
+        seekBarTitle = (TextView) container.findViewById(R.id.seek_bar_title);
         final int CHILD_VIEW_COUNT = parent.getColumnCount() * parent.getRowCount();
 
         for (int i = 0; i < CHILD_VIEW_COUNT; i++) {
@@ -397,8 +399,10 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
         if (sortDropDown.getSelectedItemPosition() == CONTINUOUS_SORT ||
                 sortDropDown.getSelectedItemPosition() == CONTINUOUS_WEIGHTED_SORT) {
             animationEndText.setText(R.string.animation_end_longer_duration);
+            seekBarTitle.setText(R.string.duration);
         } else {
             animationEndText.setText(R.string.animation_end_duration);
+            seekBarTitle.setText(R.string.delay);
         }
 
         spruceAnimator = new Spruce.SpruceBuilder(parent).sortWith(sortFunction)
