@@ -25,11 +25,22 @@
               android:id="@+id/view_fragment"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_marginBottom="4dp"
-              android:layout_marginLeft="4dp"
-              android:layout_marginRight="4dp"
-              android:layout_marginTop="4dp"
               android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/LightToolbarTheme"
+        android:background="@color/colorPrimary">
+
+        <Spinner
+            android:id="@+id/sort_selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"/>
+
+    </android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -56,26 +67,16 @@
         android:id="@+id/control_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
         android:layout_weight=".5">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:text="@string/sort_function"/>
-
-            <Button
-                android:id="@+id/sort_selection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="@string/default_sort"
-                android:background="@color/spinnerGrey"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -121,7 +122,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="4dp"
                     android:layout_weight="1"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:text="@string/animation_start_duration"/>
 
                 <SeekBar
@@ -138,7 +139,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:text="@string/animation_end_duration"/>
 
             </LinearLayout>

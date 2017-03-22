@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~     Spruce
   ~
@@ -20,22 +21,19 @@
   ~
   -->
 
-<resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".SpruceActivity">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <item
+        android:id="@+id/sort_option"
+        android:title="@string/sort_option"
+        app:showAsAction="never" />
 
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+    <item
+        android:id="@+id/recycler_option"
+        android:title="@string/recycler_view_option"
+        app:showAsAction="never" />
 
-    <style name="LightToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlNormal">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColor">@color/black</item>
-    </style>
-
-</resources>
+</menu>
