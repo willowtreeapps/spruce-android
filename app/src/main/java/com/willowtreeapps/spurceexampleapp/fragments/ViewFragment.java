@@ -23,26 +23,27 @@
 package com.willowtreeapps.spurceexampleapp.fragments;
 
 import android.animation.Animator;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 
 import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
@@ -76,7 +77,6 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     private Animator spruceAnimator;
     private GridLayout parent;
     private SeekBar seekBar;
-    private Spinner sortDropDown;
     private RadioGroup linearRadioGroup;
     private RadioGroup corneredRadioGroup;
     private RadioGroupGridLayout positionalRadioGroup;
@@ -90,6 +90,7 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     private Animator[] animators;
     private LinearSort.Direction direction;
     private CorneredSort.Corner corner;
+    private int selectedSort = DEFAULT_SORT;
 
     public static ViewFragment newInstance(){
         return new ViewFragment();
@@ -108,6 +109,7 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
         horizontalWeightLayout = (LinearLayout) container.findViewById(R.id.horizontal_weight);
         linearReversed = (CheckBox) container.findViewById(R.id.linear_reversed);
         seekBar = (SeekBar) container.findViewById(R.id.animation_seek);
+        final Button sortSelection = (Button) container.findViewById(R.id.sort_selection);
         final int CHILD_VIEW_COUNT = parent.getColumnCount() * parent.getRowCount();
 
         for (int i = 0; i < CHILD_VIEW_COUNT; i++) {
@@ -152,18 +154,16 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
         container.setOnClickListener(click);
         parent.setOnClickListener(click);
 
-        sortDropDown = (Spinner) container.findViewById(R.id.sort_selection);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.sort_functions,
-                R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        sortDropDown.setAdapter(adapter);
-
-        sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        final AlertDialog.Builder sortSelectionDialog = new AlertDialog.Builder(getContext());
+        sortSelectionDialog.setTitle(R.string.sort_function_selection);
+        sortSelectionDialog.setSingleChoiceItems(getResources().getStringArray(R.array.sort_functions), DEFAULT_SORT, null);
+        sortSelectionDialog.setPositiveButton(R.string.select, new DialogInterface.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                resetChildViewsAndStartSort();
-                switch (position) {
+            public void onClick(DialogInterface dialog, int which) {
+                ListView list = ((AlertDialog)dialog).getListView();
+                Object checkedItem = list.getAdapter().getItem(list.getCheckedItemPosition());
+
+                switch (list.getCheckedItemPosition()) {
                     case CORNERED_SORT:
                     case INLINE_SORT:
                         linearRadioGroup.setVisibility(View.GONE);
@@ -206,13 +206,18 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
                         linearRadioGroup.setVisibility(View.GONE);
                         corneredRadioGroup.setVisibility(View.GONE);
                         break;
-
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                selectedSort = list.getCheckedItemPosition();
+                sortSelection.setText(checkedItem.toString());
                 resetChildViewsAndStartSort();
+            }
+        });
+        sortSelectionDialog.setNegativeButton(R.string.cancel, null);
+
+        sortSelection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortSelectionDialog.show();
             }
         });
 
@@ -357,7 +362,7 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
 
     private void setupSort() {
         SortFunction sortFunction;
-        switch (sortDropDown.getSelectedItemPosition()) {
+        switch (selectedSort) {
             case DEFAULT_SORT:
                 sortFunction = new DefaultSort(seekBar.getProgress());
                 break;
