@@ -56,6 +56,10 @@
 
     <string name="vertical">Vertical</string>
     <string name="horizontal">Horizontal</string>
+    <string name="animation_start_duration">0s</string>
+    <string name="animation_end_duration">0.1s</string>
+    <string name="animation_end_longer_duration">2s</string>
+    <string name="duration">Duration</string>
     <string name="sort_function">Sort function:</string>
     <string name="sort_function_selection">Sort Function selection</string>
     <string name="select">Select</string>
