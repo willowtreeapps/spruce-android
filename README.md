@@ -8,19 +8,122 @@
 ## What is it?
 Spruce is a lightweight animation library that helps choreograph the animations on the screen. With so many different animation libraries out there, developers need to make sure that each view is animating at the appropriate time. Spruce can help designers request complex multi-view animations and not have the developers cringe at the prototype.
 
-## Installation Instructions
+### Gradle
+Add the following to your project's build.gradle file
 
+```
+dependencies {
+    compile 'com.github.willowtreeapps.spruce-android:spruce-lib:1.0.0'
+}
+```
+
+## Documentation
+For javadocs checkout [the documentation](https://willowtreeapps.github.io/spruce-android/javadoc_output/index.html) for more information.
+
+## Basic Usage
+```java
+Animator spruceAnimator = new Spruce
+        .SpruceBuilder(parentViewGroup)
+        .sortWith(new Default(/*interObjectDelay=*/50L))
+        .animateWith(new Animator[] {DefaultAnimations.shrinkAnimator(parentViewGroup, /*duration=*/800)})
+        .start();
+```
+
+Checkout [the builder documentation](https://willowtreeapps.github.io/spruce-android/javadoc_output/com/willowtreeapps/spruce/Spruce.SpruceBuilder.html) for more information.
+
+### Preparing for Animation
+Spruce comes packed with `Animator` options within the `DefaultAnimations` class meant to make your life easier when calling an animation. Let's say we want to have your views fade in. For example, we would create an `animators = new Animator[] {}` and add `DefaultAnimations.fadeInAnimator(parentViewGroup, /*duration=*/800)` as an array item.
+If you want a view to fade in, then you need to make sure that it is already faded out. To do that, we need to set the alpha to `0` on the views or you could first use a fade out animator.
+
+### Running the Animation 
+
+Use the following command to run a basic animation on your view.
+
+```java
+Animator spruceAnimator = new Spruce
+        .SpruceBuilder(parentViewGroup)
+        .sortWith(new DefaultSort(/*interObjectDelay=*/50L))
+        .animateWith(animators)
+        .start();
+```
+
+Checkout [the builder documentation](https://willowtreeapps.github.io/spruce-android/javadoc_output/com/willowtreeapps/spruce/animation/DefaultAnimations.html) for more information.
+
+## Using a SortFunction
+Luckily, Spruce comes with 8 `SortFunction` implementations with a wide open possibility to make more! Use the `SortFunction` to change the order in which views animate. Consider the following example:
+
+```java
+LinearSort sort = new LinearSort(/*interObjectDelay=*/100L, /*reversed=*/false, LinearSort.Direction.TOP_TO_BOTTOM);
+```
+In this example we have created a `LinearSort` which will have views animate in from the top to bottom. We can change the look and feel of the animation by using a `RadialSort` instead which will have the views animate in a circular fashion. If we wanted to use this `sort` in an actual Spruce `start()` call then that would look something like:
+
+```java
+Animator spruceAnimator = new Spruce
+        .SpruceBuilder(parentViewGroup)
+        .sortWith(new LinearSort(/*interObjectDelay=*/100L, /*reversed=*/false, LinearSort.Direction.TOP_TO_BOTTOM))
+        .animateWith(DefaultAnimations.shrinkAnimator(parentViewGroup, /*duration=*/800))
+        .start();
+```
+Definitely play around with the stock `SortFunction` implementations until you find the one that is perfect for you! Check out the example app if you want to get previews of what each `SortFunction` will look like.
+
+### The Animators
+The animations used in Spruce are produced by leveraging the `Animtor` class. You may provide your own custom animations by creating your own `Animator` and provide it to the as part of an `Animator[]` to `SpruceBuilder.animateWith(Animator... animators)`. For more information on using the `Animator` class please check out [![Android's Animator Documentation](https://developer.android.com/reference/android/animation/Animator.html)]()
+
+### Standard Animation
+The `DefaultAnimation` class provides simple `Animator` methods to apply the change `Animator` to the views. Use this class if you want to have a stock linear movement of the changes.
+
+## Sort Functions
+With all different types of animations, especially those dealing with subviews, we have to consider a way in which we want to animate them. Some views can have 0 subviews while others may have hundreds. To handle this, we have the notion of a `SortFunction`. What this will do is take each of the subviews in the `ViewGroup`, and apply a mapping from the specific subview to the exact delay that it should wait before animating. Some of these will sort in a radial formation while others may actually sort randomly. One of the cool features of Spruce, is that you can actually define your own `SortFunction` and then the animation will look completely different. Luckily, Spruce also comes jam packed with a ton of default `SortFunction` classes to make everything easier on you as the developer. Take a look at some of the default `SortFunction` classes we have and see if you can use them or branch off of them for your cool and custom animations!
+
+### The SortFunction Interface
+A very simple interface that requires classes to extend the following class
+
+```java
+public abstract class SortFunction {
+    public abstract List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children);
+}
+```
+
+What the above class needs to do is take in a `ViewGroup` parent and a `List` of `View` children or subviews to generate a list of subviews and their animation offsets. Once the list of subviews has been generated, you can define your own sort metric to determine in which order the `View`'s should animate. To do so, you need to create a `List` of `SpruceTimedView`'s. This special class has two properties: (1) `View view` and (2) `long timeOffset`. Your `SortFunction` can define the `timeOffset` however it likes, but the animators will use this to determine how long it should delay the start of that specific view from animating. The best way to learn, is to play around. So why not have some fun and make your own `SortFunction`!
+
+### About Sort Functions
+To make sure that developers can use Spruce out of the box, we included about 8 stock `SortFunction` implementations. These are some of the main functions we use at WillowTree and are so excited to see what others come up with!
+
+- `DefaultSort`
+- `LinearSort`
+- `CorneredSort`
+- `RadialSort`
+- `RandomSort`
+- `InlineSort`
+- `ContinousSort`
+- `ContinuousWeightedSort`
+
+Check out the docs [here](https://willowtreeapps.github.io/spruce-android/javadoc_output/com/willowtreeapps/spruce/sort/SortFunction.html) for more information
+
+## Stock Animators
+To make everybody's lives easier, the stock animators perform basic `View` animations that a lot of apps use today. Mix and match these animators to get the core motion you are looking for.
+
+- `DefaultAnimations.growAnimator(View view, long duration)`
+- `DefaultAnimations.shrinkAnimator(View view, long duration)`
+- `DefaultAnimations.fadeAwayAnimator(View view, long duration)`
+- `DefaultAnimations.fadeInAnimator(View view, long duration)`
+- `DefaultAnimations.spinAnimator(View view, long duration)`
+
+Experiment which ones work for you! If you think of anymore feel free to add them to the library yourself!
+
+# Example App
+Use the [example app](https://github.com/willowtreeapps/spruce-android/tree/master/app) to find the right `SortFunction`. In the app you will be able to see the affects of each `SortFunction`.
 
 ## Contributing to Spruce
-Contributions are more than welcome! Please see the Contributing Guidelines and be mindful of our [Code of Conduct](https://github.com/willowtreeapps/spruce-android/blob/docs/add-readme/code-of-conduct.md).
+Contributions are more than welcome! Please see the [Contributing Guidelines](https://github.com/willowtreeapps/spruce-android/blob/master/Contributing.md) and be mindful of our [Code of Conduct](https://github.com/willowtreeapps/spruce-android/blob/master/code-of-conduct.md).
 
-## Issues or Future Ideas
+# Issues or Future Ideas
 If part of Spruce is not working correctly be sure to file a Github issue. In the issue provide as many details as possible. This could include example code or the exact steps that you did so that everyone can reproduce the issue. Sample projects are always the best way :). This makes it easy for our developers or someone from the open-source community to start working!
 
 If you have a feature idea submit an issue with a feature request or submit a pull request and we will work with you to merge it in!
 
-## About WillowTree!
-![WillowTree Logo](https://github.com/willowtreeapps/spruce-android/blob/develop/imgs/willowtree_logo.png)
+# About WillowTree!
+![WillowTree Logo](https://github.com/willowtreeapps/spruce-android/blob/master/imgs/willowtree_logo.png)
 
 We build apps, responsive sites, bots—any digital product that lives on a screen—for the world’s leading companies. Our elite teams challenge themselves to build extraordinary experiences by bridging the latest strategy and design thinking with enterprise-grade software development.
 
