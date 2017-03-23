@@ -30,7 +30,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SpruceActivity"
+        <activity
+            android:name=".SpruceActivity"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -38,6 +40,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RecyclerActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
