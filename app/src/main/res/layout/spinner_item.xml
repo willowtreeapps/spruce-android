@@ -21,12 +21,9 @@
   ~
   -->
 
-<resources>
-    <color name="colorPrimary">#3BB894</color>
-    <color name="colorPrimaryDark">#2e7d32</color>
-    <color name="colorAccent">#8BC34A</color>
-    <color name="spruceViewColor">#4bc495</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="lighter_gray">#DDDDDD</color>
-</resources>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/spinner_text"
+          style="?attr/spinnerDropDownItemStyle"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:textColor="@color/white"/>

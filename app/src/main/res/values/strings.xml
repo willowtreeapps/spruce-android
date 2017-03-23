@@ -21,8 +21,11 @@
   -->
 
 <resources>
-    <string name="app_name">Spruce Example</string>
+    <string name="app_name">Spruce</string>
 
+    <!-- Menu options -->
+    <string name="sort_option">Sort Example</string>
+    <string name="recycler_view_option">Recycler View Example</string>
     <!-- Sort options -->
     <string name="default_sort">Default Sort</string>
     <string name="cornered_sort">Cornered Sort</string>
@@ -56,4 +59,13 @@
 
     <string name="vertical">Vertical</string>
     <string name="horizontal">Horizontal</string>
+    <string name="animation_start_duration">0s</string>
+    <string name="animation_end_duration">0.1s</string>
+    <string name="animation_end_longer_duration">2s</string>
+    <string name="duration">Duration</string>
+    <string name="delay">Delay</string>
+    <string name="sort_function">Sort function:</string>
+    <string name="sort_function_selection">Sort Function selection</string>
+    <string name="select">Select</string>
+    <string name="cancel">Cancel</string>
 </resources>

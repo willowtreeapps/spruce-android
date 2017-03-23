@@ -43,6 +43,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
@@ -85,6 +86,8 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     private CheckBox linearReversed;
     private LinearLayout verticalWeightLayout;
     private LinearLayout horizontalWeightLayout;
+    private TextView animationEndText;
+    private TextView seekBarTitle;
 
     private List<View> children = new ArrayList<>();
     private Animator[] animators;
@@ -108,6 +111,9 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
         horizontalWeightLayout = (LinearLayout) container.findViewById(R.id.horizontal_weight);
         linearReversed = (CheckBox) container.findViewById(R.id.linear_reversed);
         seekBar = (SeekBar) container.findViewById(R.id.animation_seek);
+        sortDropDown = (Spinner) container.findViewById(R.id.sort_selection);
+        animationEndText = (TextView) container.findViewById(R.id.animation_end);
+        seekBarTitle = (TextView) container.findViewById(R.id.seek_bar_title);
         final int CHILD_VIEW_COUNT = parent.getColumnCount() * parent.getRowCount();
 
         for (int i = 0; i < CHILD_VIEW_COUNT; i++) {
@@ -152,17 +158,14 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
         container.setOnClickListener(click);
         parent.setOnClickListener(click);
 
-        sortDropDown = (Spinner) container.findViewById(R.id.sort_selection);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.sort_functions,
-                R.layout.support_simple_spinner_dropdown_item);
+                R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         sortDropDown.setAdapter(adapter);
-
         sortDropDown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                resetChildViewsAndStartSort();
                 switch (position) {
                     case CORNERED_SORT:
                     case INLINE_SORT:
@@ -206,13 +209,13 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
                         linearRadioGroup.setVisibility(View.GONE);
                         corneredRadioGroup.setVisibility(View.GONE);
                         break;
-
                 }
+                resetChildViewsAndStartSort();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                resetChildViewsAndStartSort();
+
             }
         });
 
@@ -391,6 +394,15 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
             default:
                 sortFunction = new DefaultSort(seekBar.getProgress());
                 break;
+        }
+
+        if (sortDropDown.getSelectedItemPosition() == CONTINUOUS_SORT ||
+                sortDropDown.getSelectedItemPosition() == CONTINUOUS_WEIGHTED_SORT) {
+            animationEndText.setText(R.string.animation_end_longer_duration);
+            seekBarTitle.setText(R.string.duration);
+        } else {
+            animationEndText.setText(R.string.animation_end_duration);
+            seekBarTitle.setText(R.string.delay);
         }
 
         spruceAnimator = new Spruce.SpruceBuilder(parent).sortWith(sortFunction)

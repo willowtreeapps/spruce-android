@@ -21,12 +21,19 @@
   ~
   -->
 
-<resources>
-    <color name="colorPrimary">#3BB894</color>
-    <color name="colorPrimaryDark">#2e7d32</color>
-    <color name="colorAccent">#8BC34A</color>
-    <color name="spruceViewColor">#4bc495</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="lighter_gray">#DDDDDD</color>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".SpruceActivity">
+
+    <item
+        android:id="@+id/sort_option"
+        android:title="@string/sort_option"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/recycler_option"
+        android:title="@string/recycler_view_option"
+        app:showAsAction="never" />
+
+</menu>
