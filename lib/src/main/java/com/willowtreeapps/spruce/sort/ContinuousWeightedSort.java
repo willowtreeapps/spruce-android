@@ -24,6 +24,7 @@ package com.willowtreeapps.spruce.sort;
 
 import android.graphics.PointF;
 import android.support.annotation.FloatRange;
+import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -114,7 +115,8 @@ public class ContinuousWeightedSort extends ContinuousSort {
         return timedViews;
     }
 
-    private double calculateMaxDistance(double leftHorizontalDistance, double rightHorizontalDistance, double maximum) {
+    @VisibleForTesting
+    double calculateMaxDistance(double leftHorizontalDistance, double rightHorizontalDistance, double maximum) {
         if (leftHorizontalDistance > rightHorizontalDistance && leftHorizontalDistance > maximum) {
             maximum = leftHorizontalDistance;
         } else if (rightHorizontalDistance > leftHorizontalDistance && rightHorizontalDistance > maximum) {
