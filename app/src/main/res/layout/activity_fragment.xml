@@ -27,6 +27,21 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/LightToolbarTheme"
+        android:background="@color/colorPrimary">
+
+        <Spinner
+            android:id="@+id/sort_selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"/>
+
+    </android.support.v7.widget.Toolbar>
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -48,23 +63,24 @@
 
     </FrameLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lighter_gray"/>
+
     <ScrollView
         android:id="@+id/control_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:layout_weight=".5">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/sort_selection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@color/spinnerGrey"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -89,11 +105,49 @@
                 android:text="@string/reversed"
                 android:visibility="gone"/>
 
-            <SeekBar
-                android:id="@+id/animation_seek"
+            <TextView
+                android:id="@+id/seek_bar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/duration"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progress="25"/>
+                android:orientation="horizontal"
+                android:weightSum="10"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/animation_start"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="@string/animation_start_duration"/>
+
+                <SeekBar
+                    android:id="@+id/animation_seek"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:progress="25"/>
+
+                <TextView
+                    android:id="@+id/animation_end"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/animation_end_duration"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
