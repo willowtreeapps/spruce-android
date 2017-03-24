@@ -129,8 +129,8 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
             public void onGlobalLayout() {
                 Resources res = getResources();
                 int tileMargins = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, res.getDisplayMetrics()));
-                final int childWidth = Math.round(parent.getWidth() / parent.getColumnCount() - parent.getColumnCount());
-                final int childHeight = Math.round(parent.getHeight() / parent.getRowCount() - parent.getColumnCount());
+                final int childWidth = Math.round(parent.getWidth() / parent.getColumnCount() - parent.getColumnCount() * 2);
+                final int childHeight = Math.round(parent.getHeight() / parent.getRowCount() - parent.getColumnCount() * 2);
 
                 for (int i = 0; i < parent.getChildCount(); i++) {
                     View childView = parent.getChildAt(i);
