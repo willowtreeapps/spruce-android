@@ -29,4 +29,5 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="lighter_gray">#DDDDDD</color>
+    <color name="darker_gray">#939393</color>
 </resources>

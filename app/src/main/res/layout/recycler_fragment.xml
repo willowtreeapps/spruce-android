@@ -21,17 +21,22 @@
   ~
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/recycler_fragment"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-    <item
-        android:id="@+id/sort_option"
-        android:title="@string/sort_option"
-        app:showAsAction="never" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/recycler_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/LightToolbarTheme"
+        android:background="@color/colorPrimary"/>
 
-    <item
-        android:id="@+id/recycler_option"
-        android:title="@string/recycler_view_option"
-        app:showAsAction="never" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-</menu>
+</LinearLayout>

@@ -32,30 +32,33 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.willowtreeapps.spurceexampleapp.fragments.ViewFragment;
+import com.willowtreeapps.spurceexampleapp.fragments.RecyclerFragment;
 
-public class SpruceActivity extends AppCompatActivity {
+
+public class RecyclerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_fragment);
+        setContentView(R.layout.recycler_fragment);
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment viewFragment = fm.findFragmentById(R.id.view_fragment);
-
-        if (viewFragment == null) {
-            viewFragment = ViewFragment.newInstance();
+        Fragment recyclerFragment = fm.findFragmentById(R.id.recycler_fragment);
+        if (recyclerFragment == null) {
+            recyclerFragment = RecyclerFragment.newInstance();
             fm.beginTransaction()
-                    .add(R.id.view_fragment, viewFragment)
+                    .replace(R.id.recycler_fragment, recyclerFragment)
                     .commit();
         }
 
-        Toolbar toolBar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolBar = (Toolbar) findViewById(R.id.recycler_tool_bar);
         setSupportActionBar(toolBar);
+
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -69,11 +72,15 @@ public class SpruceActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sort_option:
+                startActivity(new Intent(this, SpruceActivity.class));
                 break;
             case R.id.recycler_option:
-                startActivity(new Intent(this, RecyclerActivity.class));
+                break;
+            default:
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
