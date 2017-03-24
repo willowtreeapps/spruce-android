@@ -57,7 +57,7 @@ public class RecyclerActivity extends AppCompatActivity {
 
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setTitle(R.string.recycler_name);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -72,7 +72,8 @@ public class RecyclerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sort_option:
-                startActivity(new Intent(this, SpruceActivity.class));
+                startActivity(new Intent(this, SpruceActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
                 break;
             case R.id.recycler_option:
                 break;

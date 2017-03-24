@@ -26,24 +26,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginBottom="2dp"
-                android:layout_marginTop="2dp">
+                android:layout_marginTop="2dp"
+                android:background="@color/recycler_background">
 
     <View
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:background="@color/lighter_gray"/>
+        android:background="@color/white"/>
 
     <View
-        android:id="@+id/green_square"
+        android:id="@+id/square"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:alpha="0.5"
-        android:background="@color/colorAccent"/>
+        android:background="@color/square_background"/>
 
     <View
         android:id="@+id/darker_gray_strip"
@@ -51,9 +51,9 @@
         android:layout_height="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:layout_toRightOf="@id/green_square"
-        android:alpha="0.5"
-        android:background="@color/darker_gray"/>
+        android:layout_toRightOf="@id/square"
+        android:alpha="1"
+        android:background="@color/fake_paragraphs"/>
 
     <View
         android:id="@+id/secondary_gray_strip"
@@ -62,9 +62,9 @@
         android:layout_below="@id/darker_gray_strip"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:layout_toRightOf="@id/green_square"
+        android:layout_toRightOf="@id/square"
         android:alpha="0.5"
-        android:background="@color/darker_gray"/>
+        android:background="@color/fake_paragraphs"/>
 
     <View
         android:id="@+id/tertiary_gray_strip"
@@ -73,9 +73,9 @@
         android:layout_below="@id/secondary_gray_strip"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:layout_toRightOf="@id/green_square"
+        android:layout_toRightOf="@id/square"
         android:alpha="0.5"
-        android:background="@color/darker_gray"/>
+        android:background="@color/fake_paragraphs"/>
 
 
 </RelativeLayout>
