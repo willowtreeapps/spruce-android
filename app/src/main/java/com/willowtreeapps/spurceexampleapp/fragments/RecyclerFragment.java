@@ -97,13 +97,21 @@ public class RecyclerFragment extends Fragment {
 
         List<RelativeLayout> placeholderList;
 
-        class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             RelativeLayout placeholderView;
 
             ViewHolder(View itemView) {
                 super(itemView);
                 placeholderView = (RelativeLayout) itemView.findViewById(R.id.placeholder_view);
+                placeholderView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                if (spruceAnimator != null) {
+                    spruceAnimator.start();
+                }
             }
         }
 
