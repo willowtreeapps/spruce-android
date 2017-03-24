@@ -22,6 +22,7 @@
 
 <resources>
     <string name="app_name">Spruce</string>
+    <string name="recycler_name">Recycler Example</string>
 
     <!-- Menu options -->
     <string name="sort_option">Sort Example</string>

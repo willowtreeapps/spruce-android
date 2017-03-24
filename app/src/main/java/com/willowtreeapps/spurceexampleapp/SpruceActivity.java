@@ -71,7 +71,8 @@ public class SpruceActivity extends AppCompatActivity {
             case R.id.sort_option:
                 break;
             case R.id.recycler_option:
-                startActivity(new Intent(this, RecyclerActivity.class));
+                startActivity(new Intent(this, RecyclerActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
                 break;
         }
         return super.onOptionsItemSelected(item);
