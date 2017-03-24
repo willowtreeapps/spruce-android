@@ -150,6 +150,23 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/code_sample"/>
+
+            <EditText
+                android:id="@+id/code_sample"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:inputType="none"
+                android:textIsSelectable="true"
+                android:background="@drawable/code_sample_background"/>
+
         </LinearLayout>
 
     </ScrollView>

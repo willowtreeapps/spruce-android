@@ -38,6 +38,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -88,6 +89,7 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
     private LinearLayout horizontalWeightLayout;
     private TextView animationEndText;
     private TextView seekBarTitle;
+    private EditText codeSample;
 
     private List<View> children = new ArrayList<>();
     private Animator[] animators;
@@ -114,6 +116,7 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
         sortDropDown = (Spinner) container.findViewById(R.id.sort_selection);
         animationEndText = (TextView) container.findViewById(R.id.animation_end);
         seekBarTitle = (TextView) container.findViewById(R.id.seek_bar_title);
+        codeSample = (EditText) container.findViewById(R.id.code_sample);
         final int CHILD_VIEW_COUNT = parent.getColumnCount() * parent.getRowCount();
 
         for (int i = 0; i < CHILD_VIEW_COUNT; i++) {
@@ -363,14 +366,23 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
         switch (sortDropDown.getSelectedItemPosition()) {
             case DEFAULT_SORT:
                 sortFunction = new DefaultSort(seekBar.getProgress());
+                codeSample.setText(String.format(getResources().getString(R.string.default_sort_code), seekBar.getProgress()));
                 break;
             case CORNERED_SORT:
                 sortFunction = new CorneredSort(seekBar.getProgress(), linearReversed.isChecked(), corner);
+                codeSample.setText(String.format(getResources().getString(R.string.cornered_sort_code),
+                        seekBar.getProgress(),
+                        String.valueOf(linearReversed.isChecked()),
+                        corner));
                 break;
             case CONTINUOUS_SORT:
                 sortFunction = new ContinuousSort(seekBar.getProgress() * /*timePaddingOffset=*/20,
                         linearReversed.isChecked(),
                         positionalRadioGroup.getPosition());
+                codeSample.setText(String.format(getResources().getString(R.string.continuous_sort_code),
+                        seekBar.getProgress() * /*timePaddingOffset=*/20,
+                        String.valueOf(linearReversed.isChecked()),
+                        positionalRadioGroup.getPosition()));
                 break;
             case CONTINUOUS_WEIGHTED_SORT:
                 sortFunction = new ContinuousWeightedSort(seekBar.getProgress() * /*timePaddingOffset=*/20,
@@ -378,21 +390,40 @@ public class ViewFragment extends Fragment implements RadioGroupGridLayout.OnCha
                         positionalRadioGroup.getPosition(),
                         horizontalWeight,
                         verticalWeight);
+                codeSample.setText(String.format(getResources().getString(R.string.continuous_weighted_sort_code),
+                        seekBar.getProgress() * /*timePaddingOffset=*/20,
+                        String.valueOf(linearReversed.isChecked()),
+                        positionalRadioGroup.getPosition(),
+                        String.valueOf(horizontalWeight),
+                        String.valueOf(verticalWeight)));
                 break;
             case INLINE_SORT:
                 sortFunction = new InlineSort(seekBar.getProgress(), linearReversed.isChecked(), corner);
+                codeSample.setText(String.format(getResources().getString(R.string.inline_sort_code),
+                        seekBar.getProgress(),
+                        String.valueOf(linearReversed.isChecked()),
+                        corner));
                 break;
             case LINEAR_SORT:
                 sortFunction = new LinearSort(seekBar.getProgress(), linearReversed.isChecked(), direction);
+                codeSample.setText(String.format(getResources().getString(R.string.linear_sort_code),
+                        seekBar.getProgress(),
+                        String.valueOf(linearReversed.isChecked()),
+                        direction));
                 break;
             case RADIAL_SORT:
                 sortFunction = new RadialSort(seekBar.getProgress(), linearReversed.isChecked(), positionalRadioGroup.getPosition());
+                codeSample.setText(String.format(getResources().getString(R.string.radial_sort_code), seekBar.getProgress(),
+                        String.valueOf(linearReversed.isChecked()),
+                        positionalRadioGroup.getPosition()));
                 break;
             case RANDOM_SORT:
                 sortFunction = new RandomSort(seekBar.getProgress());
+                codeSample.setText(String.format(getResources().getString(R.string.random_sort_code), seekBar.getProgress()));
                 break;
             default:
                 sortFunction = new DefaultSort(seekBar.getProgress());
+                codeSample.setText(String.format(getResources().getString(R.string.default_sort_code), seekBar.getProgress()));
                 break;
         }
 

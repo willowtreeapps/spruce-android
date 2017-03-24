@@ -69,4 +69,15 @@
     <string name="sort_function_selection">Sort Function selection</string>
     <string name="select">Select</string>
     <string name="cancel">Cancel</string>
+
+    <!-- Code generation -->
+    <string name="code_sample">Code Sample</string>
+    <string name="default_sort_code">new DefaultSort(%1$d);</string>
+    <string name="cornered_sort_code">new CorneredSort(%1$d, %2$s, CorneredSort.Corner.%3$s);</string>
+    <string name="continuous_sort_code">new ContinuousSort(%1$d, %2$s, RadialSort.Position.%3$s);</string>
+    <string name="continuous_weighted_sort_code">new ContinuousWeightedSort(%1$d, %2$s, RadialSort.Position.%3$s, %4$s, %5$s);</string>
+    <string name="inline_sort_code">new InlineSort(%1$d, %2$s, CorneredSort.Corner.%3$s);</string>
+    <string name="linear_sort_code">new LinearSort(%1$d, %2$s, LinearSort.Direction.%3$s);</string>
+    <string name="radial_sort_code">new RadialSort(%1$d, %2$s, RadialSort.Position.%3$s);</string>
+    <string name="random_sort_code">new RandomSort(%1$d);</string>
 </resources>
