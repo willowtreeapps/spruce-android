@@ -26,4 +26,5 @@
           style="?attr/spinnerDropDownItemStyle"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
+          android:drawableRight="@drawable/ic_arrow_drop_down_white_24dp"
           android:textColor="@color/white"/>
