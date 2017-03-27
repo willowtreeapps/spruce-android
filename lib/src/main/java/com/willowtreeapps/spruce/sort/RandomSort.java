@@ -20,43 +20,42 @@
  *
  */
 
-apply plugin: 'com.android.library'
+package com.willowtreeapps.spruce.sort;
 
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-    defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        setProperty("archivesBaseName", "spruce-lib-$versionName")
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class RandomSort extends SortFunction {
+
+    private final long interObjectDelay;
+
+    /**
+     * Random sort pattern that utilizes {@link Collections#shuffle(List) shuffle()}
+     *
+     * @param interObjectDelay
+     */
+    public RandomSort(long interObjectDelay) {
+        this.interObjectDelay = interObjectDelay;
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+    @Override
+    public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
+        // randomize view list
+        Collections.shuffle(children);
+
+        List<SpruceTimedView> timedViews = new ArrayList<>();
+        long currentTimeOffset = 0;
+
+        for (View view : children) {
+            timedViews.add(new SpruceTimedView(view, currentTimeOffset));
+            currentTimeOffset += interObjectDelay;
         }
+
+        return timedViews;
     }
 
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
-}
-
-task javadocs(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("../docs/")
-    failOnError false
-}
-
-dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.17'
-    testCompile 'org.robolectric:robolectric:3.3.1'
 }

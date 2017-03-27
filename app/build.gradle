@@ -20,17 +20,21 @@
  *
  */
 
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+
     defaultConfig {
+        applicationId "com.willowtreeapps.spurceexampleapp"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-        setProperty("archivesBaseName", "spruce-lib-$versionName")
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -38,17 +42,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
-}
-
-task javadocs(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("../docs/")
-    failOnError false
 }
 
 dependencies {
@@ -57,6 +50,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.17'
-    testCompile 'org.robolectric:robolectric:3.3.1'
+    compile project(':lib')
+    compile 'com.android.support:recyclerview-v7:25.3.0'
 }

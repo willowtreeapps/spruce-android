@@ -20,43 +20,22 @@
  *
  */
 
-apply plugin: 'com.android.library'
+package com.willowtreeapps.spruce.sort;
 
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
-    defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        setProperty("archivesBaseName", "spruce-lib-$versionName")
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+import android.view.View;
+import android.view.ViewGroup;
 
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
-}
+import java.util.List;
 
-task javadocs(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("../docs/")
-    failOnError false
-}
+public abstract class SortFunction {
 
-dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.17'
-    testCompile 'org.robolectric:robolectric:3.3.1'
+    /**
+     * Get a list of SpruceTimedView
+     *
+     * @param parent ViewGroup parent of the collection of child views
+     * @param children List of views to be animated
+     * @return List of SpruceTimedView objects that contain the view and it's offset
+     */
+    public abstract List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children);
+
 }

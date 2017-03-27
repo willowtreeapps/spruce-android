@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~     Spruce
+  ~
+  ~     Copyright (c) 2017 WillowTree, Inc.
+  ~     Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~     of this software and associated documentation files (the "Software"), to deal
+  ~     in the Software without restriction, including without limitation the rights
+  ~     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~     copies of the Software, and to permit persons to whom the Software is
+  ~     furnished to do so, subject to the following conditions:
+  ~     The above copyright notice and this permission notice shall be included in
+  ~     all copies or substantial portions of the Software.
+  ~     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~     THE SOFTWARE.
+  ~
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/placeholder_view"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/recycler_background">
+
+    <View
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@color/white"/>
+
+    <View
+        android:id="@+id/square"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/square_background"/>
+
+    <View
+        android:id="@+id/darker_gray_strip"
+        android:layout_width="150dp"
+        android:layout_height="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/square"
+        android:alpha="1"
+        android:background="@color/fake_paragraphs"/>
+
+    <View
+        android:id="@+id/secondary_gray_strip"
+        android:layout_width="250dp"
+        android:layout_height="10dp"
+        android:layout_below="@id/darker_gray_strip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/square"
+        android:alpha="0.5"
+        android:background="@color/fake_paragraphs"/>
+
+    <View
+        android:id="@+id/tertiary_gray_strip"
+        android:layout_width="200dp"
+        android:layout_height="10dp"
+        android:layout_below="@id/secondary_gray_strip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/square"
+        android:alpha="0.5"
+        android:background="@color/fake_paragraphs"/>
+
+
+</RelativeLayout>

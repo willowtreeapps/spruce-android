@@ -12,3 +12,13 @@ dependencies:
     - /usr/local/android-sdk-linux/platforms/android-25
     - /usr/local/android-sdk-linux/build-tools/25.0.2
     - /usr/local/android-sdk-linux/extras/android/m2repository
+
+general:
+  artifacts:
+    - lib/build/outputs/aar
+    - app/build/outputs/apk
+
+test:
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
