@@ -8,7 +8,9 @@
 ## What is it?
 Spruce is a lightweight animation library that helps choreograph the animations on the screen. With so many different animation libraries out there, developers need to make sure that each view is animating at the appropriate time. Spruce can help designers request complex multi-view animations and not have the developers cringe at the prototype.
 
-![left](https://github.com/willowtreeapps/spruce-android/blob/master/imgs/top-left-corner.gif)![recycler](https://github.com/willowtreeapps/spruce-android/blob/master/imgs/recycler-example.gif)![right](https://github.com/willowtreeapps/spruce-android/blob/master/imgs/bottom-right-corner.gif)
+<p align="center">
+<img src="https://github.com/willowtreeapps/spruce-android/blob/master/imgs/recycler-example.gif"/>
+</p>
 
 ### Gradle
 Add the following to your project's build.gradle file
@@ -20,7 +22,7 @@ dependencies {
 ```
 
 ## Documentation
-For javadocs checkout [the documentation](https://willowtreeapps.github.io/spruce-android/docs/index.html) for more information.
+For javadocs checkout [the documentation](https://willowtreeapps.github.io/spruce-android/) for more information.
 
 ## Basic Usage
 ```java
@@ -31,7 +33,7 @@ Animator spruceAnimator = new Spruce
         .start();
 ```
 
-Checkout [the builder documentation](https://willowtreeapps.github.io/spruce-android/docs/com/willowtreeapps/spruce/Spruce.SpruceBuilder.html) for more information.
+Checkout [the builder documentation](https://willowtreeapps.github.io/spruce-android/com/willowtreeapps/spruce/Spruce.SpruceBuilder.html) for more information.
 
 ### Preparing for Animation
 Spruce comes packed with `Animator` options within the `DefaultAnimations` class meant to make your life easier when calling an animation. Let's say we want to have your views fade in. For example, we would create an `animators = new Animator[] {}` and add `DefaultAnimations.fadeInAnimator(parentViewGroup, /*duration=*/800)` as an array item.
@@ -49,7 +51,7 @@ Animator spruceAnimator = new Spruce
         .start();
 ```
 
-Checkout [the builder documentation](https://willowtreeapps.github.io/spruce-android/docs/com/willowtreeapps/spruce/animation/DefaultAnimations.html) for more information.
+Checkout [default animation documentation](https://willowtreeapps.github.io/spruce-android/com/willowtreeapps/spruce/animation/DefaultAnimations.html) for more information.
 
 ## Using a SortFunction
 Luckily, Spruce comes with 8 `SortFunction` implementations with a wide open possibility to make more! Use the `SortFunction` to change the order in which views animate. Consider the following example:
@@ -69,7 +71,7 @@ Animator spruceAnimator = new Spruce
 Definitely play around with the stock `SortFunction` implementations until you find the one that is perfect for you! Check out the example app if you want to get previews of what each `SortFunction` will look like.
 
 ### The Animators
-The animations used in Spruce are produced by leveraging the `Animtor` class. You may provide your own custom animations by creating your own `Animator` and provide it to the as part of an `Animator[]` to `SpruceBuilder.animateWith(Animator... animators)`. For more information on using the `Animator` class please check out [![Android's Animator Documentation](https://developer.android.com/reference/android/animation/Animator.html)]()
+The animations used in Spruce are produced by leveraging the `Animtor` class. You may provide your own custom animations by creating your own `Animator` and provide it to the as part of an `Animator[]` to `SpruceBuilder.animateWith(Animator... animators)`. For more information on using the `Animator` class please check out https://developer.android.com/reference/android/animation/Animator.html
 
 ### Standard Animation
 The `DefaultAnimation` class provides simple `Animator` methods to apply the change `Animator` to the views. Use this class if you want to have a stock linear movement of the changes.
@@ -100,7 +102,7 @@ To make sure that developers can use Spruce out of the box, we included about 8 
 - `ContinousSort`
 - `ContinuousWeightedSort`
 
-Check out the docs [here](https://willowtreeapps.github.io/spruce-android/docs/com/willowtreeapps/spruce/sort/SortFunction.html) for more information
+Check out the docs [here](https://willowtreeapps.github.io/spruce-android/com/willowtreeapps/spruce/sort/SortFunction.html) for more information
 
 ## Stock Animators
 To make everybody's lives easier, the stock animators perform basic `View` animations that a lot of apps use today. Mix and match these animators to get the core motion you are looking for.
