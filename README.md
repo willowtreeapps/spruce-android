@@ -3,7 +3,7 @@
 # Spruce Android Animation Library
 [![CircleCI Build Status](https://circleci.com/gh/willowtreeapps/spruce-android.svg?style=shield)](https://circleci.com/gh/willowtreeapps/spruce-android)
 [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)]()
-[![Public No](https://img.shields.io/badge/Public-no-red.svg?style=flat)]()
+[![Public Yes](https://img.shields.io/badge/Public-no-red.svg?style=flat)]()
 
 ## What is it?
 Spruce is a lightweight animation library that helps choreograph the animations on the screen. With so many different animation libraries out there, developers need to make sure that each view is animating at the appropriate time. Spruce can help designers request complex multi-view animations and not have the developers cringe at the prototype.
@@ -17,7 +17,7 @@ Add the following to your project's build.gradle file
 
 ```
 dependencies {
-    compile 'com.github.willowtreeapps.spruce-android:spruce-lib:1.0.0'
+    compile 'com.willowtreeapps.spruce:spruce-android:1.0.0'
 }
 ```
 
