@@ -21,6 +21,8 @@
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 25
@@ -29,8 +31,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
-        setProperty("archivesBaseName", "spruce-lib-$versionName")
+        versionName "1.0.0"
+        setProperty("archivesBaseName", "spruce-android")
     }
     buildTypes {
         release {
@@ -42,6 +44,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
 }
 
 task javadocs(type: Javadoc) {
@@ -55,8 +58,96 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.17'
     testCompile 'org.robolectric:robolectric:3.3.1'
+}
+
+def siteUrl = 'https://github.com/willowtreeapps/spruce-android'
+def gitUrl = 'https://github.com/willowtreeapps/spruce-android.git'
+group = "com.willowtreeapps.spruce"
+version = "1.0.0"
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+
+                name 'spruce-android'
+                description = 'lightweight animation library'
+                url siteUrl
+
+                licenses {
+                    license {
+                        name 'MIT License'
+                        url 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'willowtreeapps'
+                        name 'WillowTree Inc'
+                        email 'developer@willowtreeapps.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+if (project.hasProperty("bintrayUser") &&
+    project.hasProperty("bintrayApikey") &&
+    project.hasProperty("bintrayGpgPassword")) {
+
+    bintray {
+        user = project.properties.bintrayUser
+        key = project.properties.bintrayApikey
+
+        configurations = ['archives']
+        pkg {
+            repo = "maven"
+            name = "com.willowtreeapps.spruce"
+            websiteUrl = siteUrl
+            vcsUrl = gitUrl
+            licenses = ["MIT"]
+            publish = true
+            version {
+                name = '1.0.0'
+                vcsTag = '1.0.0'
+                gpg {
+                    sign = true
+                    passphrase = project.properties.bintrayGpgPassword
+                }
+            }
+        }
+    }
+
 }
