@@ -1,6 +1,6 @@
 ![Spruce Logo](https://github.com/willowtreeapps/spruce-android/blob/master/imgs/header_image.png)
 
-# Spruce Android Animation Library
+# Spruce Android Animation Library (and [iOS](https://github.com/willowtreeapps/spruce-ios))
 [![CircleCI Build Status](https://circleci.com/gh/willowtreeapps/spruce-android.svg?style=shield)](https://circleci.com/gh/willowtreeapps/spruce-android)
 [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)]()
 [![Public Yes](https://img.shields.io/badge/Public-yes-green.svg?style=flat)]()
