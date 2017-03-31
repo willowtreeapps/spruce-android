@@ -24,9 +24,11 @@ package com.willowtreeapps.spruce;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.willowtreeapps.spruce.recycler.SpruceItemAnimator;
 import com.willowtreeapps.spruce.sort.SortFunction;
 import com.willowtreeapps.spruce.sort.SpruceTimedView;
 
@@ -37,8 +39,9 @@ public class Spruce {
 
     private final ViewGroup viewGroup;
     private AnimatorSet animatorSet;
+    private RecyclerView.ItemAnimator itemAnimator;
 
-    private Spruce(SpruceBuilder builder) throws IllegalArgumentException {
+    private Spruce(SpruceBuilder builder, boolean isForRecyclerView) throws IllegalArgumentException {
         this.viewGroup = builder.viewGroup;
         Animator[] animators = builder.animators;
         SortFunction sortFunction = builder.sortFunction;
@@ -48,8 +51,11 @@ public class Spruce {
         } else if (sortFunction == null) {
             throw new IllegalArgumentException("SortFunction must not be null");
         }
-
-        getAnimatorSetForSort(animators, sortFunction).start();
+        if (isForRecyclerView) {
+            itemAnimator = new SpruceItemAnimator(viewGroup, builder.sortFunction, builder.animators);
+        } else {
+            getAnimatorSetForSort(animators, sortFunction).start();
+        }
     }
 
     private AnimatorSet getAnimatorSetForSort(Animator[] animators, SortFunction sortFunction) {
@@ -118,11 +124,21 @@ public class Spruce {
         /**
          * Creates a Spruce instance and starts the sequence of animations
          *
-         * @return Spruce The Spruce object to apply operations to.
+         * @return Animator an animator of the provided sort function with animations.
          */
         public Animator start() {
-            spruce = new Spruce(this);
+            spruce = new Spruce(this, false);
             return spruce.animatorSet;
+        }
+
+        /**
+         * Creates a SpruceItemAnimator for use with RecyclerView
+         *
+         * @return ItemAnimator using the provided sort and animators.
+         */
+        public RecyclerView.ItemAnimator getItemAnimator() {
+            spruce = new Spruce(this, true);
+            return spruce.itemAnimator;
         }
     }
 }

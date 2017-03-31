@@ -59,6 +59,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:recyclerview-v7:25.3.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.17'
     testCompile 'org.robolectric:robolectric:3.3.1'
