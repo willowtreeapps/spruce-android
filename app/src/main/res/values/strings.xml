@@ -80,4 +80,5 @@
     <string name="linear_sort_code">new LinearSort(%1$d, %2$s, LinearSort.Direction.%3$s);</string>
     <string name="radial_sort_code">new RadialSort(%1$d, %2$s, RadialSort.Position.%3$s);</string>
     <string name="random_sort_code">new RandomSort(%1$d);</string>
+    <string name="sort_controls">Sort Controls</string>
 </resources>
