@@ -22,14 +22,13 @@
   -->
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content">
 
     <RadioGroup
         android:id="@+id/directional_radio_group"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:visibility="gone">
 
         <RadioButton

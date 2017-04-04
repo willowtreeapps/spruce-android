@@ -71,7 +71,7 @@ Animator spruceAnimator = new Spruce
 Definitely play around with the stock `SortFunction` implementations until you find the one that is perfect for you! Check out the example app if you want to get previews of what each `SortFunction` will look like.
 
 ### The Animators
-The animations used in Spruce are produced by leveraging the `Animtor` class. You may provide your own custom animations by creating your own `Animator` and provide it to the as part of an `Animator[]` to `SpruceBuilder.animateWith(Animator... animators)`. For more information on using the `Animator` class please check out https://developer.android.com/reference/android/animation/Animator.html
+The animations used in Spruce are produced by leveraging the `Animator` class. You may provide your own custom animations by creating your own `Animator` and provide it to the as part of an `Animator[]` to `SpruceBuilder.animateWith(Animator... animators)`. For more information on using the `Animator` class please check out https://developer.android.com/reference/android/animation/Animator.html
 
 ### Standard Animation
 The `DefaultAnimation` class provides simple `Animator` methods to apply the change `Animator` to the views. Use this class if you want to have a stock linear movement of the changes.
