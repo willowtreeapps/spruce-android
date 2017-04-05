@@ -21,41 +21,32 @@
   ~
   -->
 
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <RadioGroup
-        android:id="@+id/cornered_radio_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/LightToolbarTheme"
+        android:background="@color/colorPrimary">
 
-        <RadioButton
-            android:id="@+id/top_left"
+        <Spinner
+            android:id="@+id/sort_selection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/top_left"/>
+            android:background="@null"
+            android:gravity="start"/>
 
-        <RadioButton
-            android:id="@+id/top_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/top_right"/>
+    </android.support.v7.widget.Toolbar>
 
-        <RadioButton
-            android:id="@+id/bottom_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bottom_left"/>
+    <com.willowtreeapps.spurceexampleapp.pager.VerticalViewPager
+        android:id="@+id/vertical_pager"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <RadioButton
-            android:id="@+id/bottom_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bottom_right"/>
-
-    </RadioGroup>
-
-</merge>
+</LinearLayout>
