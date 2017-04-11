@@ -15,7 +15,7 @@ Spruce is a lightweight animation library that helps choreograph the animations 
 ### Gradle
 Add the following to your project's build.gradle file
 
-```
+```gradle
 dependencies {
     compile 'com.willowtreeapps.spruce:spruce-android:1.0.0'
 }
