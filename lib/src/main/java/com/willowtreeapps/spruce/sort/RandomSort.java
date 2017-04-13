@@ -36,7 +36,7 @@ public class RandomSort extends SortFunction {
     /**
      * Random sort pattern that utilizes {@link Collections#shuffle(List) shuffle()}
      *
-     * @param interObjectDelay
+     * @param interObjectDelay long value used to determine delay between objects
      */
     public RandomSort(long interObjectDelay) {
         this.interObjectDelay = interObjectDelay;
