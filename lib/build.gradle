@@ -31,7 +31,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0.1"
         setProperty("archivesBaseName", "spruce-android")
     }
     buildTypes {
@@ -67,7 +67,7 @@ dependencies {
 def siteUrl = 'https://github.com/willowtreeapps/spruce-android'
 def gitUrl = 'https://github.com/willowtreeapps/spruce-android.git'
 group = "com.willowtreeapps.spruce"
-version = "1.0.0"
+version = "1.0.1"
 
 install {
     repositories.mavenInstaller {
@@ -140,8 +140,8 @@ if (project.hasProperty("bintrayUser") &&
             licenses = ["MIT"]
             publish = true
             version {
-                name = '1.0.0'
-                vcsTag = '1.0.0'
+                name = '1.0.1'
+                vcsTag = '1.0.1'
                 gpg {
                     sign = true
                     passphrase = project.properties.bintrayGpgPassword
