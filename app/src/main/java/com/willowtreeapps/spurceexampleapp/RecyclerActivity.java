@@ -55,7 +55,6 @@ public class RecyclerActivity extends AppCompatActivity {
         Toolbar toolBar = (Toolbar) findViewById(R.id.recycler_tool_bar);
         setSupportActionBar(toolBar);
 
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.recycler_name);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

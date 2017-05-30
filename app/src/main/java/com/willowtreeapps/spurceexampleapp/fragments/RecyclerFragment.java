@@ -22,21 +22,21 @@
 
 package com.willowtreeapps.spurceexampleapp.fragments;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.view.ViewTreeObserver;
 
 import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
-import com.willowtreeapps.spruce.sort.DefaultSort;
+import com.willowtreeapps.spruce.sort.LinearSort;
 import com.willowtreeapps.spurceexampleapp.R;
 
 import java.util.ArrayList;
@@ -49,79 +49,81 @@ public class RecyclerFragment extends Fragment {
         return new RecyclerFragment();
     }
 
-    private RecyclerView recyclerView;
-    private Animator spruceAnimator;
+    private RecyclerAdapter adapter;
+    private RecyclerView.ItemAnimator itemAnimator;
+
+    private List<View> placeHolderList = new ArrayList<>();
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        recyclerView = (RecyclerView) container.findViewById(R.id.recycler);
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final RecyclerView recyclerView = (RecyclerView) container.findViewById(R.id.recycler);
+        final View placeholder = container.findViewById(R.id.placeholder_view);
+        FloatingActionButton fab = (FloatingActionButton) container.findViewById(R.id.fab);
         recyclerView.setHasFixedSize(true);
 
-        RelativeLayout placeholder = (RelativeLayout) container.findViewById(R.id.placeholder_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
-            @Override
-            public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-                super.onLayoutChildren(recycler, state);
-                // Animate in the visible children
-                spruceAnimator = new Spruce.SpruceBuilder(recyclerView)
-                    .sortWith(new DefaultSort(100))
-                    .animateWith(DefaultAnimations.shrinkAnimator(recyclerView, 800),
-                            ObjectAnimator.ofFloat(recyclerView, "translationX", -recyclerView.getWidth(), 0f).setDuration(800))
-                    .start();
-
-            }
-        };
-
-        List<RelativeLayout> placeHolderList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             placeHolderList.add(placeholder);
         }
-
-        recyclerView.setAdapter(new RecyclerAdapter(placeHolderList));
+        adapter = new RecyclerAdapter(placeHolderList);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                placeHolderList.add(placeholder);
+                adapter.notifyItemInserted(placeHolderList.size());
+            }
+        });
+
+        recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
+            @Override
+            public void onGlobalLayout() {
+                itemAnimator = new Spruce.SpruceBuilder(recyclerView)
+                        .sortWith(new LinearSort(150, false, LinearSort.Direction.BOTTOM_TO_TOP))
+                        .animateWith(DefaultAnimations.shrinkAnimator(recyclerView, 800),
+                                ObjectAnimator.ofFloat(recyclerView, View.TRANSLATION_X, -recyclerView.getWidth(), 0)
+                                        .setDuration(800))
+                        .getItemAnimator();
+
+                recyclerView.setItemAnimator(itemAnimator);
+                recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
 
         return inflater.inflate(R.layout.recycler_fragment, container, false);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (spruceAnimator != null) {
-            spruceAnimator.start();
-        }
-    }
-
     private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-        List<RelativeLayout> placeholderList;
+        List<View> recyclerList;
 
         class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-            RelativeLayout placeholderView;
+            View placeholderView;
 
             ViewHolder(View itemView) {
                 super(itemView);
-                placeholderView = (RelativeLayout) itemView.findViewById(R.id.placeholder_view);
+                placeholderView = itemView.findViewById(R.id.placeholder_view);
                 placeholderView.setOnClickListener(this);
             }
 
             @Override
             public void onClick(View v) {
-                if (spruceAnimator != null) {
-                    spruceAnimator.start();
-                }
+                itemAnimator.runPendingAnimations();
             }
         }
 
-        RecyclerAdapter(List<RelativeLayout> placeholderList) {
-            this.placeholderList = placeholderList;
+        RecyclerAdapter(List<View> placeholderList) {
+            this.recyclerList = placeholderList;
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            RelativeLayout view = (RelativeLayout) LayoutInflater.from(parent.getContext())
+            View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.recycler_placeholder, parent, false);
 
             return new ViewHolder(view);
@@ -129,12 +131,12 @@ public class RecyclerFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.placeholderView = placeholderList.get(position);
+            holder.placeholderView = recyclerList.get(position);
         }
 
         @Override
         public int getItemCount() {
-            return placeholderList.size();
+            return recyclerList.size();
         }
 
     }
