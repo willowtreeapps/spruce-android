@@ -34,4 +34,9 @@
         android:title="@string/recycler_view_option"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/list_view_option"
+        android:title="@string/list_view_option"
+        app:showAsAction="never" />
+
 </menu>

@@ -32,32 +32,30 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.willowtreeapps.spurceexampleapp.fragments.RecyclerFragment;
+import com.willowtreeapps.spurceexampleapp.fragments.ListViewFragment;
 
-
-public class RecyclerActivity extends AppCompatActivity {
+public class ListViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.recycler_fragment);
+        setContentView(R.layout.list_view_fragment);
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment recyclerFragment = fm.findFragmentById(R.id.recycler_fragment);
-        if (recyclerFragment == null) {
-            recyclerFragment = RecyclerFragment.newInstance();
+        Fragment listViewFragment = fm.findFragmentById(R.id.list_view_fragment);
+        if (listViewFragment == null) {
+            listViewFragment = ListViewFragment.newInstance();
             fm.beginTransaction()
-                    .replace(R.id.recycler_fragment, recyclerFragment)
+                    .replace(R.id.list_view_fragment, listViewFragment)
                     .commit();
         }
 
-        Toolbar toolBar = (Toolbar) findViewById(R.id.recycler_tool_bar);
+        Toolbar toolBar = (Toolbar) findViewById(R.id.list_view_tool_bar);
         setSupportActionBar(toolBar);
 
-
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.recycler_name);
+            getSupportActionBar().setTitle(R.string.list_view_name);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -73,12 +71,12 @@ public class RecyclerActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.sort_option:
                 startActivity(new Intent(this, SpruceActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
-                break;
-            case R.id.recycler_option:
+                        .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
                 break;
             case R.id.list_view_option:
-                startActivity(new Intent(this, ListViewActivity.class)
+                break;
+            case R.id.recycler_option:
+                startActivity(new Intent(this, RecyclerActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
                 break;
             default:

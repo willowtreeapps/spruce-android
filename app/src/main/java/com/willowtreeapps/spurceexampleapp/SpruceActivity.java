@@ -92,6 +92,10 @@ public class SpruceActivity extends AppCompatActivity
                 startActivity(new Intent(this, RecyclerActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
                 break;
+            case R.id.list_view_option:
+                startActivity(new Intent(this, ListViewActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
