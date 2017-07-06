@@ -64,6 +64,10 @@ public class ListViewFragment extends Fragment {
             placeHolderList.add(placeholder);
         }
 
+        // Remove default dividers
+        listView.setDivider(null);
+        listView.setDividerHeight(0);
+
         listView.setAdapter(new ListViewAdapter(placeHolderList));
         listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override

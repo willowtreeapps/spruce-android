@@ -41,7 +41,9 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:background="@color/square_background"/>
 
@@ -50,8 +52,10 @@
         android:layout_width="150dp"
         android:layout_height="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/square"
+        android:layout_toEndOf="@id/square"
         android:alpha="1"
         android:background="@color/fake_paragraphs"/>
 
@@ -61,8 +65,10 @@
         android:layout_height="10dp"
         android:layout_below="@id/darker_gray_strip"
         android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/square"
+        android:layout_toEndOf="@id/square"
         android:alpha="0.5"
         android:background="@color/fake_paragraphs"/>
 
@@ -71,11 +77,12 @@
         android:layout_width="200dp"
         android:layout_height="10dp"
         android:layout_below="@id/secondary_gray_strip"
+        android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/square"
+        android:layout_toEndOf="@id/square"
         android:alpha="0.5"
         android:background="@color/fake_paragraphs"/>
-
 
 </RelativeLayout>
