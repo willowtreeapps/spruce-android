@@ -23,10 +23,12 @@
 <resources>
     <string name="app_name">Spruce</string>
     <string name="recycler_name">Recycler Example</string>
+    <string name="list_view_name">List View Example</string>
 
     <!-- Menu options -->
     <string name="sort_option">Sort Example</string>
     <string name="recycler_view_option">Recycler View Example</string>
+    <string name="list_view_option">List View Example</string>
     <!-- Sort options -->
     <string name="default_sort">Default Sort</string>
     <string name="cornered_sort">Cornered Sort</string>
