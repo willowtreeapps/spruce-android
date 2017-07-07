@@ -38,6 +38,7 @@ import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
 import com.willowtreeapps.spruce.sort.DefaultSort;
 import com.willowtreeapps.spurceexampleapp.R;
+import com.willowtreeapps.spurceexampleapp.model.ExampleData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +59,6 @@ public class RecyclerFragment extends Fragment {
         recyclerView = (RecyclerView) container.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
 
-        RelativeLayout placeholder = (RelativeLayout) container.findViewById(R.id.placeholder_view);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
             @Override
             public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
@@ -74,9 +73,10 @@ public class RecyclerFragment extends Fragment {
             }
         };
 
-        List<RelativeLayout> placeHolderList = new ArrayList<>();
+        // Mock data objects
+        List<ExampleData> placeHolderList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            placeHolderList.add(placeholder);
+            placeHolderList.add(new ExampleData());
         }
 
         recyclerView.setAdapter(new RecyclerAdapter(placeHolderList));
@@ -95,7 +95,7 @@ public class RecyclerFragment extends Fragment {
 
     private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-        List<RelativeLayout> placeholderList;
+        List<ExampleData> placeholderList;
 
         class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -115,7 +115,7 @@ public class RecyclerFragment extends Fragment {
             }
         }
 
-        RecyclerAdapter(List<RelativeLayout> placeholderList) {
+        RecyclerAdapter(List<ExampleData> placeholderList) {
             this.placeholderList = placeholderList;
         }
 
@@ -129,7 +129,7 @@ public class RecyclerFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.placeholderView = placeholderList.get(position);
+
         }
 
         @Override

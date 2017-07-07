@@ -39,7 +39,6 @@ public class ListViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.list_view_fragment);
 
         FragmentManager fm = getSupportFragmentManager();

@@ -39,6 +39,7 @@ import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
 import com.willowtreeapps.spruce.sort.DefaultSort;
 import com.willowtreeapps.spurceexampleapp.R;
+import com.willowtreeapps.spurceexampleapp.model.ExampleData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,18 +58,7 @@ public class ListViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         listView = (ListView) container.findViewById(R.id.list_view);
 
-        RelativeLayout placeholder = (RelativeLayout) container.findViewById(R.id.placeholder_view);
-
-        List<RelativeLayout> placeHolderList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            placeHolderList.add(placeholder);
-        }
-
-        // Remove default dividers
-        listView.setDivider(null);
-        listView.setDividerHeight(0);
-
-        listView.setAdapter(new ListViewAdapter(placeHolderList));
+        // Create the animator after the list view has finished laying out
         listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -80,6 +70,17 @@ public class ListViewFragment extends Fragment {
                         .start();
             }
         });
+
+        // Mock data objects
+        List<ExampleData> placeHolderList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            placeHolderList.add(new ExampleData());
+        }
+
+        // Remove default dividers and set adapter
+        listView.setDivider(null);
+        listView.setDividerHeight(0);
+        listView.setAdapter(new ListViewAdapter(placeHolderList));
 
         return inflater.inflate(R.layout.list_view_fragment, container, false);
     }
@@ -94,21 +95,21 @@ public class ListViewFragment extends Fragment {
 
     private class ListViewAdapter extends BaseAdapter {
 
-        private List<RelativeLayout> placeholderList;
+        private List<ExampleData> placeholderList;
         private LayoutInflater inflater;
 
-        public ListViewAdapter(List<RelativeLayout> placeholderList) {
+        ListViewAdapter(List<ExampleData> placeholderList) {
             this.placeholderList = placeholderList;
             this.inflater = LayoutInflater.from(getContext());
         }
 
         class ViewHolder implements View.OnClickListener{
 
-            private RelativeLayout placeholderView;
+            private RelativeLayout parent;
 
-            public void setPlaceholderView(RelativeLayout placeholderView) {
-                this.placeholderView = placeholderView;
-                this.placeholderView.setOnClickListener(this);
+            ViewHolder(RelativeLayout parent) {
+                this.parent = parent;
+                this.parent.setOnClickListener(this);
             }
 
             @Override
@@ -142,13 +143,8 @@ public class ListViewFragment extends Fragment {
 
             if (convertView == null) {
                 vi = inflater.inflate(R.layout.view_placeholder, null);
-
-                vh = new ViewHolder();
-                vh.setPlaceholderView((RelativeLayout) vi);
+                vh = new ViewHolder((RelativeLayout) vi);
                 vi.setTag(vh);
-
-            } else {
-
             }
 
             return vi;

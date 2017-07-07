@@ -78,7 +78,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="3dp"
         android:layout_below="@id/tertiary_gray_strip"
         android:layout_marginTop="10dp"
         android:background="@color/recycler_background" />
