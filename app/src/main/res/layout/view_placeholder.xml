@@ -24,17 +24,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/placeholder_view"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="2dp"
-                android:background="@color/recycler_background">
-
-    <View
-        android:id="@+id/background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:background="@color/white"/>
+                android:background="@color/white">
 
     <View
         android:id="@+id/square"
@@ -84,5 +77,12 @@
         android:layout_toEndOf="@id/square"
         android:alpha="0.5"
         android:background="@color/fake_paragraphs"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/tertiary_gray_strip"
+        android:layout_marginTop="20dp"
+        android:background="@color/lighter_gray" />
 
 </RelativeLayout>
