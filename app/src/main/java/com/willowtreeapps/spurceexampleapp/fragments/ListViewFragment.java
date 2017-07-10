@@ -62,12 +62,7 @@ public class ListViewFragment extends Fragment {
         listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                // Animate in the visible children
-                spruceAnimator = new Spruce.SpruceBuilder(listView)
-                        .sortWith(new DefaultSort(100))
-                        .animateWith(DefaultAnimations.shrinkAnimator(listView, 800),
-                                ObjectAnimator.ofFloat(listView, "translationX", -listView.getWidth(), 0f).setDuration(800))
-                        .start();
+                initSpruce();
             }
         });
 
@@ -93,6 +88,14 @@ public class ListViewFragment extends Fragment {
         }
     }
 
+    private void initSpruce() {
+        spruceAnimator = new Spruce.SpruceBuilder(listView)
+                .sortWith(new DefaultSort(100))
+                .animateWith(DefaultAnimations.shrinkAnimator(listView, 800),
+                        ObjectAnimator.ofFloat(listView, "translationX", -listView.getWidth(), 0f).setDuration(800))
+                .start();
+    }
+
     private class ListViewAdapter extends BaseAdapter {
 
         private List<ExampleData> placeholderList;
@@ -114,9 +117,7 @@ public class ListViewFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (spruceAnimator != null) {
-                    spruceAnimator.start();
-                }
+                initSpruce();
             }
         }
 
