@@ -43,8 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:columnCount="4"
-            android:rowCount="6"/>
+            android:columnCount="6"
+            android:rowCount="7"/>
 
     </FrameLayout>
 

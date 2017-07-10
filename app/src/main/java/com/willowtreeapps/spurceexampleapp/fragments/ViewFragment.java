@@ -35,7 +35,6 @@ import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 
 import com.willowtreeapps.spurceexampleapp.R;
-import com.willowtreeapps.spurceexampleapp.util.ColorUtils;
 import com.willowtreeapps.spurceexampleapp.widgets.CardLayout;
 
 import java.util.ArrayList;
