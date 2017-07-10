@@ -44,9 +44,6 @@ public class RandomSort extends SortFunction {
 
     @Override
     public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
-        // randomize view list
-        Collections.shuffle(children);
-
         List<SpruceTimedView> timedViews = new ArrayList<>();
         long currentTimeOffset = 0;
 
@@ -58,4 +55,8 @@ public class RandomSort extends SortFunction {
         return timedViews;
     }
 
+    @Override
+    public void sortChildren(ViewGroup parent, List<View> children) {
+        Collections.shuffle(children);
+    }
 }

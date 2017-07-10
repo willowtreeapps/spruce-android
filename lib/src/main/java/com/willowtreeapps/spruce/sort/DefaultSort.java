@@ -53,4 +53,8 @@ public class DefaultSort extends SortFunction {
         return childTimedViews;
     }
 
+    @Override
+    public void sortChildren(ViewGroup parent, List<View> children) {
+        // Do nothing
+    }
 }

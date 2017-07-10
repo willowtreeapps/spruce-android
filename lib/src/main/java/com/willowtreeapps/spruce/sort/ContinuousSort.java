@@ -54,19 +54,6 @@ public class ContinuousSort extends RadialSort {
     @Override
     public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
         final PointF comparisonPoint = getDistancePoint(parent, children);
-
-        Collections.sort(children, new Comparator<View>() {
-            @Override
-            public int compare(View left, View right) {
-                double leftDistance = getDistanceBetweenPoints(Utils.viewToPoint(left), comparisonPoint);
-                double rightDistance = getDistanceBetweenPoints(Utils.viewToPoint(right), comparisonPoint);
-                if (leftDistance > rightDistance && leftDistance > maxDistance) {
-                    maxDistance = leftDistance;
-                }
-                return Double.compare(leftDistance, rightDistance);
-            }
-        });
-
         List<SpruceTimedView> timedViews = new ArrayList<>();
         for (View view : children) {
             double normalizedDistance;
@@ -82,5 +69,22 @@ public class ContinuousSort extends RadialSort {
         }
 
         return timedViews;
+    }
+
+    @Override
+    public void sortChildren(ViewGroup parent, List<View> children) {
+        final PointF comparisonPoint = getDistancePoint(parent, children);
+
+        Collections.sort(children, new Comparator<View>() {
+            @Override
+            public int compare(View left, View right) {
+                double leftDistance = getDistanceBetweenPoints(Utils.viewToPoint(left), comparisonPoint);
+                double rightDistance = getDistanceBetweenPoints(Utils.viewToPoint(right), comparisonPoint);
+                if (leftDistance > rightDistance && leftDistance > maxDistance) {
+                    maxDistance = leftDistance;
+                }
+                return Double.compare(leftDistance, rightDistance);
+            }
+        });
     }
 }
