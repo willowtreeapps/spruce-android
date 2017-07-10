@@ -63,13 +63,7 @@ public class RecyclerFragment extends Fragment {
             @Override
             public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
                 super.onLayoutChildren(recycler, state);
-                // Animate in the visible children
-                spruceAnimator = new Spruce.SpruceBuilder(recyclerView)
-                    .sortWith(new DefaultSort(100))
-                    .animateWith(DefaultAnimations.shrinkAnimator(recyclerView, 800),
-                            ObjectAnimator.ofFloat(recyclerView, "translationX", -recyclerView.getWidth(), 0f).setDuration(800))
-                    .start();
-
+                initSpruce();
             }
         };
 
@@ -93,6 +87,14 @@ public class RecyclerFragment extends Fragment {
         }
     }
 
+    private void initSpruce() {
+        spruceAnimator = new Spruce.SpruceBuilder(recyclerView)
+                .sortWith(new DefaultSort(100))
+                .animateWith(DefaultAnimations.shrinkAnimator(recyclerView, 800),
+                        ObjectAnimator.ofFloat(recyclerView, "translationX", -recyclerView.getWidth(), 0f).setDuration(800))
+                .start();
+    }
+
     private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
         List<ExampleData> placeholderList;
@@ -109,9 +111,7 @@ public class RecyclerFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (spruceAnimator != null) {
-                    spruceAnimator.start();
-                }
+                initSpruce();
             }
         }
 
