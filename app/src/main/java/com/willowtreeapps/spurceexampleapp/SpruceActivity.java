@@ -71,7 +71,7 @@ public class SpruceActivity extends AppCompatActivity
         }
 
         sortDropDown = (Spinner) findViewById(R.id.sort_selection);
-        final ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.sort_functions,
                 R.layout.spinner_item);
         spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
