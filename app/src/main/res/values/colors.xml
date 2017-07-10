@@ -33,4 +33,13 @@
     <color name="recycler_background">#F8F8F9</color>
     <color name="fake_paragraphs">#D9E1E2</color>
     <color name="square_background">#DBE9F9</color>
+
+    <!-- Dev -->
+    <color name="icon_color_1">#abe8dc</color>
+    <color name="icon_color_2">#b8dcf2</color>
+    <color name="icon_color_3">#f7c2ba</color>
+    <color name="icon_color_4">#f5d1ad</color>
+    <color name="icon_color_5">#faeba6</color>
+    <color name="icon_color_6">#b5edcc</color>
+
 </resources>

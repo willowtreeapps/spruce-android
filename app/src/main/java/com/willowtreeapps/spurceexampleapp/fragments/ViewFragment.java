@@ -27,7 +27,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +35,8 @@ import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 
 import com.willowtreeapps.spurceexampleapp.R;
+import com.willowtreeapps.spurceexampleapp.util.ColorUtils;
+import com.willowtreeapps.spurceexampleapp.widgets.CardLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +62,7 @@ public class ViewFragment extends Fragment {
         final int CHILD_VIEW_COUNT = parent.getColumnCount() * parent.getRowCount();
 
         for (int i = 0; i < CHILD_VIEW_COUNT; i++) {
-            View childView = new View(getContext());
-            childView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.spruceViewColor));
+            CardLayout childView = new CardLayout(getContext());
             childView.setAlpha(0F);
             parent.addView(childView);
             children.add(childView);
@@ -72,7 +72,7 @@ public class ViewFragment extends Fragment {
             @Override
             public void onGlobalLayout() {
                 Resources res = getResources();
-                int tileMargins = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, res.getDisplayMetrics()));
+                int tileMargins = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, res.getDisplayMetrics()));
                 final int childWidth = parent.getWidth() / parent.getColumnCount() - (tileMargins * 2);
                 final int childHeight = parent.getHeight() / parent.getRowCount() - (tileMargins * 2);
 
