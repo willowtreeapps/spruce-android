@@ -55,6 +55,6 @@ public class DefaultSort extends SortFunction {
 
     @Override
     public void sortChildren(ViewGroup parent, List<View> children) {
-        // Do nothing
+        // Do nothing, as the original order is maintained
     }
 }
