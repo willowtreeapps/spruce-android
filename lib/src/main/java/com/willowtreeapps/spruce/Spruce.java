@@ -60,6 +60,7 @@ public class Spruce {
             children.add(viewGroup.getChildAt(i));
         }
 
+        sortFunction.sortChildren(viewGroup, children);
         childrenWithTime = sortFunction.getViewListWithTimeOffsets(viewGroup, children);
         animatorSet = new AnimatorSet();
         List<Animator> animatorsList = new ArrayList<>();

@@ -53,19 +53,6 @@ class DistancedSort extends SortFunction {
     @Override
     public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
         final PointF comparisonPoint = getDistancePoint(parent, children);
-
-        Collections.sort(children, new Comparator<View>() {
-            @Override
-            public int compare(View left, View right) {
-                double leftDistance = getDistanceBetweenPoints(Utils.viewToPoint(left), comparisonPoint);
-                double rightDistance = getDistanceBetweenPoints(Utils.viewToPoint(right), comparisonPoint);
-                if (reversed) {
-                    return Double.compare(rightDistance, leftDistance);
-                }
-                return Double.compare(leftDistance, rightDistance);
-            }
-        });
-
         double lastDistance = getDistanceBetweenPoints(Utils.viewToPoint(children.get(0)), comparisonPoint);
         long currentTimeOffset = 0L;
         List<SpruceTimedView> childViews = new ArrayList<>();
@@ -79,6 +66,22 @@ class DistancedSort extends SortFunction {
         }
 
         return childViews;
+    }
+
+    @Override
+    public void sortChildren(ViewGroup parent, List<View> children) {
+        final PointF comparisonPoint = getDistancePoint(parent, children);
+        Collections.sort(children, new Comparator<View>() {
+            @Override
+            public int compare(View left, View right) {
+                double leftDistance = getDistanceBetweenPoints(Utils.viewToPoint(left), comparisonPoint);
+                double rightDistance = getDistanceBetweenPoints(Utils.viewToPoint(right), comparisonPoint);
+                if (reversed) {
+                    return Double.compare(rightDistance, leftDistance);
+                }
+                return Double.compare(leftDistance, rightDistance);
+            }
+        });
     }
 
     /**
