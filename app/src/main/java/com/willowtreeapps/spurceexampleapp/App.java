@@ -20,37 +20,19 @@
  *
  */
 
-apply plugin: 'com.android.application'
+package com.willowtreeapps.spurceexampleapp;
 
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+import android.app.Application;
+import timber.log.Timber;
 
-    defaultConfig {
-        applicationId "com.willowtreeapps.spurceexampleapp"
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+public class App extends Application {
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
         }
     }
-}
-
-dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.3.0'
-    testCompile 'junit:junit:4.12'
-    compile project(':lib')
-    compile 'com.android.support:recyclerview-v7:25.3.0'
-    compile 'com.jakewharton.timber:timber:4.5.1'
 }
