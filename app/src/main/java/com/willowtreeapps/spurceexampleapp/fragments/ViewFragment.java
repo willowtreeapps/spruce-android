@@ -64,10 +64,6 @@ public class ViewFragment extends Fragment {
 
         for (int i = 0; i < CHILD_VIEW_COUNT; i++) {
             CardLayout childView = new CardLayout(getContext());
-            childView.setAlpha(0F);
-            childView.setTextColor(ContextCompat.getColor(getContext(), R.color.square_background));
-            childView.setGravity(Gravity.CENTER);
-            childView.setText(""+i);
             parent.addView(childView);
             children.add(childView);
         }
