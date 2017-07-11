@@ -35,15 +35,16 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="4dp"
-        android:layout_weight="9.5">
+        android:layout_weight="9.5"
+        android:background="@color/recycler_background">
 
         <GridLayout
             android:id="@+id/view_group_to_animate"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:columnCount="11"
-            android:rowCount="11"/>
+            android:columnCount="6"
+            android:rowCount="7"/>
 
     </FrameLayout>
 
