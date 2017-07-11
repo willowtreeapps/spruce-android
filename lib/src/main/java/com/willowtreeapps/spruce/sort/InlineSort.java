@@ -51,10 +51,24 @@ public class InlineSort extends CorneredSort {
 
     @Override
     public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
-        final PointF comparisonPoint = getDistancePoint(parent, children);
         List<SpruceTimedView> timedViews = new ArrayList<>();
         long currentTimeOffset = 0;
 
+        if (reversed) {
+            Collections.reverse(children);
+        }
+
+        for (View view : children) {
+            timedViews.add(new SpruceTimedView(view, currentTimeOffset));
+            currentTimeOffset += interObjectDelay;
+        }
+
+        return timedViews;
+    }
+
+    @Override
+    public void sortChildren(ViewGroup parent, List<View> children) {
+        final PointF comparisonPoint = getDistancePoint(parent, children);
         Collections.sort(children, new Comparator<View>() {
             @Override
             public int compare(View left, View right) {
@@ -71,17 +85,6 @@ public class InlineSort extends CorneredSort {
                 return 1;
             }
         });
-
-        if (reversed) {
-            Collections.reverse(children);
-        }
-
-        for (View view : children) {
-            timedViews.add(new SpruceTimedView(view, currentTimeOffset));
-            currentTimeOffset += interObjectDelay;
-        }
-
-        return timedViews;
     }
 
 }

@@ -25,6 +25,8 @@ package com.willowtreeapps.spruce.sort;
 import android.graphics.PointF;
 import android.view.View;
 
+import java.util.List;
+
 /**
  * Utility class for distance calculations and view to point conversion
  */

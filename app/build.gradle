@@ -52,4 +52,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':lib')
     compile 'com.android.support:recyclerview-v7:25.3.0'
+    compile 'com.jakewharton.timber:timber:4.5.1'
 }

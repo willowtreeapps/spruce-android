@@ -20,41 +20,19 @@
  *
  */
 
-package com.willowtreeapps.spruce.sort;
+package com.willowtreeapps.spurceexampleapp;
 
-import android.view.View;
-import android.view.ViewGroup;
+import android.app.Application;
+import timber.log.Timber;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class DefaultSort extends SortFunction {
-
-    private final long interObjectDelay;
-
-    /**
-     * Default sort; handles views with a provided offset delay
-     * @param interObjectDelay (long) delay between object animations
-     */
-    public DefaultSort(long interObjectDelay) {
-        this.interObjectDelay = interObjectDelay;
-    }
+public class App extends Application {
 
     @Override
-    public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
-        List<SpruceTimedView> childTimedViews = new ArrayList<>();
-        long currentTimeOffset = 0L;
+    public void onCreate() {
+        super.onCreate();
 
-        for (View childView : children) {
-            childTimedViews.add(new SpruceTimedView(childView, currentTimeOffset));
-            currentTimeOffset += interObjectDelay;
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
         }
-
-        return childTimedViews;
-    }
-
-    @Override
-    public void sortChildren(ViewGroup parent, List<View> children) {
-        // Do nothing, as the original order is maintained
     }
 }

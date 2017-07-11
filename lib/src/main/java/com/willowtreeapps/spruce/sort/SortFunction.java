@@ -30,6 +30,14 @@ import java.util.List;
 public abstract class SortFunction {
 
     /**
+     * Sorts the children that will be animated in the view.
+     *
+     * @param parent ViewGroup parent of the collection of child views.
+     * @param children The children to be sorted
+     */
+    public abstract void sortChildren(ViewGroup parent, List<View> children);
+
+    /**
      * Get a list of SpruceTimedView
      *
      * @param parent ViewGroup parent of the collection of child views

@@ -67,18 +67,6 @@ public class CorneredSort extends DistancedSort {
         List<SpruceTimedView> timedViews = new ArrayList<>();
         long currentTimeOffset = 0;
 
-        Collections.sort(children, new Comparator<View>() {
-            @Override
-            public int compare(View left, View right) {
-                double leftDistance = Math.abs(comparisonPoint.x - left.getX()) + Math.abs(comparisonPoint.y - left.getY());
-                double rightDistance = Math.abs(comparisonPoint.x - right.getX()) + Math.abs(comparisonPoint.y - right.getY());
-                if (reversed) {
-                    return Double.compare(rightDistance, leftDistance);
-                }
-                return Double.compare(leftDistance, rightDistance);
-            }
-        });
-
         double lastDistance = 0;
         for (View view : children) {
             double viewDistance = getDistanceBetweenPoints(Utils.viewToPoint(view), comparisonPoint);
@@ -90,6 +78,22 @@ public class CorneredSort extends DistancedSort {
         }
 
         return timedViews;
+    }
+
+    @Override
+    public void sortChildren(ViewGroup parent, List<View> children) {
+        final PointF comparisonPoint = getDistancePoint(parent, children);
+        Collections.sort(children, new Comparator<View>() {
+            @Override
+            public int compare(View left, View right) {
+                double leftDistance = Math.abs(comparisonPoint.x - left.getX()) + Math.abs(comparisonPoint.y - left.getY());
+                double rightDistance = Math.abs(comparisonPoint.x - right.getX()) + Math.abs(comparisonPoint.y - right.getY());
+                if (reversed) {
+                    return Double.compare(rightDistance, leftDistance);
+                }
+                return Double.compare(leftDistance, rightDistance);
+            }
+        });
     }
 
     @Override
