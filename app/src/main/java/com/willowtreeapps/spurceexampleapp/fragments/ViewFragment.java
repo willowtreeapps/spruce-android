@@ -28,11 +28,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 import com.willowtreeapps.spurceexampleapp.R;
 import com.willowtreeapps.spurceexampleapp.widgets.CardLayout;
@@ -62,7 +64,6 @@ public class ViewFragment extends Fragment {
 
         for (int i = 0; i < CHILD_VIEW_COUNT; i++) {
             CardLayout childView = new CardLayout(getContext());
-            childView.setAlpha(0F);
             parent.addView(childView);
             children.add(childView);
         }

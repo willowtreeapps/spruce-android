@@ -51,6 +51,7 @@ import com.willowtreeapps.spruce.sort.InlineSort;
 import com.willowtreeapps.spruce.sort.LinearSort;
 import com.willowtreeapps.spruce.sort.RadialSort;
 import com.willowtreeapps.spruce.sort.RandomSort;
+import com.willowtreeapps.spruce.sort.SnakeSort;
 import com.willowtreeapps.spruce.sort.SortFunction;
 import com.willowtreeapps.spurceexampleapp.R;
 import com.willowtreeapps.spurceexampleapp.SpruceActivity;
@@ -69,6 +70,7 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
     private static final int LINEAR_SORT = 5;
     private static final int RADIAL_SORT = 6;
     private static final int RANDOM_SORT = 7;
+    private static final int SNAKE_SORT = 8;
 
     private Animator spruceAnimator;
     private SeekBar seekBar;
@@ -139,6 +141,7 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
+                    case SNAKE_SORT:
                     case CORNERED_SORT:
                     case INLINE_SORT:
                         linearRadioGroup.setVisibility(View.GONE);
@@ -388,6 +391,13 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
             case RANDOM_SORT:
                 sortFunction = new RandomSort(seekBar.getProgress());
                 codeSample.setText(String.format(getResources().getString(R.string.random_sort_code), seekBar.getProgress()));
+                break;
+            case SNAKE_SORT:
+                sortFunction = new SnakeSort(seekBar.getProgress(), linearReversed.isChecked(), corner);
+                codeSample.setText(String.format(getResources().getString(R.string.snake_sort_code),
+                        seekBar.getProgress(),
+                        String.valueOf(linearReversed.isChecked()),
+                        corner));
                 break;
             default:
                 sortFunction = new DefaultSort(seekBar.getProgress());

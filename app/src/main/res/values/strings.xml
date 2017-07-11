@@ -38,6 +38,7 @@
     <string name="linear_sort">Linear Sort</string>
     <string name="radial_sort">Radial Sort</string>
     <string name="random_sort">Random Sort</string>
+    <string name="snake_sort">Snake Sort</string>
     <!-- Linear -->
     <string name="bottom_to_top">Bottom to Top</string>
     <string name="top_to_bottom">Top to Bottom</string>
@@ -82,5 +83,6 @@
     <string name="linear_sort_code">new LinearSort(%1$d, %2$s, LinearSort.Direction.%3$s);</string>
     <string name="radial_sort_code">new RadialSort(%1$d, %2$s, RadialSort.Position.%3$s);</string>
     <string name="random_sort_code">new RandomSort(%1$d);</string>
+    <string name="snake_sort_code">new SnakeSort(%1$d, %2$s, CorneredSort.Corner.%3$s);</string>
     <string name="sort_controls">Sort Controls</string>
 </resources>

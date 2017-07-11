@@ -20,41 +20,38 @@
  *
  */
 
-package com.willowtreeapps.spruce.sort;
+package com.willowtreeapps.spurceexampleapp;
 
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 
-import java.util.ArrayList;
-import java.util.List;
+public class SplashActivity extends AppCompatActivity {
 
-public class DefaultSort extends SortFunction {
-
-    private final long interObjectDelay;
-
-    /**
-     * Default sort; handles views with a provided offset delay
-     * @param interObjectDelay (long) delay between object animations
-     */
-    public DefaultSort(long interObjectDelay) {
-        this.interObjectDelay = interObjectDelay;
-    }
+    private static int SPLASH_TIMEOUT = 2000;
+    private ImageView logoImageView;
 
     @Override
-    public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
-        List<SpruceTimedView> childTimedViews = new ArrayList<>();
-        long currentTimeOffset = 0L;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
 
-        for (View childView : children) {
-            childTimedViews.add(new SpruceTimedView(childView, currentTimeOffset));
-            currentTimeOffset += interObjectDelay;
-        }
+        logoImageView = (ImageView) findViewById(R.id.ivLogo);
+        logoImageView.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.spruce_logo));
 
-        return childTimedViews;
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashActivity.this, SpruceActivity.class));
+                finish();
+            }
+        }, SPLASH_TIMEOUT);
+
     }
 
-    @Override
-    public void sortChildren(ViewGroup parent, List<View> children) {
-        // Do nothing, as the original order is maintained
-    }
 }

@@ -55,12 +55,6 @@ public class LinearSort extends DistancedSort {
     }
 
     @Override
-    public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
-        return super.getViewListWithTimeOffsets(parent, children);
-    }
-
-
-    @Override
     public PointF getDistancePoint(ViewGroup parent, List<View> children) {
         PointF point = super.getDistancePoint(parent, children);
         switch (direction) {
