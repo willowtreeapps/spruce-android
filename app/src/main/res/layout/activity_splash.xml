@@ -25,7 +25,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/recycler_background"
+    android:background="@color/colorPrimary"
     tools:ignore="ContentDescription|RtlHardcoded,Overdraw">
 
     <ImageView
@@ -33,7 +33,6 @@
         android:layout_width="@dimen/logo_size_splash"
         android:layout_height="@dimen/logo_size_splash"
         android:layout_centerInParent="true"
-        android:src="@mipmap/ic_launcher"
         tools:ignore="ContentDescription" />
 
 </RelativeLayout>
