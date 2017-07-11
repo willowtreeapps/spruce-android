@@ -35,7 +35,6 @@ public class ContinuousSort extends RadialSort {
 
     private final long duration;
     private final boolean reversed;
-    private double maxDistance;
 
     /**
      * Establishes the delay between object animations and their starting position based on distance,
@@ -54,6 +53,20 @@ public class ContinuousSort extends RadialSort {
     @Override
     public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
         final PointF comparisonPoint = getDistancePoint(parent, children);
+
+        double maxDistance = 0;
+        for (View v1: children) {
+            for (View v2: children) {
+                if (v1 != v2) {
+                    double leftDistance = getDistanceBetweenPoints(Utils.viewToPoint(v1), comparisonPoint);
+                    double rightDistance = getDistanceBetweenPoints(Utils.viewToPoint(v2), comparisonPoint);
+                    if (leftDistance > rightDistance && leftDistance > maxDistance) {
+                        maxDistance = leftDistance;
+                    }
+                }
+            }
+        }
+
         List<SpruceTimedView> timedViews = new ArrayList<>();
         for (View view : children) {
             double normalizedDistance;
@@ -74,17 +87,14 @@ public class ContinuousSort extends RadialSort {
     @Override
     public void sortChildren(ViewGroup parent, List<View> children) {
         final PointF comparisonPoint = getDistancePoint(parent, children);
-
         Collections.sort(children, new Comparator<View>() {
             @Override
             public int compare(View left, View right) {
                 double leftDistance = getDistanceBetweenPoints(Utils.viewToPoint(left), comparisonPoint);
                 double rightDistance = getDistanceBetweenPoints(Utils.viewToPoint(right), comparisonPoint);
-                if (leftDistance > rightDistance && leftDistance > maxDistance) {
-                    maxDistance = leftDistance;
-                }
                 return Double.compare(leftDistance, rightDistance);
             }
         });
     }
+
 }

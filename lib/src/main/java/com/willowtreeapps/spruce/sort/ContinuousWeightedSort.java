@@ -75,6 +75,18 @@ public class ContinuousWeightedSort extends ContinuousSort {
     @Override
     public List<SpruceTimedView> getViewListWithTimeOffsets(ViewGroup parent, List<View> children) {
         final PointF comparisonPoint = getDistancePoint(parent, children);
+        Collections.sort(children, new Comparator<View>() {
+            @Override
+            public int compare(View v1, View v2) {
+                double leftHorizontalDistance = Utils.horizontalDistance(comparisonPoint, Utils.viewToPoint(v1)) * horizontalWeight;
+                double rightHorizontalDistance = Utils.horizontalDistance(comparisonPoint, Utils.viewToPoint(v2)) * horizontalWeight;
+                double leftVerticalDistance = Utils.verticalDistance(comparisonPoint, Utils.viewToPoint(v1)) * verticalWeight;
+                double rightVerticalDistance = Utils.verticalDistance(comparisonPoint, Utils.viewToPoint(v2)) * verticalWeight;
+                maxHorizontalDistance = calculateMaxDistance(leftHorizontalDistance, rightHorizontalDistance, maxHorizontalDistance);
+                maxVerticalDistance = calculateMaxDistance(leftVerticalDistance, rightVerticalDistance, maxVerticalDistance);
+                return 0;
+            }
+        });
 
         List<SpruceTimedView> timedViews = new ArrayList<>();
         long maxTimeOffset = 1;
@@ -101,23 +113,7 @@ public class ContinuousWeightedSort extends ContinuousSort {
 
     @Override
     public void sortChildren(ViewGroup parent, List<View> children) {
-        final PointF comparisonPoint = getDistancePoint(parent, children);
-
-        // non-sort to calculate max horizontal/vertical values
-        Collections.sort(children, new Comparator<View>() {
-            @Override
-            public int compare(View left, View right) {
-                double leftHorizontalDistance = Utils.horizontalDistance(comparisonPoint, Utils.viewToPoint(left)) * horizontalWeight;
-                double rightHorizontalDistance = Utils.horizontalDistance(comparisonPoint, Utils.viewToPoint(right)) * horizontalWeight;
-                double leftVerticalDistance = Utils.verticalDistance(comparisonPoint, Utils.viewToPoint(left)) * verticalWeight;
-                double rightVerticalDistance = Utils.verticalDistance(comparisonPoint, Utils.viewToPoint(right)) * verticalWeight;
-
-                maxHorizontalDistance = calculateMaxDistance(leftHorizontalDistance, rightHorizontalDistance, maxHorizontalDistance);
-                maxVerticalDistance = calculateMaxDistance(leftVerticalDistance, rightVerticalDistance, maxVerticalDistance);
-
-                return 0;
-            }
-        });
+        // Do nothing
     }
 
     @VisibleForTesting
