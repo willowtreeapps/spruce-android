@@ -31,19 +31,19 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class InlineSort extends CorneredSort {
+public class SnakeSort extends CorneredSort {
 
     private final long interObjectDelay;
     private final boolean reversed;
 
     /**
-     * Animate child views from side to side (based on the provided corner parameter).
+     * Animate child views from side to side (based on the provided corner parameter), alternating left to right and right to left on each row.
      *
      * @param interObjectDelay long delay between objects
      * @param reversed boolean indicating if the selection is reversed
      * @param corner {@link com.willowtreeapps.spruce.sort.CorneredSort.Corner Corner} value to start from
      */
-    public InlineSort(long interObjectDelay, boolean reversed, Corner corner) {
+    public SnakeSort(long interObjectDelay, boolean reversed, Corner corner) {
         super(interObjectDelay, reversed, corner);
         this.interObjectDelay = interObjectDelay;
         this.reversed = reversed;
@@ -55,6 +55,18 @@ public class InlineSort extends CorneredSort {
         List<SpruceTimedView> timedViews = new ArrayList<>();
         long currentTimeOffset = 0;
 
+        // Calculate all possible vertical distances from the point of comparison.
+        final List<Float> verticalDistances = new ArrayList<>();
+        for (View child: children) {
+            float d = Utils.verticalDistance(comparisonPoint, Utils.viewToPoint(child));
+            if (!verticalDistances.contains(d)) {
+                verticalDistances.add(d);
+            }
+        }
+
+        // Sort these so we can find the row index by the vertical distance.
+        Collections.sort(verticalDistances);
+
         Collections.sort(children, new Comparator<View>() {
             @Override
             public int compare(View left, View right) {
@@ -63,12 +75,20 @@ public class InlineSort extends CorneredSort {
                 double rightHorizontalDistance = Utils.horizontalDistance(comparisonPoint, Utils.viewToPoint(right));
                 double rightVerticalDistance = Utils.verticalDistance(comparisonPoint, Utils.viewToPoint(right));
 
-                if (leftVerticalDistance < rightVerticalDistance ||
-                        leftVerticalDistance == rightVerticalDistance &&
-                                leftHorizontalDistance < rightHorizontalDistance) {
+                // Difference in vertical distance takes priority.
+                if (leftVerticalDistance < rightVerticalDistance) {
                     return -1;
+                } else if (leftVerticalDistance > rightVerticalDistance) {
+                    return 1;
                 }
-                return 1;
+
+                // If the are in the same row, find the row index.
+                int row = verticalDistances.indexOf((float) leftVerticalDistance);
+                if (leftHorizontalDistance < rightHorizontalDistance) {
+                    return row % 2 == 0 ? -1: 1;
+                } else {
+                    return row % 2 == 0 ? 1: -1;
+                }
             }
         });
 
@@ -83,5 +103,6 @@ public class InlineSort extends CorneredSort {
 
         return timedViews;
     }
+
 
 }

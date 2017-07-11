@@ -31,5 +31,6 @@
         <item>@string/linear_sort</item>
         <item>@string/radial_sort</item>
         <item>@string/random_sort</item>
+        <item>@string/snake_sort</item>
     </string-array>
 </resources>
