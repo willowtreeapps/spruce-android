@@ -104,13 +104,12 @@ public class ContinuousWeightedSortTest {
 
     @Test
     public void test_negative_inter_object_delay_with_reversed() {
-        ContinuousWeightedSort sortFunction = new ContinuousWeightedSort(/*interObjectDelay=*/-1,
+        List<SpruceTimedView> resultViews = new ContinuousWeightedSort(/*interObjectDelay=*/-1,
                 /*reversed=*/true,
                 RadialSort.Position.TOP_LEFT,
                 ContinuousWeightedSort.MEDIUM_WEIGHT,
-                ContinuousWeightedSort.MEDIUM_WEIGHT);
-        sortFunction.sortChildren(mockParent, mockChildren);
-        List<SpruceTimedView> resultViews  = sortFunction.getViewListWithTimeOffsets(mockParent, mockChildren);
+                ContinuousWeightedSort.MEDIUM_WEIGHT)
+                .getViewListWithTimeOffsets(mockParent, mockChildren);
         Assert.assertEquals(-1, resultViews.get(0).getTimeOffset());
         Assert.assertEquals(-1, resultViews.get(1).getTimeOffset());
         Assert.assertEquals(0, resultViews.get(2).getTimeOffset());
