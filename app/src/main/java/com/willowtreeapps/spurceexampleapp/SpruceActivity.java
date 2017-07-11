@@ -44,6 +44,7 @@ import com.willowtreeapps.spurceexampleapp.pager.VerticalViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class SpruceActivity extends AppCompatActivity
         implements ViewFragment.OnParentAndChildCreationListener {
 
