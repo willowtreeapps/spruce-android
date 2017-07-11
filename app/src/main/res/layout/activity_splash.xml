@@ -21,36 +21,18 @@
   ~
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.willowtreeapps.spurceexampleapp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:ignore="ContentDescription|RtlHardcoded,Overdraw">
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".SplashActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="@dimen/logo_size_splash"
+        android:layout_height="@dimen/logo_size_splash"
+        android:layout_centerInParent="true"
+        tools:ignore="ContentDescription" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".SpruceActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".RecyclerActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".ListViewActivity"
-            android:screenOrientation="portrait" />
-    </application>
-
-</manifest>
+</RelativeLayout>
