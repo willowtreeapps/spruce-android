@@ -126,6 +126,12 @@ If part of Spruce is not working correctly be sure to file a Github issue. In th
 
 If you have a feature idea submit an issue with a feature request or submit a pull request and we will work with you to merge it in!
 
+## Third Party Bindings
+
+### React Native
+You may now use this library with [React Native](https://github.com/facebook/react-native) via the module [here](https://github.com/prscX/react-native-spruce)
+
+
 # About WillowTree!
 ![WillowTree Logo](https://github.com/willowtreeapps/spruce-android/blob/master/imgs/willowtree_logo.png)
 
