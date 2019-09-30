@@ -71,7 +71,7 @@ public class Spruce {
                 animatorCopy.setTarget(childView.getView());
                 animatorCopy.start();
                 animatorCopy.cancel();
-                animatorCopy.setStartDelay(childView.getTimeOffset());
+                animatorCopy.setDuration((childView.getTimeOffset()+animatorChild.getDuration()));
                 animatorsList.add(animatorCopy);
             }
         }
