@@ -63,6 +63,8 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.1'
 }
 
+def siteUrl = 'https://github.com/willowtreeapps/spruce-android'
+def gitUrl = 'https://github.com/willowtreeapps/spruce-android.git'
 group = "com.willowtreeapps.spruce"
 version = "1.0.2"
 
@@ -120,5 +122,31 @@ artifacts {
     archives sourcesJar
 }
 
+if (project.hasProperty("bintrayUser") &&
+    project.hasProperty("bintrayApikey") &&
+    project.hasProperty("bintrayGpgPassword")) {
+
+    bintray {
+        user = project.properties.bintrayUser
+        key = project.properties.bintrayApikey
+
+        configurations = ['archives']
+        pkg {
+            repo = "maven"
+            name = "com.willowtreeapps.spruce"
+            websiteUrl = siteUrl
+            vcsUrl = gitUrl
+            licenses = ["MIT"]
+            publish = true
+            version {
+                name = '1.0.1'
+                vcsTag = '1.0.1'
+                gpg {
+                    sign = true
+                    passphrase = project.properties.bintrayGpgPassword
+                }
+            }
+        }
+    }
 
 }
