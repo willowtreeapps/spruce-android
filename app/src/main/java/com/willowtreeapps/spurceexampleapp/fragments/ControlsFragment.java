@@ -24,9 +24,6 @@ package com.willowtreeapps.spurceexampleapp.fragments;
 
 import android.animation.Animator;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +55,10 @@ import com.willowtreeapps.spurceexampleapp.SpruceActivity;
 import com.willowtreeapps.spurceexampleapp.widgets.RadioGroupGridLayout;
 
 import java.util.List;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 
 public class ControlsFragment extends Fragment implements RadioGroupGridLayout.OnChangedListener {

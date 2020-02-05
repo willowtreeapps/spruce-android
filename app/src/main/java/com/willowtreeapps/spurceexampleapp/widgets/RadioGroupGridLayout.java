@@ -23,7 +23,6 @@
 package com.willowtreeapps.spurceexampleapp.widgets;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +31,8 @@ import android.widget.RadioButton;
 
 import com.willowtreeapps.spruce.sort.RadialSort;
 import com.willowtreeapps.spurceexampleapp.R;
+
+import androidx.appcompat.widget.AppCompatRadioButton;
 
 
 public class RadioGroupGridLayout extends GridLayout implements View.OnClickListener {

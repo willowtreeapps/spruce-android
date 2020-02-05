@@ -23,12 +23,13 @@
 package com.willowtreeapps.spurceexampleapp.widgets;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
 import com.willowtreeapps.spurceexampleapp.R;
+
+import androidx.annotation.Nullable;
 
 public class CardLayout extends LinearLayout {
 

@@ -24,12 +24,6 @@ package com.willowtreeapps.spurceexampleapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +37,13 @@ import com.willowtreeapps.spurceexampleapp.pager.VerticalViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 
 public class SpruceActivity extends AppCompatActivity
@@ -60,17 +61,17 @@ public class SpruceActivity extends AppCompatActivity
 
         FragmentManager fm = getSupportFragmentManager();
 
-        VerticalViewPager verticalPager = (VerticalViewPager) findViewById(R.id.vertical_pager);
+        VerticalViewPager verticalPager = findViewById(R.id.vertical_pager);
         VerticalPagerAdapter adapter = new VerticalPagerAdapter(fm);
         verticalPager.setAdapter(adapter);
 
-        Toolbar toolBar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolBar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolBar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
-        sortDropDown = (Spinner) findViewById(R.id.sort_selection);
+        sortDropDown = findViewById(R.id.sort_selection);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.sort_functions,
                 R.layout.spinner_item);
@@ -110,7 +111,7 @@ public class SpruceActivity extends AppCompatActivity
     private class VerticalPagerAdapter extends FragmentStatePagerAdapter {
 
         VerticalPagerAdapter(FragmentManager fm) {
-            super(fm);
+            super(fm, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
         @Override
