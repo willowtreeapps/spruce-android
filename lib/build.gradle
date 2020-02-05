@@ -139,8 +139,8 @@ if (project.hasProperty("bintrayUser") &&
             licenses = ["MIT"]
             publish = true
             version {
-                name = '1.0.1'
-                vcsTag = '1.0.1'
+                name = '1.0.2'
+                vcsTag = '1.0.2'
                 gpg {
                     sign = true
                     passphrase = project.properties.bintrayGpgPassword
