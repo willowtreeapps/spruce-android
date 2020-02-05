@@ -113,7 +113,7 @@ task javadoc(type: Javadoc) {
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-   // classifier = 'javadoc'
+    classifier = 'javadoc'
     from javadoc.destinationDir
 }
 
