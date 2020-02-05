@@ -63,7 +63,8 @@ public class RadialSortTest {
                 RadialSort.Position.TOP_LEFT);
 
         PointF resultPoint = radialSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(0f, 0f), resultPoint);
+        assertEquals(0f, resultPoint.x, 0);
+        assertEquals(0f, resultPoint.y, 0);
     }
 
     @Test
@@ -77,7 +78,8 @@ public class RadialSortTest {
         setupMockChildrenForPoint(/*widthOfParent=*/20 / 2, 0);
 
         PointF resultPoint = radialSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(10F, 0), resultPoint);
+        assertEquals(10F, resultPoint.x, 0);
+        assertEquals(0F, resultPoint.y, 0);
     }
 
     @Test
@@ -91,7 +93,8 @@ public class RadialSortTest {
         setupMockChildrenForPoint(/*widthOfParent=*/20, 0);
 
         PointF resultPoint = radialSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(20F, 0), resultPoint);
+        assertEquals(20F, resultPoint.x, 0);
+        assertEquals(0F, resultPoint.y, 0);
     }
 
     @Test
@@ -105,7 +108,8 @@ public class RadialSortTest {
         setupMockChildrenForPoint(0, /*heightOfParent=*/20 / 2);
 
         PointF resultPoint = radialSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(0, 10F), resultPoint);
+        assertEquals(0, resultPoint.x, 0);
+        assertEquals(10F, resultPoint.y, 0);
     }
 
     @Test
@@ -120,7 +124,8 @@ public class RadialSortTest {
         setupMockChildrenForPoint(/*widthOfParent=*/20 / 2, /*heightOfParent=*/20 / 2);
 
         PointF resultPoint = radialSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(10F, 10F), resultPoint);
+        assertEquals(10F, resultPoint.x, 0);
+        assertEquals(10F, resultPoint.y, 0);
     }
 
     @Test
@@ -135,7 +140,8 @@ public class RadialSortTest {
         setupMockChildrenForPoint(/*widthOfParent=*/20, /*heightOfParent=*/20 / 2);
 
         PointF resultPoint = radialSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(20F, 10F), resultPoint);
+        assertEquals(20F, resultPoint.x, 0);
+        assertEquals(10F, resultPoint.y, 0);
     }
 
     @Test
@@ -149,7 +155,8 @@ public class RadialSortTest {
         setupMockChildrenForPoint(0, /*heightOfParent=*/20);
 
         PointF resultPoint = radialSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(0F, 20F), resultPoint);
+        assertEquals(0F, resultPoint.x, 0);
+        assertEquals(20F, resultPoint.y, 0);
     }
 
     @Test
@@ -165,7 +172,8 @@ public class RadialSortTest {
         setupMockChildrenForPoint(/*widthOfParent=*/20 / 2, /*heightOfParent=*/20);
 
         PointF resultPoint = radialSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(10F, 20F), resultPoint);
+        assertEquals(10F, resultPoint.x, 0);
+        assertEquals(20F, resultPoint.y, 0);
     }
 
     @Test
@@ -180,7 +188,8 @@ public class RadialSortTest {
         setupMockChildrenForPoint(/*widthOfParent=*/20, /*heightOfParent=*/20);
 
         PointF resultPoint = radialSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(20F, 20F), resultPoint);
+        assertEquals(20F, resultPoint.x, 0);
+        assertEquals(20F, resultPoint.y, 0);
     }
 
     @Test
