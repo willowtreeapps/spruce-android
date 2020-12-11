@@ -6,6 +6,12 @@ import android.view.ViewGroup;
 import org.mockito.Mockito;
 
 public class ExclusionTestHelper {
+    /**
+     * This function creates a view groups according to the ids passed.
+     *
+     * @param viewGroup parent view group
+     * @param ids       id array.
+     */
     static void addViews(ViewGroup viewGroup, int... ids) {
         Mockito.when(viewGroup.getChildCount()).thenReturn(ids.length);
 
