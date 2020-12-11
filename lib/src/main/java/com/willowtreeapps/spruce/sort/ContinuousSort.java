@@ -41,8 +41,8 @@ public class ContinuousSort extends RadialSort {
      * delay, and a value from the Position enum
      *
      * @param interObjectDelay delay between object animations
-     * @param reversed flag to indicate if the animation should be reversed
-     * @param position enum value of the position the animation should start from
+     * @param reversed         flag to indicate if the animation should be reversed
+     * @param position         enum value of the position the animation should start from
      */
     public ContinuousSort(long interObjectDelay, boolean reversed, Position position) {
         super(interObjectDelay, reversed, position);
@@ -55,15 +55,10 @@ public class ContinuousSort extends RadialSort {
         final PointF comparisonPoint = getDistancePoint(parent, children);
 
         double maxDistance = 0;
-        for (View v1: children) {
-            for (View v2: children) {
-                if (v1 != v2) {
-                    double leftDistance = getDistanceBetweenPoints(Utils.viewToPoint(v1), comparisonPoint);
-                    double rightDistance = getDistanceBetweenPoints(Utils.viewToPoint(v2), comparisonPoint);
-                    if (leftDistance > rightDistance && leftDistance > maxDistance) {
-                        maxDistance = leftDistance;
-                    }
-                }
+        for (View v : children) {
+            double distance = getDistanceBetweenPoints(Utils.viewToPoint(v), comparisonPoint);
+            if (distance > maxDistance) {
+                maxDistance = distance;
             }
         }
 

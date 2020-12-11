@@ -23,8 +23,6 @@
 package com.willowtreeapps.spruce.sort;
 
 import android.graphics.PointF;
-import android.support.annotation.FloatRange;
-import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,6 +30,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import androidx.annotation.FloatRange;
+import androidx.annotation.VisibleForTesting;
 
 public class ContinuousWeightedSort extends ContinuousSort {
 

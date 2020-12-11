@@ -25,8 +25,6 @@ package com.willowtreeapps.spurceexampleapp.fragments;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +42,9 @@ import com.willowtreeapps.spurceexampleapp.model.ExampleData;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 public class ListViewFragment extends Fragment {
 
     public static ListViewFragment newInstance() {
@@ -56,7 +57,7 @@ public class ListViewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        listView = (ListView) container.findViewById(R.id.list_view);
+        listView = container.findViewById(R.id.list_view);
 
         // Create the animator after the list view has finished laying out
         listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
