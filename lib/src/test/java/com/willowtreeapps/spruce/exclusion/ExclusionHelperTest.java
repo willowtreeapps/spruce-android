@@ -25,7 +25,7 @@ package com.willowtreeapps.spruce.exclusion;
 import android.view.View;
 import android.view.ViewGroup;
 
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,8 +34,6 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Assert;
 
 
 @RunWith(RobolectricTestRunner.class)
@@ -70,7 +68,7 @@ public class ExclusionHelperTest {
 
 
     @Test
-    public void test_normal_exclusion() {
+    public void test_normal_exclusion_success() {
         ExclusionHelper helper = new ExclusionHelper();
         List<Integer> idList = new ArrayList<>();
         idList.add(2);
@@ -86,7 +84,7 @@ public class ExclusionHelperTest {
     }
 
     @Test
-    public void test_r_l_exclusion() {
+    public void test_r_l_exclusion_success() {
         ExclusionHelper helper = new ExclusionHelper();
         List<Integer> idList = new ArrayList<>();
         idList.add(5);
