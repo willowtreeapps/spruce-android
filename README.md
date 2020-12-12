@@ -17,7 +17,7 @@ Add the following to your project's build.gradle file
 
 ```gradle
 dependencies {
-    compile 'com.willowtreeapps.spruce:spruce-android:1.0.1'
+    implementation 'com.willowtreeapps.spruce:spruce-android:1.0.2'
 }
 ```
 
