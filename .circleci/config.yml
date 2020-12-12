@@ -1,21 +1,11 @@
-version: 2.1
-orbs:
-  gradle: circleci/gradle@1.0.10
-  _defaults: &defaults
-    working_directory: ~/code
-    environment:
-      JVM_OPTS: -Xmx3200m
-_gradle_checksum: &gradle_checksum
-  name: Generate Cache Checksum
-  command: >-
-    find . -name 'build.gradle' | sort | xargs cat | shasum | awk '{print
-    $1}' > /tmp/gradle_cache_seed
+version: 2
 jobs:
   build:
     working_directory: ~/code
     docker:
-      - image: circleci/openjdk:8-jdk-browsers@sha256:65fc6dd997c64ee63b68b27f27cd67b6a70649c71a86ae7500947158c49ac67c
-    <<: *defaults
+      - image: circleci/android:api-28
+    environment:
+      JVM_OPTS: -Xmx3200m
     steps:
       - checkout
       - restore_cache:
@@ -37,4 +27,4 @@ jobs:
           path: lib/build/reports
           destination: reports
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: app/build/test-results
+          path: lib/build/test-results
