@@ -115,9 +115,9 @@ This work in 2 modes:
 Animator spruceAnimator = new Spruce
         .SpruceBuilder(parentViewGroup)
         .sortWith(new LinearSort(/*interObjectDelay=*/100L, /*reversed=*/false, LinearSort.Direction.TOP_TO_BOTTOM))
-        .excludeViews(getExcludedViewIds(), R_L_MODE)
+        .excludeViews(getExcludedViewIds(), NORMAL_MODE)
         //or 
-       .excludeViews(getExcludedViewPosition(), NORMAL_MODE)
+       .excludeViews(getExcludedViewPosition(), R_L_MODE)
         .start();
 ```
 
