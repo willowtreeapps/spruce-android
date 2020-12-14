@@ -71,9 +71,10 @@ public class Spruce {
             for (Animator animatorChild : animators) {
                 Animator animatorCopy = animatorChild.clone();
                 animatorCopy.setTarget(childView.getView());
+                animatorCopy.setStartDelay(childView.getTimeOffset());
+                animatorCopy.setDuration(animatorChild.getDuration());
                 animatorCopy.start();
                 animatorCopy.cancel();
-                animatorCopy.setDuration((childView.getTimeOffset() + animatorChild.getDuration()));
                 animatorsList.add(animatorCopy);
             }
         }
@@ -85,9 +86,9 @@ public class Spruce {
     public static class SpruceBuilder {
 
         private final ViewGroup viewGroup;
+        private final ExclusionHelper exclusionHelper = new ExclusionHelper();
         private Animator[] animators;
         private SortFunction sortFunction;
-        private final ExclusionHelper exclusionHelper = new ExclusionHelper();
 
         /**
          * SpruceBuilder constructor that takes a ViewGroup
