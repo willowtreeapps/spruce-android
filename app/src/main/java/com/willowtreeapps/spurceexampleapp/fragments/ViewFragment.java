@@ -32,23 +32,23 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.willowtreeapps.spurceexampleapp.R;
 import com.willowtreeapps.spurceexampleapp.widgets.CardLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 
 public class ViewFragment extends Fragment {
 
     private OnParentAndChildCreationListener listener;
     private GridLayout parent;
-    private List<View> children = new ArrayList<>();
+    private final List<View> children = new ArrayList<>();
 
-    public static ViewFragment newInstance(){
+    public static ViewFragment newInstance() {
         return new ViewFragment();
     }
 
@@ -62,6 +62,8 @@ public class ViewFragment extends Fragment {
 
         for (int i = 0; i < CHILD_VIEW_COUNT; i++) {
             CardLayout childView = new CardLayout(getContext());
+            //setting ID for the exclusion logic.
+            childView.setId(i);
             parent.addView(childView);
             children.add(childView);
         }

@@ -28,7 +28,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
@@ -39,25 +45,24 @@ import com.willowtreeapps.spurceexampleapp.model.ExampleData;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import static com.willowtreeapps.spruce.exclusion.ExclusionHelper.R_L_MODE;
 
 
 public class RecyclerFragment extends Fragment {
+
+    private RecyclerView recyclerView;
+    private CheckBox excludeView;
+    private Animator spruceAnimator;
 
     public static RecyclerFragment newInstance() {
         return new RecyclerFragment();
     }
 
-    private RecyclerView recyclerView;
-    private Animator spruceAnimator;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         recyclerView = (RecyclerView) container.findViewById(R.id.recycler);
+        excludeView = (CheckBox) container.findViewById(R.id.view_exclusion);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
@@ -91,30 +96,30 @@ public class RecyclerFragment extends Fragment {
     private void initSpruce() {
         spruceAnimator = new Spruce.SpruceBuilder(recyclerView)
                 .sortWith(new DefaultSort(100))
+                .excludeViews(getExcludedViews(), R_L_MODE)
                 .animateWith(DefaultAnimations.shrinkAnimator(recyclerView, 800),
                         ObjectAnimator.ofFloat(recyclerView, "translationX", -recyclerView.getWidth(), 0f).setDuration(800))
                 .start();
     }
 
+    /**
+     * getExcludedViews method gives the positions to be excluded.
+     *
+     * @return position list.
+     */
+    private List<Integer> getExcludedViews() {
+        List<Integer> positions = new ArrayList<>();
+        if (excludeView.isChecked()) {
+            positions.add(1);
+            positions.add(4);
+            positions.add(7);
+        }
+        return positions;
+    }
+
     private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
         List<ExampleData> placeholderList;
-
-        class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            RelativeLayout placeholderView;
-
-            ViewHolder(View itemView) {
-                super(itemView);
-                placeholderView = (RelativeLayout) itemView.findViewById(R.id.placeholder_view);
-                placeholderView.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                initSpruce();
-            }
-        }
 
         RecyclerAdapter(List<ExampleData> placeholderList) {
             this.placeholderList = placeholderList;
@@ -136,6 +141,22 @@ public class RecyclerFragment extends Fragment {
         @Override
         public int getItemCount() {
             return placeholderList.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            RelativeLayout placeholderView;
+
+            ViewHolder(View itemView) {
+                super(itemView);
+                placeholderView = (RelativeLayout) itemView.findViewById(R.id.placeholder_view);
+                placeholderView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                initSpruce();
+            }
         }
 
     }

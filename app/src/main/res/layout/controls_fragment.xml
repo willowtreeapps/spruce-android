@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~     Spruce
   ~
   ~     Copyright (c) 2017 WillowTree, Inc.
@@ -22,17 +21,17 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="top"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -40,13 +39,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/directional_radio_group"/>
+            <include layout="@layout/directional_radio_group" />
 
-            <include layout="@layout/positional_radio_group"/>
+            <include layout="@layout/positional_radio_group" />
 
-            <include layout="@layout/continuous_radio_group"/>
+            <include layout="@layout/continuous_radio_group" />
 
-            <include layout="@layout/cornered_radio_group"/>
+            <include layout="@layout/cornered_radio_group" />
 
         </LinearLayout>
 
@@ -56,15 +55,15 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="@string/reversed"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/seek_bar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:layout_marginLeft="4dp"
-            android:text="@string/duration"/>
+            android:layout_marginBottom="4dp"
+            android:text="@string/duration" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,14 +80,14 @@
                 android:layout_marginRight="4dp"
                 android:layout_weight="1"
                 android:gravity="start"
-                android:text="@string/animation_start_duration"/>
+                android:text="@string/animation_start_duration" />
 
             <SeekBar
                 android:id="@+id/animation_seek"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:progress="25"/>
+                android:progress="25" />
 
             <TextView
                 android:id="@+id/animation_end"
@@ -98,27 +97,34 @@
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="@string/animation_end_duration"/>
+                android:text="@string/animation_end_duration" />
 
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
-            android:text="@string/code_sample"/>
+            android:layout_marginBottom="4dp"
+            android:text="@string/code_sample" />
 
         <EditText
             android:id="@+id/code_sample"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:background="@drawable/code_sample_background"
             android:inputType="none"
-            android:textIsSelectable="true"/>
+            android:textIsSelectable="true" />
 
     </LinearLayout>
+
+    <!--    This checkbox facilitates of the view exclusion logic-->
+    <CheckBox
+        android:id="@+id/view_exclusion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exclude" />
 
 </LinearLayout>

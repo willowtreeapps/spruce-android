@@ -34,6 +34,14 @@
         android:theme="@style/LightToolbarTheme"
         android:background="@color/colorPrimary"/>
 
+
+    <!--    This checkbox facilitates of the view exclusion logic-->
+    <CheckBox
+        android:id="@+id/view_exclusion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exclude" />
+
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
