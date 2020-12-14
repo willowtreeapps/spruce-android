@@ -27,6 +27,9 @@ import android.animation.AnimatorSet;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+
+import com.willowtreeapps.spruce.exclusion.ExclusionHelper;
 import com.willowtreeapps.spruce.sort.SortFunction;
 import com.willowtreeapps.spruce.sort.SpruceTimedView;
 
@@ -49,16 +52,15 @@ public class Spruce {
             throw new IllegalArgumentException("SortFunction must not be null");
         }
 
-        getAnimatorSetForSort(animators, sortFunction).start();
+        getAnimatorSetForSort(animators, sortFunction, builder.exclusionHelper).start();
     }
 
-    private AnimatorSet getAnimatorSetForSort(Animator[] animators, SortFunction sortFunction) {
+    private AnimatorSet getAnimatorSetForSort(Animator[] animators, SortFunction sortFunction,
+                                              ExclusionHelper exclusionHelper) {
         List<SpruceTimedView> childrenWithTime;
-        List<View> children = new ArrayList<>();
 
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            children.add(viewGroup.getChildAt(i));
-        }
+        // starts the filtering process
+        List<View> children = exclusionHelper.filterViews(viewGroup);
 
         sortFunction.sortChildren(viewGroup, children);
         childrenWithTime = sortFunction.getViewListWithTimeOffsets(viewGroup, children);
@@ -69,10 +71,9 @@ public class Spruce {
             for (Animator animatorChild : animators) {
                 Animator animatorCopy = animatorChild.clone();
                 animatorCopy.setTarget(childView.getView());
-                animatorCopy.setStartDelay(childView.getTimeOffset());
-                animatorCopy.setDuration(animatorChild.getDuration());
                 animatorCopy.start();
                 animatorCopy.cancel();
+                animatorCopy.setDuration((childView.getTimeOffset() + animatorChild.getDuration()));
                 animatorsList.add(animatorCopy);
             }
         }
@@ -86,7 +87,7 @@ public class Spruce {
         private final ViewGroup viewGroup;
         private Animator[] animators;
         private SortFunction sortFunction;
-        private Spruce spruce;
+        private final ExclusionHelper exclusionHelper = new ExclusionHelper();
 
         /**
          * SpruceBuilder constructor that takes a ViewGroup
@@ -110,7 +111,24 @@ public class Spruce {
         }
 
         /**
+         * excludeViews to exclude the view with Ids {@link List<Integer>}
+         *
+         * @param exclusionList list of ids that are excluded from the choreographed spruce animation.
+         * @param mode          there are two modes for exclusion
+         *                      1. R_L_MODE : In this mode, you can set the positions of the list view
+         *                      / recycler view that is to be excluded/
+         *                      2. NORMAL_MODE : This mode is used to exclude the views from view groups
+         *                      other than recycler view/ list view.
+         * @return SpruceBuilder object
+         */
+        public SpruceBuilder excludeViews(@NonNull List<Integer> exclusionList, int mode) {
+            exclusionHelper.initialize(exclusionList, mode);
+            return this;
+        }
+
+        /**
          * Apply one to many animations to the ViewGroup
+         *
          * @param animators Animator array to apply to the ViewGroup children
          * @return SpruceBuilder object
          */
@@ -125,7 +143,7 @@ public class Spruce {
          * @return Spruce The Spruce object to apply operations to.
          */
         public Animator start() {
-            spruce = new Spruce(this);
+            Spruce spruce = new Spruce(this);
             return spruce.animatorSet;
         }
     }

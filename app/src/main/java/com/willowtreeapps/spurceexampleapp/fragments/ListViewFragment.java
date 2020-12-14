@@ -25,15 +25,17 @@ package com.willowtreeapps.spurceexampleapp.fragments;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.willowtreeapps.spruce.Spruce;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
@@ -44,19 +46,23 @@ import com.willowtreeapps.spurceexampleapp.model.ExampleData;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.willowtreeapps.spruce.exclusion.ExclusionHelper.R_L_MODE;
+
 public class ListViewFragment extends Fragment {
+
+    private ListView listView;
+    private CheckBox excludeView;
+    private Animator spruceAnimator;
 
     public static ListViewFragment newInstance() {
         return new ListViewFragment();
     }
 
-    private ListView listView;
-    private Animator spruceAnimator;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        listView = (ListView) container.findViewById(R.id.list_view);
+        listView = container.findViewById(R.id.list_view);
+        excludeView = (CheckBox) container.findViewById(R.id.view_exclusion);
 
         // Create the animator after the list view has finished laying out
         listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -91,34 +97,35 @@ public class ListViewFragment extends Fragment {
     private void initSpruce() {
         spruceAnimator = new Spruce.SpruceBuilder(listView)
                 .sortWith(new DefaultSort(100))
+                .excludeViews(getExcludedViews(), R_L_MODE)
                 .animateWith(DefaultAnimations.shrinkAnimator(listView, 800),
                         ObjectAnimator.ofFloat(listView, "translationX", -listView.getWidth(), 0f).setDuration(800))
                 .start();
     }
 
+    /**
+     * getExcludedViews method gives the positions to be excluded.
+     *
+     * @return position list.
+     */
+    private List<Integer> getExcludedViews() {
+        List<Integer> positions = new ArrayList<>();
+        if (excludeView.isChecked()) {
+            positions.add(1);
+            positions.add(4);
+            positions.add(7);
+        }
+        return positions;
+    }
+
     private class ListViewAdapter extends BaseAdapter {
 
-        private List<ExampleData> placeholderList;
-        private LayoutInflater inflater;
+        private final List<ExampleData> placeholderList;
+        private final LayoutInflater inflater;
 
         ListViewAdapter(List<ExampleData> placeholderList) {
             this.placeholderList = placeholderList;
             this.inflater = LayoutInflater.from(getContext());
-        }
-
-        class ViewHolder implements View.OnClickListener{
-
-            private RelativeLayout parent;
-
-            ViewHolder(RelativeLayout parent) {
-                this.parent = parent;
-                this.parent.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                initSpruce();
-            }
         }
 
         @Override
@@ -149,6 +156,21 @@ public class ListViewFragment extends Fragment {
             }
 
             return vi;
+        }
+
+        class ViewHolder implements View.OnClickListener {
+
+            private final RelativeLayout parent;
+
+            ViewHolder(RelativeLayout parent) {
+                this.parent = parent;
+                this.parent.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                initSpruce();
+            }
         }
     }
 

@@ -25,16 +25,15 @@ package com.willowtreeapps.spurceexampleapp.fragments;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
-import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.willowtreeapps.spurceexampleapp.R;
 import com.willowtreeapps.spurceexampleapp.widgets.CardLayout;
@@ -45,12 +44,11 @@ import java.util.List;
 
 public class ViewFragment extends Fragment {
 
-    OnParentAndChildCreationListener listener;
-
+    private OnParentAndChildCreationListener listener;
     private GridLayout parent;
-    private List<View> children = new ArrayList<>();
+    private final List<View> children = new ArrayList<>();
 
-    public static ViewFragment newInstance(){
+    public static ViewFragment newInstance() {
         return new ViewFragment();
     }
 
@@ -58,12 +56,14 @@ public class ViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.view_fragment, container, false);
-        parent = (GridLayout) rootView.findViewById(R.id.view_group_to_animate);
+        parent = rootView.findViewById(R.id.view_group_to_animate);
 
         final int CHILD_VIEW_COUNT = parent.getColumnCount() * parent.getRowCount();
 
         for (int i = 0; i < CHILD_VIEW_COUNT; i++) {
             CardLayout childView = new CardLayout(getContext());
+            //setting ID for the exclusion logic.
+            childView.setId(i);
             parent.addView(childView);
             children.add(childView);
         }

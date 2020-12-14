@@ -72,7 +72,8 @@ public class CorneredSortTest {
                 CorneredSort.Corner.TOP_LEFT);
 
         PointF resultPoint = corneredSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(0f, 0f), resultPoint);
+        assertEquals(0f, resultPoint.x, 0f);
+        assertEquals(0f, resultPoint.y, 0f);
     }
 
     @Test
@@ -84,7 +85,8 @@ public class CorneredSortTest {
         Mockito.when(mockParent.getWidth()).thenReturn(20);
 
         PointF resultPoint = corneredSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(20F, 0F), resultPoint);
+        assertEquals(20F, resultPoint.x, 0f);
+        assertEquals(0F, resultPoint.y, 0f);
     }
 
     @Test
@@ -96,7 +98,8 @@ public class CorneredSortTest {
         Mockito.when(mockParent.getHeight()).thenReturn(20);
 
         PointF resultPoint = corneredSort.getDistancePoint(mockParent, mockChildren);
-        assertEquals(new PointF(0F, 20F), resultPoint);
+        assertEquals(0F, resultPoint.x, 0F);
+        assertEquals(20F, resultPoint.y, 0F);
     }
 
     @Test
@@ -111,7 +114,8 @@ public class CorneredSortTest {
 
         PointF resultPoint = corneredSort.getDistancePoint(mockParent, mockChildren);
         PointF expectedPoint = new PointF(20F, 20F);
-        assertEquals(expectedPoint, resultPoint);
+        assertEquals(expectedPoint.x, resultPoint.x, 0F);
+        assertEquals(expectedPoint.y, resultPoint.y, 0F);
     }
 
     @Test

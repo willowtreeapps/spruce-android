@@ -27,14 +27,22 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/recycler_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/LightToolbarTheme"
         android:background="@color/colorPrimary"/>
 
-    <android.support.v7.widget.RecyclerView
+
+    <!--    This checkbox facilitates of the view exclusion logic-->
+    <CheckBox
+        android:id="@+id/view_exclusion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exclude" />
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

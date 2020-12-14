@@ -17,7 +17,7 @@ Add the following to your project's build.gradle file
 
 ```gradle
 dependencies {
-    compile 'com.willowtreeapps.spruce:spruce-android:1.0.1'
+    implementation 'com.willowtreeapps.spruce:spruce-android:1.0.2'
 }
 ```
 
@@ -103,6 +103,24 @@ To make sure that developers can use Spruce out of the box, we included about 8 
 - `ContinuousWeightedSort`
 
 Check out the docs [here](https://willowtreeapps.github.io/spruce-android/com/willowtreeapps/spruce/sort/SortFunction.html) for more information
+
+### View Exclusion Feature
+
+Spruce Animate all the views inside the view group. One of the key tips for pulling the best performance out of an Android app is to maintain a flat hierarchy. Spruce is now Introducing a new Exclusion feature.  
+This work in 2 modes:
+- NORMAL_MODE: This mode should be used when you have view groups like Constraint/Frame/Relative/Linear Layouts. We feed a list of ids to be excluded to the SpruceBuilder.
+- R_L_MODE: This mode is used when we have ListView/RecyclerView. The only difference with the first mode is that we pass in the positions to be excluded instead of Ids.
+
+```java
+Animator spruceAnimator = new Spruce
+        .SpruceBuilder(parentViewGroup)
+        .sortWith(new LinearSort(/*interObjectDelay=*/100L, /*reversed=*/false, LinearSort.Direction.TOP_TO_BOTTOM))
+        .excludeViews(getExcludedViewIds(), NORMAL_MODE)
+        //or 
+       .excludeViews(getExcludedViewPosition(), R_L_MODE)
+        .start();
+```
+
 
 ## Stock Animators
 To make everybody's lives easier, the stock animators perform basic `View` animations that a lot of apps use today. Mix and match these animators to get the core motion you are looking for.

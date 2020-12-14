@@ -27,7 +27,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -41,7 +41,7 @@
             android:background="@null"
             android:gravity="start"/>
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <com.willowtreeapps.spurceexampleapp.pager.VerticalViewPager
         android:id="@+id/vertical_pager"
