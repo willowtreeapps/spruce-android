@@ -104,7 +104,7 @@ To make sure that developers can use Spruce out of the box, we included about 8 
 
 Check out the docs [here](https://willowtreeapps.github.io/spruce-android/com/willowtreeapps/spruce/sort/SortFunction.html) for more information
 
-## View Exclusion Feature
+### View Exclusion Feature
 
 Spruce Animate all the views inside the view group. One of the key tips for pulling the best performance out of an Android app is to maintain a flat hierarchy. Spruce is now Introducing a new Exclusion feature.  
 This work in 2 modes:
