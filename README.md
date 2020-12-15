@@ -129,7 +129,7 @@ Spruce now allows the user to control the overall flow of sort function using In
 Animator spruceAnimator = new Spruce
         .SpruceBuilder(parentViewGroup)
         .sortWith(new LinearSort(/*interObjectDelay=*/100L, /*reversed=*/false, LinearSort.Direction.TOP_TO_BOTTOM))
-        .addInterpolator(interpolator)
+        .addInterpolator(new LinearInterpolator())
         .start();
 ```
 
