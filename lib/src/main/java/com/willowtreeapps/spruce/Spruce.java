@@ -89,7 +89,6 @@ public class Spruce {
             }
         }
 
-//        animatorSet.setInterpolator(interpolator);
         animatorSet.playTogether(animatorsList);
 
         return animatorSet;
