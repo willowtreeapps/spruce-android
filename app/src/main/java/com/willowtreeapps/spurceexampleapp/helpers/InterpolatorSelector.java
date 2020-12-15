@@ -52,30 +52,34 @@ public class InterpolatorSelector {
      * {@link com.willowtreeapps.spurceexampleapp.fragments.ControlsFragment}
      */
     private void initializeHashMap() {
-        interpolatorMap.put(0, SpruceInterpolators.EASE_IN_QUAD);
-        interpolatorMap.put(1, SpruceInterpolators.EASE_IN_CUBIC);
-        interpolatorMap.put(2, SpruceInterpolators.EASE_IN_QUART);
-        interpolatorMap.put(3, SpruceInterpolators.EASE_IN_QUINT);
-        interpolatorMap.put(4, SpruceInterpolators.EASE_IN_SINE);
-        interpolatorMap.put(5, SpruceInterpolators.EASE_IN_EXPO);
-        interpolatorMap.put(6, SpruceInterpolators.EASE_IN_CIRC);
-        interpolatorMap.put(7, SpruceInterpolators.EASE_IN_BACK);
-        interpolatorMap.put(8, SpruceInterpolators.EASE_OUT_QUAD);
-        interpolatorMap.put(9, SpruceInterpolators.EASE_OUT_CUBIC);
-        interpolatorMap.put(10, SpruceInterpolators.EASE_OUT_QUART);
-        interpolatorMap.put(11, SpruceInterpolators.EASE_OUT_QUINT);
-        interpolatorMap.put(12, SpruceInterpolators.EASE_OUT_SINE);
-        interpolatorMap.put(13, SpruceInterpolators.EASE_OUT_EXPO);
-        interpolatorMap.put(14, SpruceInterpolators.EASE_OUT_CIRC);
-        interpolatorMap.put(15, SpruceInterpolators.EASE_OUT_BACK);
-        interpolatorMap.put(16, SpruceInterpolators.EASE_IN_OUT_QUAD);
-        interpolatorMap.put(17, SpruceInterpolators.EASE_IN_OUT_CUBIC);
-        interpolatorMap.put(18, SpruceInterpolators.EASE_IN_OUT_QUART);
-        interpolatorMap.put(19, SpruceInterpolators.EASE_IN_OUT_QUINT);
-        interpolatorMap.put(20, SpruceInterpolators.EASE_IN_OUT_SINE);
-        interpolatorMap.put(21, SpruceInterpolators.EASE_IN_OUT_EXPO);
-        interpolatorMap.put(22, SpruceInterpolators.EASE_IN_OUT_CIRC);
-        interpolatorMap.put(23, SpruceInterpolators.EASE_IN_OUT_BACK);
+        interpolatorMap.put(0, SpruceInterpolators.EASE);
+        interpolatorMap.put(1, SpruceInterpolators.EASE_IN);
+        interpolatorMap.put(2, SpruceInterpolators.EASE_OUT);
+        interpolatorMap.put(3, SpruceInterpolators.EASE_IN_OUT);
+        interpolatorMap.put(4, SpruceInterpolators.EASE_IN_QUAD);
+        interpolatorMap.put(5, SpruceInterpolators.EASE_IN_CUBIC);
+        interpolatorMap.put(6, SpruceInterpolators.EASE_IN_QUART);
+        interpolatorMap.put(7, SpruceInterpolators.EASE_IN_QUINT);
+        interpolatorMap.put(8, SpruceInterpolators.EASE_IN_SINE);
+        interpolatorMap.put(9, SpruceInterpolators.EASE_IN_EXPO);
+        interpolatorMap.put(10, SpruceInterpolators.EASE_IN_CIRC);
+        interpolatorMap.put(11, SpruceInterpolators.EASE_IN_BACK);
+        interpolatorMap.put(12, SpruceInterpolators.EASE_OUT_QUAD);
+        interpolatorMap.put(13, SpruceInterpolators.EASE_OUT_CUBIC);
+        interpolatorMap.put(14, SpruceInterpolators.EASE_OUT_QUART);
+        interpolatorMap.put(15, SpruceInterpolators.EASE_OUT_QUINT);
+        interpolatorMap.put(16, SpruceInterpolators.EASE_OUT_SINE);
+        interpolatorMap.put(17, SpruceInterpolators.EASE_OUT_EXPO);
+        interpolatorMap.put(18, SpruceInterpolators.EASE_OUT_CIRC);
+        interpolatorMap.put(19, SpruceInterpolators.EASE_OUT_BACK);
+        interpolatorMap.put(20, SpruceInterpolators.EASE_IN_OUT_QUAD);
+        interpolatorMap.put(21, SpruceInterpolators.EASE_IN_OUT_CUBIC);
+        interpolatorMap.put(22, SpruceInterpolators.EASE_IN_OUT_QUART);
+        interpolatorMap.put(23, SpruceInterpolators.EASE_IN_OUT_QUINT);
+        interpolatorMap.put(24, SpruceInterpolators.EASE_IN_OUT_SINE);
+        interpolatorMap.put(25, SpruceInterpolators.EASE_IN_OUT_EXPO);
+        interpolatorMap.put(26, SpruceInterpolators.EASE_IN_OUT_CIRC);
+        interpolatorMap.put(27, SpruceInterpolators.EASE_IN_OUT_BACK);
     }
 
     /**

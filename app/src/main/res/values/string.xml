@@ -22,6 +22,10 @@
 
 <resources>
     <string-array name="interpolator_array">
+        <item>ease</item>
+        <item>easeIn</item>
+        <item>easeOut</item>
+        <item>easeInOut</item>
         <item>easeInQuad</item>
         <item>easeInCubic</item>
         <item>easeInQuart</item>
