@@ -164,6 +164,9 @@ Spruce gives you a wide variety of stock interpolators to choose from.
 - ` SpruceInterpolators.EASE_IN_OUT_CIRC`
 - ` SpruceInterpolators.EASE_IN_OUT_BACK` 
 
+Checkout [interpolator documentation](https://developer.android.com/reference/android/view/animation/Interpolator) for more information.
+
+
 ## Stock Animators
 To make everybody's lives easier, the stock animators perform basic `View` animations that a lot of apps use today. Mix and match these animators to get the core motion you are looking for.
 
