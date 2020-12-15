@@ -127,4 +127,27 @@
         android:layout_height="wrap_content"
         android:text="@string/exclude" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="0dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/interpolator" />
+
+        <Button
+            android:id="@+id/btn_interpolator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/linear_interpolator" />
+
+    </LinearLayout>
+
+
 </LinearLayout>

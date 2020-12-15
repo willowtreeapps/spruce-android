@@ -121,6 +121,51 @@ Animator spruceAnimator = new Spruce
         .start();
 ```
 
+### Sort Function Interpolators
+
+Spruce now allows the user to control the overall flow of sort function using Interpolators. 
+
+```java
+Animator spruceAnimator = new Spruce
+        .SpruceBuilder(parentViewGroup)
+        .sortWith(new LinearSort(/*interObjectDelay=*/100L, /*reversed=*/false, LinearSort.Direction.TOP_TO_BOTTOM))
+        .addInterpolator(new LinearInterpolator())
+        .start();
+```
+
+Spruce gives you a wide variety of stock interpolators to choose from.
+
+- `SpruceInterpolators.EASE`
+- `SpruceInterpolators.EASE_IN`
+- `SpruceInterpolators.EASE_OUT`
+- `SpruceInterpolators.EASE_IN_OUT`
+- `SpruceInterpolators.EASE_IN_QUAD`
+- `SpruceInterpolators.EASE_IN_CUBIC`
+- `SpruceInterpolators.EASE_IN_QUART`
+- `SpruceInterpolators.EASE_IN_QUINT`
+- `SpruceInterpolators.EASE_IN_SINE`
+- `SpruceInterpolators.EASE_IN_EXPO`
+- ` SpruceInterpolators.EASE_IN_CIRC`
+- ` SpruceInterpolators.EASE_IN_BACK`
+- ` SpruceInterpolators.EASE_OUT_QUAD`
+- ` SpruceInterpolators.EASE_OUT_CUBIC`
+- ` SpruceInterpolators.EASE_OUT_QUART`
+- ` SpruceInterpolators.EASE_OUT_QUINT`
+- ` SpruceInterpolators.EASE_OUT_SINE`
+- ` SpruceInterpolators.EASE_OUT_EXPO`
+- ` SpruceInterpolators.EASE_OUT_CIRC`
+- ` SpruceInterpolators.EASE_OUT_BACK`
+- ` SpruceInterpolators.EASE_IN_OUT_QUAD`
+- ` SpruceInterpolators.EASE_IN_OUT_CUBIC`
+- ` SpruceInterpolators.EASE_IN_OUT_QUART`
+- ` SpruceInterpolators.EASE_IN_OUT_QUINT`
+- ` SpruceInterpolators.EASE_IN_OUT_SINE`
+- ` SpruceInterpolators.EASE_IN_OUT_EXPO`
+- ` SpruceInterpolators.EASE_IN_OUT_CIRC`
+- ` SpruceInterpolators.EASE_IN_OUT_BACK` 
+
+Checkout [interpolator documentation](https://developer.android.com/reference/android/view/animation/Interpolator) for more information.
+
 
 ## Stock Animators
 To make everybody's lives easier, the stock animators perform basic `View` animations that a lot of apps use today. Mix and match these animators to get the core motion you are looking for.

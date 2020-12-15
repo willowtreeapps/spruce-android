@@ -23,11 +23,18 @@
 package com.willowtreeapps.spurceexampleapp.fragments;
 
 import android.animation.Animator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -56,6 +63,7 @@ import com.willowtreeapps.spruce.sort.SnakeSort;
 import com.willowtreeapps.spruce.sort.SortFunction;
 import com.willowtreeapps.spurceexampleapp.R;
 import com.willowtreeapps.spurceexampleapp.SpruceActivity;
+import com.willowtreeapps.spurceexampleapp.helpers.InterpolatorSelector;
 import com.willowtreeapps.spurceexampleapp.widgets.RadioGroupGridLayout;
 
 import java.util.ArrayList;
@@ -91,6 +99,11 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
     private TextView seekBarTitle;
     private EditText codeSample;
     private CheckBox excludeView;
+    private Button btnInterpolator;
+
+    private Interpolator interpolator = new LinearInterpolator();
+
+    private AlertDialog.Builder builderSingle;
 
     private Animator[] animators;
     private LinearSort.Direction direction;
@@ -128,11 +141,16 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
         seekBarTitle = (TextView) rootView.findViewById(R.id.seek_bar_title);
         codeSample = (EditText) rootView.findViewById(R.id.code_sample);
         excludeView = (CheckBox) rootView.findViewById(R.id.view_exclusion);
+        btnInterpolator = (Button) rootView.findViewById(R.id.btn_interpolator);
+
+        btnInterpolator.setAllCaps(false);
 
         animators = new Animator[]{
                 DefaultAnimations.shrinkAnimator(parent, /*duration=*/800),
                 DefaultAnimations.fadeInAnimator(parent, /*duration=*/800)
         };
+
+        initInterpolatorSelection();
 
         View.OnClickListener click = new View.OnClickListener() {
             @Override
@@ -316,6 +334,57 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
         return rootView;
     }
 
+    /**
+     * This method is used to set the interpolator for {@link Spruce} builder.
+     */
+    private void initInterpolatorSelection() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            /*
+             * Path Interpolator is only supported only versions >=
+             * {@link Build.VERSION_CODES.LOLLIPOP}
+             */
+            final InterpolatorSelector selector = new InterpolatorSelector();
+
+            builderSingle = new AlertDialog.Builder(getActivity());
+            builderSingle.setTitle(getResources().getString(R.string.interpolator));
+            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(),
+                    android.R.layout.select_dialog_singlechoice);
+            arrayAdapter.addAll(getResources().getStringArray(R.array.interpolator_array));
+            builderSingle.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    btnInterpolator.setText(arrayAdapter.getItem(which));
+                    interpolator = selector.getInterpolatorMap(which);
+                    dialog.dismiss();
+                }
+            });
+            initializeInterpolatorClickListener();
+        } else {
+            // Don't need to show, user can use predefined interpolator from the framework.
+            btnInterpolator.setVisibility(View.GONE);
+        }
+
+    }
+
+    /**
+     * This method is used to setup click listener for the interpolator selection button.
+     */
+    private void initializeInterpolatorClickListener() {
+        btnInterpolator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builderSingle.show();
+            }
+        });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -418,6 +487,7 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
 
         spruceAnimator = new Spruce.SpruceBuilder(parent).sortWith(sortFunction)
                 .animateWith(animators)
+                .addInterpolator(interpolator)
                 .excludeViews(getExclusionViews(), NORMAL_MODE)
                 .start();
 
