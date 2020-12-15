@@ -61,7 +61,6 @@
             android:id="@+id/seek_bar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginBottom="4dp"
             android:text="@string/duration" />
@@ -77,9 +76,7 @@
                 android:id="@+id/animation_start"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginEnd="4dp"
                 android:layout_marginRight="4dp"
                 android:layout_weight="1"
                 android:gravity="start"
@@ -96,9 +93,7 @@
                 android:id="@+id/animation_end"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:gravity="end"
@@ -135,8 +130,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="0dp"
         android:orientation="horizontal">
 
         <TextView
