@@ -74,19 +74,22 @@ public class Spruce {
         animatorSet = new AnimatorSet();
         List<Animator> animatorsList = new ArrayList<>();
 
+        //This max value is used to the time of interpolation.
+        float maxTimeOffset = childrenWithTime.get(childrenWithTime.size() - 1).getTimeOffset();
+
         for (SpruceTimedView childView : childrenWithTime) {
             for (Animator animatorChild : animators) {
                 Animator animatorCopy = animatorChild.clone();
                 animatorCopy.setTarget(childView.getView());
-                animatorCopy.setStartDelay(childView.getTimeOffset());
+                // Core logic of the interpolation.
+                animatorCopy.setStartDelay((long) (maxTimeOffset
+                        * interpolator.getInterpolation(childView.getTimeOffset() / maxTimeOffset)));
                 animatorCopy.setDuration(animatorChild.getDuration());
-                animatorCopy.start();
-                animatorCopy.cancel();
                 animatorsList.add(animatorCopy);
             }
         }
 
-        animatorSet.setInterpolator(interpolator);
+//        animatorSet.setInterpolator(interpolator);
         animatorSet.playTogether(animatorsList);
 
         return animatorSet;

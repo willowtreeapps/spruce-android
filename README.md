@@ -121,7 +121,7 @@ Animator spruceAnimator = new Spruce
         .start();
 ```
 
-### Stock Interpolators
+### Sort Function Interpolators
 
 Spruce now allows the user to control the overall flow of sort function using Interpolators. 
 
