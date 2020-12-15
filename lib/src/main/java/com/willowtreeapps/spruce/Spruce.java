@@ -26,6 +26,8 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.NonNull;
 
@@ -52,11 +54,16 @@ public class Spruce {
             throw new IllegalArgumentException("SortFunction must not be null");
         }
 
-        getAnimatorSetForSort(animators, sortFunction, builder.exclusionHelper).start();
+        getAnimatorSetForSort(
+                animators,
+                sortFunction,
+                builder.exclusionHelper,
+                builder.interpolator).start();
     }
 
     private AnimatorSet getAnimatorSetForSort(Animator[] animators, SortFunction sortFunction,
-                                              ExclusionHelper exclusionHelper) {
+                                              ExclusionHelper exclusionHelper,
+                                              Interpolator interpolator) {
         List<SpruceTimedView> childrenWithTime;
 
         // starts the filtering process
@@ -77,6 +84,8 @@ public class Spruce {
                 animatorsList.add(animatorCopy);
             }
         }
+
+        animatorSet.setInterpolator(interpolator);
         animatorSet.playTogether(animatorsList);
 
         return animatorSet;
@@ -85,9 +94,10 @@ public class Spruce {
     public static class SpruceBuilder {
 
         private final ViewGroup viewGroup;
+        private final ExclusionHelper exclusionHelper = new ExclusionHelper();
         private Animator[] animators;
         private SortFunction sortFunction;
-        private final ExclusionHelper exclusionHelper = new ExclusionHelper();
+        private Interpolator interpolator = new LinearInterpolator();
 
         /**
          * SpruceBuilder constructor that takes a ViewGroup
@@ -123,6 +133,20 @@ public class Spruce {
          */
         public SpruceBuilder excludeViews(@NonNull List<Integer> exclusionList, int mode) {
             exclusionHelper.initialize(exclusionList, mode);
+            return this;
+        }
+
+        /**
+         * addInterpolator adds the interpolator to the {@link AnimatorSet}, This gives the user
+         * complete control over the overall flow of the animation.
+         * <p>
+         * A {@link LinearInterpolator} is substituted of the user doesn't add an interpolator.
+         *
+         * @param interpolator interpolator for the animation set.
+         * @return SpruceBuilder object
+         */
+        public SpruceBuilder addInterpolator(Interpolator interpolator) {
+            this.interpolator = interpolator;
             return this;
         }
 

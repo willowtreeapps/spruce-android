@@ -86,4 +86,6 @@
     <string name="snake_sort_code">new SnakeSort(%1$d, %2$s, CorneredSort.Corner.%3$s);</string>
     <string name="sort_controls">Sort Controls</string>
     <string name="exclude">exclude views</string>
+    <string name="interpolator">Interpolator</string>
+    <string name="linear_interpolator">linear</string>
 </resources>
