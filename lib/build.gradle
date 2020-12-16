@@ -23,6 +23,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 29
@@ -102,6 +103,49 @@ install {
     }
 }
 
+def pomConfig = {
+    licenses {
+        license {
+            name 'MIT License'
+            url 'https://opensource.org/licenses/MIT'
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id 'willowtreeapps'
+            name 'WillowTree Inc'
+            email 'developer@willowtreeapps.com'
+        }
+    }
+
+    scm {
+        url gitUrl
+    }
+}
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            // Define this explicitly if using implementation or api configurations
+            pom.withXml {
+                def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
+
+                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.implementation.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
+}
+
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
@@ -131,6 +175,7 @@ if (project.hasProperty("bintrayUser") &&
         key = project.properties.bintrayApikey
 
         configurations = ['archives']
+        publications = ['MyPublication']
         pkg {
             repo = "maven"
             name = "com.willowtreeapps.spruce"
