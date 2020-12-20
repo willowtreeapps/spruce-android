@@ -78,7 +78,7 @@ public class ExclusionHelper {
      * filterViews function will filter out the {@link HashMap} exclusionMap from the parent view group.
      *
      * @param viewGroup parent view group
-     * @return returns filtered {@link List<View>}
+     * @return returns filtered list of type view
      */
     public List<View> filterViews(ViewGroup viewGroup) {
         List<View> children = new ArrayList<>();

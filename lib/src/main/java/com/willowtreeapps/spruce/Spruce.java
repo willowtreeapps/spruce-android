@@ -29,14 +29,14 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import androidx.annotation.NonNull;
-
 import com.willowtreeapps.spruce.exclusion.ExclusionHelper;
 import com.willowtreeapps.spruce.sort.SortFunction;
 import com.willowtreeapps.spruce.sort.SpruceTimedView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public class Spruce {
 
@@ -124,7 +124,7 @@ public class Spruce {
         }
 
         /**
-         * excludeViews to exclude the view with Ids {@link List<Integer>}
+         * excludeViews to exclude the view with Ids as a list of integers
          *
          * @param exclusionList list of ids that are excluded from the choreographed spruce animation.
          * @param mode          there are two modes for exclusion

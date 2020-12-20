@@ -13,6 +13,14 @@ Spruce is a lightweight animation library that helps choreograph the animations 
 </p>
 
 ### Gradle
+Add the following to your project's root build.gradle file
+```gradle
+repositories {
+	maven {
+		url  "https://dl.bintray.com/bfears/maven"
+	}
+}
+```
 Add the following to your project's build.gradle file
 
 ```gradle
