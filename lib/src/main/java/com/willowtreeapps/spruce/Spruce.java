@@ -26,8 +26,8 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 
 import com.willowtreeapps.spruce.exclusion.ExclusionHelper;
 import com.willowtreeapps.spruce.sort.SortFunction;
@@ -35,6 +35,8 @@ import com.willowtreeapps.spruce.sort.SpruceTimedView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public class Spruce {
 
@@ -52,11 +54,16 @@ public class Spruce {
             throw new IllegalArgumentException("SortFunction must not be null");
         }
 
-        getAnimatorSetForSort(animators, sortFunction, builder.exclusionHelper).start();
+        getAnimatorSetForSort(
+                animators,
+                sortFunction,
+                builder.exclusionHelper,
+                builder.interpolator).start();
     }
 
     private AnimatorSet getAnimatorSetForSort(Animator[] animators, SortFunction sortFunction,
-                                              ExclusionHelper exclusionHelper) {
+                                              ExclusionHelper exclusionHelper,
+                                              Interpolator interpolator) {
         List<SpruceTimedView> childrenWithTime;
 
         // starts the filtering process
@@ -67,17 +74,23 @@ public class Spruce {
         animatorSet = new AnimatorSet();
         List<Animator> animatorsList = new ArrayList<>();
 
+        //This max value is used to the time of interpolation.
+        float maxTimeOffset = childrenWithTime.get(childrenWithTime.size() - 1).getTimeOffset();
+
         for (SpruceTimedView childView : childrenWithTime) {
             for (Animator animatorChild : animators) {
                 Animator animatorCopy = animatorChild.clone();
                 animatorCopy.setTarget(childView.getView());
-                animatorCopy.setStartDelay(childView.getTimeOffset());
+                // Seeks to the initial position
+                animatorCopy.end();
+                // Core logic of the interpolation.
+                animatorCopy.setStartDelay((long) (maxTimeOffset
+                        * interpolator.getInterpolation(childView.getTimeOffset() / maxTimeOffset)));
                 animatorCopy.setDuration(animatorChild.getDuration());
-                animatorCopy.start();
-                animatorCopy.cancel();
                 animatorsList.add(animatorCopy);
             }
         }
+
         animatorSet.playTogether(animatorsList);
 
         return animatorSet;
@@ -89,6 +102,7 @@ public class Spruce {
         private final ExclusionHelper exclusionHelper = new ExclusionHelper();
         private Animator[] animators;
         private SortFunction sortFunction;
+        private Interpolator interpolator = new LinearInterpolator();
 
         /**
          * SpruceBuilder constructor that takes a ViewGroup
@@ -112,7 +126,7 @@ public class Spruce {
         }
 
         /**
-         * excludeViews to exclude the view with Ids {@link List<Integer>}
+         * excludeViews to exclude the view with Ids as a list of integers
          *
          * @param exclusionList list of ids that are excluded from the choreographed spruce animation.
          * @param mode          there are two modes for exclusion
@@ -124,6 +138,20 @@ public class Spruce {
          */
         public SpruceBuilder excludeViews(@NonNull List<Integer> exclusionList, int mode) {
             exclusionHelper.initialize(exclusionList, mode);
+            return this;
+        }
+
+        /**
+         * addInterpolator adds the interpolator to the {@link AnimatorSet}, This gives the user
+         * complete control over the overall flow of the animation.
+         * <p>
+         * A {@link LinearInterpolator} is substituted of the user doesn't add an interpolator.
+         *
+         * @param interpolator interpolator for the animation set.
+         * @return SpruceBuilder object
+         */
+        public SpruceBuilder addInterpolator(Interpolator interpolator) {
+            this.interpolator = interpolator;
             return this;
         }
 

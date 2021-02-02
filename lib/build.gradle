@@ -23,6 +23,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 29
@@ -30,7 +31,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0.2"
+        versionName "1.0.3"
         setProperty("archivesBaseName", "spruce-android")
         multiDexEnabled false
     }
@@ -70,7 +71,7 @@ dependencies {
 def siteUrl = 'https://github.com/willowtreeapps/spruce-android'
 def gitUrl = 'https://github.com/willowtreeapps/spruce-android.git'
 group = "com.willowtreeapps.spruce"
-version = "1.0.2"
+version = "1.0.3"
 
 install {
     repositories.mavenInstaller {
@@ -106,6 +107,54 @@ install {
     }
 }
 
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            MyPublication(MavenPublication) {
+                groupId 'com.willowtreeapps.spruce'
+                artifactId 'spruce-android'
+                version '1.0.3'
+            }
+
+            pom.withXml {
+                final dependenciesNode = asNode().appendNode('dependencies')
+
+                ext.addDependency = { Dependency dep, String scope ->
+                    if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
+                        return // ignore invalid dependencies
+
+                    final dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dep.group)
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', dep.version)
+                    dependencyNode.appendNode('scope', scope)
+
+                    if (!dep.transitive) {
+                        // If this dependency is transitive, we should force exclude all its dependencies them from the POM
+                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                        exclusionNode.appendNode('groupId', '*')
+                        exclusionNode.appendNode('artifactId', '*')
+                    } else if (!dep.properties.excludeRules.empty) {
+                        // Otherwise add specified exclude rules
+                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                        dep.properties.excludeRules.each { ExcludeRule rule ->
+                            exclusionNode.appendNode('groupId', rule.group ?: '*')
+                            exclusionNode.appendNode('artifactId', rule.module ?: '*')
+                        }
+                    }
+                }
+
+                // List all "compile" dependencies (for old Gradle)
+                configurations.compile.getDependencies().each { dep -> addDependency(dep, "compile") }
+                // List all "api" dependencies (for new Gradle) as "compile" dependencies
+                configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
+                // List all "implementation" dependencies (for new Gradle) as "runtime" dependencies
+                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+            }
+        }
+    }
+}
+
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
@@ -135,6 +184,7 @@ if (project.hasProperty("bintrayUser") &&
         key = project.properties.bintrayApikey
 
         configurations = ['archives']
+        publications = ['MyPublication']
         pkg {
             repo = "maven"
             name = "com.willowtreeapps.spruce"
@@ -143,8 +193,8 @@ if (project.hasProperty("bintrayUser") &&
             licenses = ["MIT"]
             publish = true
             version {
-                name = '1.0.2'
-                vcsTag = '1.0.2'
+                name = '1.0.3'
+                vcsTag = '1.0.3'
                 gpg {
                     sign = true
                     passphrase = project.properties.bintrayGpgPassword
