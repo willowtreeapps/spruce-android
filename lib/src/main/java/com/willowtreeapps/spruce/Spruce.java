@@ -126,6 +126,8 @@ public class Spruce {
                     dynamicAnimatorsList.add(animationClone);
                     // seeking the animation to first frame
                     animation.mProperty.setValue(childView.getView(), animation.mValue);
+                } else if (animatorChild instanceof DynamicAnimation<?>) {
+                    //TODO: handle this in the future.
                 }
             }
 
