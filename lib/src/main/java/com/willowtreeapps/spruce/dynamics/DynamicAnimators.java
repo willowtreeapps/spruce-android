@@ -22,12 +22,19 @@
 
 package com.willowtreeapps.spruce.dynamics;
 
-/**
- * Hide this for now, in case we want to change the API.
- */
-interface Force {
-    // Acceleration based on position.
-    float getAcceleration(float position, float velocity);
+import java.util.List;
 
-    boolean isAtEquilibrium(float value, float velocity);
+public class DynamicAnimators {
+    /**
+     * Sets up this AnimatorSet to play all of the supplied animations at the same time.
+     *
+     * @param items The animations that will be started simultaneously.
+     */
+    public static void playTogether(List<DynamicAnimation<?>> items) {
+        if (items != null && items.size() > 0) {
+            for (DynamicAnimation<?> anim : items) {
+                anim.start();
+            }
+        }
+    }
 }

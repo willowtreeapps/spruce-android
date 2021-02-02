@@ -97,8 +97,8 @@ public class RecyclerFragment extends Fragment {
         spruceAnimator = new Spruce.SpruceBuilder(recyclerView)
                 .sortWith(new DefaultSort(100))
                 .excludeViews(getExcludedViews(), R_L_MODE)
-                .animateWith(DefaultAnimations.shrinkAnimator(recyclerView, 800),
-                        ObjectAnimator.ofFloat(recyclerView, "translationX", -recyclerView.getWidth(), 0f).setDuration(800))
+                .animateWith(DefaultAnimations.dynamicFadeIn(recyclerView),
+                        DefaultAnimations.dynamicTranUp(recyclerView))
                 .start();
     }
 

@@ -1,3 +1,26 @@
+/*
+ *     Spruce
+ *
+ *     Copyright (c) 2017 WillowTree, Inc.
+ *     Permission is hereby granted, free of charge, to any person obtaining a copy
+ *     of this software and associated documentation files (the "Software"), to deal
+ *     in the Software without restriction, including without limitation the rights
+ *     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *     copies of the Software, and to permit persons to whom the Software is
+ *     furnished to do so, subject to the following conditions:
+ *     The above copyright notice and this permission notice shall be included in
+ *     all copies or substantial portions of the Software.
+ *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *     THE SOFTWARE.
+ *
+ */
+
+
 package com.willowtreeapps.spruce.dynamics;
 
 import android.annotation.SuppressLint;
@@ -280,20 +303,27 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
     float mVelocity = 0;
 
     // Internal tracking for value.
-    float mValue = UNSET;
+    public float mValue = UNSET;
 
     // Tracks whether start value is set. If not, the animation will obtain the value at the time
     // of starting through the getter and use that as the starting value of the animation.
     boolean mStartValueIsSet = false;
 
+    private long startDelay = 0;
+
     // Target to be animated.
     final Object mTarget;
 
-    // View property id.
-    final FloatPropertyCompat mProperty;
+    public long getStartDelay() {
+        return startDelay;
+    }
 
-    // Start Delay for animations.
-    long startDelay = 0;
+    public void setStartDelay(long startDelay) {
+        this.startDelay = startDelay;
+    }
+
+    // View property id.
+    public FloatPropertyCompat mProperty;
 
     // Package private tracking of animation lifecycle state. Visible to subclass animations.
     boolean mRunning = false;
@@ -347,7 +377,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
     /**
      * Creates a dynamic animation to animate the given property for the given {@link View}
      *
-     * @param object the Object whose property is to be animated
+     * @param object   the Object whose property is to be animated
      * @param property the property to be animated
      */
 
@@ -525,7 +555,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
      */
     @SuppressWarnings("unchecked")
     public T setMinimumVisibleChange(@FloatRange(from = 0.0, fromInclusive = false)
-            float minimumVisibleChange) {
+                                             float minimumVisibleChange) {
         if (minimumVisibleChange <= 0) {
             throw new IllegalArgumentException("Minimum visible change must be positive.");
         }
@@ -574,14 +604,14 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
      * The property values will be changed at each animation pulse, which happens before the draw
      * pass. As a result, the changes will be reflected in the next frame, the same as if the values
      * were set immediately. This method should only be called on main thread.
-     *
+     * <p>
      * Unless a AnimationHandler is provided via setAnimationHandler, a default AnimationHandler
      * is created on the same thread as the first call to start/cancel an animation. All the
      * subsequent animation lifecycle manipulations need to be on that same thread, until the
      * AnimationHandler is reset (using [setAnimationHandler]).
      *
      * @throws AndroidRuntimeException if this method is not called on the same thread as the
-     * animation handler
+     *                                 animation handler
      */
     @MainThread
     public void start() {
@@ -596,14 +626,14 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
 
     /**
      * Cancels the on-going animation. If the animation hasn't started, no op.
-     *
+     * <p>
      * Unless a AnimationHandler is provided via setAnimationHandler, a default AnimationHandler
      * is created on the same thread as the first call to start/cancel an animation. All the
      * subsequent animation lifecycle manipulations need to be on that same thread, until the
      * AnimationHandler is reset (using [setAnimationHandler]).
      *
      * @throws AndroidRuntimeException if this method is not called on the same thread as the
-     * animation handler
+     *                                 animation handler
      */
     @MainThread
     public void cancel() {
@@ -734,7 +764,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
 
     /**
      * Returns the {@link AnimationHandler} used to schedule updates for this animator.
-     *
+     * <p>
      * This is initialized to an {@code AnimationHandler} that uses the thread's
      * {@link Choreographer}.
      *
@@ -790,9 +820,9 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
          * an animation reach equilibrium, but also when the animation is canceled.
          *
          * @param animation animation that has ended or was canceled
-         * @param canceled whether the animation has been canceled
-         * @param value the final value when the animation stopped
-         * @param velocity the final velocity when the animation stopped
+         * @param canceled  whether the animation has been canceled
+         * @param value     the final value when the animation stopped
+         * @param velocity  the final velocity when the animation stopped
          */
         void onAnimationEnd(DynamicAnimation animation, boolean canceled, float value,
                             float velocity);
@@ -810,8 +840,8 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
          * Notifies the occurrence of another frame of the animation.
          *
          * @param animation animation that the update listener is added to
-         * @param value the current value of the animation
-         * @param velocity the current velocity of the animation
+         * @param value     the current value of the animation
+         * @param velocity  the current velocity of the animation
          */
         void onAnimationUpdate(DynamicAnimation animation, float value, float velocity);
     }

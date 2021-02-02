@@ -1,3 +1,25 @@
+/*
+ *     Spruce
+ *
+ *     Copyright (c) 2017 WillowTree, Inc.
+ *     Permission is hereby granted, free of charge, to any person obtaining a copy
+ *     of this software and associated documentation files (the "Software"), to deal
+ *     in the Software without restriction, including without limitation the rights
+ *     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *     copies of the Software, and to permit persons to whom the Software is
+ *     furnished to do so, subject to the following conditions:
+ *     The above copyright notice and this permission notice shall be included in
+ *     all copies or substantial portions of the Software.
+ *     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *     THE SOFTWARE.
+ *
+ */
+
 package com.willowtreeapps.spruce.dynamics;
 
 import android.util.AndroidRuntimeException;
@@ -68,7 +90,7 @@ public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
      * the animation, the {@link FloatValueHolder} instance will be updated via
      * {@link FloatValueHolder#setValue(float)} each frame. The caller can obtain the up-to-date
      * animation value via {@link FloatValueHolder#getValue()}.
-     *
+     * <p>
      * A Spring will be created with the given final position and default stiffness and damping
      * ratio. This spring can be accessed and reconfigured through {@link #setSpring(SpringForce)}.
      *
@@ -77,7 +99,7 @@ public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
      * animation run will not have any effect on the on-going animation.
      *
      * @param floatValueHolder the property to be animated
-     * @param finalPosition the final position of the spring to be created.
+     * @param finalPosition    the final position of the spring to be created.
      */
     public SpringAnimation(FloatValueHolder floatValueHolder, float finalPosition) {
         super(floatValueHolder);
@@ -89,9 +111,9 @@ public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
      * Note, a spring will need to setup through {@link #setSpring(SpringForce)} before
      * the animation starts.
      *
-     * @param object the Object whose property will be animated
+     * @param object   the Object whose property will be animated
      * @param property the property to be animated
-     * @param <K> the class on which the Property is declared
+     * @param <K>      the class on which the Property is declared
      */
     public <K> SpringAnimation(K object, FloatPropertyCompat<K> property) {
         super(object, property);
@@ -102,13 +124,13 @@ public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
      * be created with the given final position and default stiffness and damping ratio.
      * This spring can be accessed and reconfigured through {@link #setSpring(SpringForce)}.
      *
-     * @param object the Object whose property will be animated
-     * @param property the property to be animated
+     * @param object        the Object whose property will be animated
+     * @param property      the property to be animated
      * @param finalPosition the final position of the spring to be created.
-     * @param <K> the class on which the Property is declared
+     * @param <K>           the class on which the Property is declared
      */
     public <K> SpringAnimation(K object, FloatPropertyCompat<K> property,
-            float finalPosition) {
+                               float finalPosition) {
         super(object, property);
         mSpring = new SpringForce(finalPosition);
     }
@@ -192,15 +214,15 @@ public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
      * {@link IllegalStateException} will be thrown, as the animation would never reach to an end.
      * It is recommended to check {@link #canSkipToEnd()} before calling this method. If animation
      * is not running, no-op.
-     *
+     * <p>
      * Unless a AnimationHandler is provided via setAnimationHandler, a default AnimationHandler
      * is created on the same thread as the first call to start/cancel an animation. All the
      * subsequent animation lifecycle manipulations need to be on that same thread, until the
      * AnimationHandler is reset (using [setAnimationHandler]).
      *
-     * @throws IllegalStateException if the spring is undamped (i.e. damping ratio = 0)
+     * @throws IllegalStateException   if the spring is undamped (i.e. damping ratio = 0)
      * @throws AndroidRuntimeException if this method is not called on the same thread as the
-     * animation handler
+     *                                 animation handler
      */
     public void skipToEnd() {
         if (!canSkipToEnd()) {

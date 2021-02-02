@@ -29,14 +29,17 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
+import androidx.annotation.NonNull;
+
+import com.willowtreeapps.spruce.dynamics.DynamicAnimation;
+import com.willowtreeapps.spruce.dynamics.DynamicAnimators;
+import com.willowtreeapps.spruce.dynamics.SpringAnimation;
 import com.willowtreeapps.spruce.exclusion.ExclusionHelper;
 import com.willowtreeapps.spruce.sort.SortFunction;
 import com.willowtreeapps.spruce.sort.SpruceTimedView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 public class Spruce {
 
@@ -45,7 +48,7 @@ public class Spruce {
 
     private Spruce(SpruceBuilder builder) throws IllegalArgumentException {
         this.viewGroup = builder.viewGroup;
-        Animator[] animators = builder.animators;
+        Object[] animators = builder.animators;
         SortFunction sortFunction = builder.sortFunction;
 
         if (animators == null) {
@@ -58,12 +61,12 @@ public class Spruce {
                 animators,
                 sortFunction,
                 builder.exclusionHelper,
-                builder.interpolator).start();
+                builder.interpolator);
     }
 
-    private AnimatorSet getAnimatorSetForSort(Animator[] animators, SortFunction sortFunction,
-                                              ExclusionHelper exclusionHelper,
-                                              Interpolator interpolator) {
+    private void getAnimatorSetForSort(Object[] animators, SortFunction sortFunction,
+                                       ExclusionHelper exclusionHelper,
+                                       Interpolator interpolator) {
         List<SpruceTimedView> childrenWithTime;
 
         // starts the filtering process
@@ -73,34 +76,52 @@ public class Spruce {
         childrenWithTime = sortFunction.getViewListWithTimeOffsets(viewGroup, children);
         animatorSet = new AnimatorSet();
         List<Animator> animatorsList = new ArrayList<>();
+        List<DynamicAnimation<?>> dynamicAnimatorsList = new ArrayList<>();
 
         //This max value is used to the time of interpolation.
         float maxTimeOffset = childrenWithTime.get(childrenWithTime.size() - 1).getTimeOffset();
 
         for (SpruceTimedView childView : childrenWithTime) {
-            for (Animator animatorChild : animators) {
-                Animator animatorCopy = animatorChild.clone();
-                animatorCopy.setTarget(childView.getView());
-                // Seeks to the initial position
-                animatorCopy.end();
-                // Core logic of the interpolation.
-                animatorCopy.setStartDelay((long) (maxTimeOffset
-                        * interpolator.getInterpolation(childView.getTimeOffset() / maxTimeOffset)));
-                animatorCopy.setDuration(animatorChild.getDuration());
-                animatorsList.add(animatorCopy);
+            for (Object animatorChild : animators) {
+                sanityCheck(animatorChild);
+                if (animatorChild instanceof Animator) {
+                    Animator animatorCopy = ((Animator) animatorChild).clone();
+                    animatorCopy.setTarget(childView.getView());
+                    // Seeks to the initial position
+                    animatorCopy.end();
+                    // Core logic of the interpolation.
+                    animatorCopy.setStartDelay((long) (maxTimeOffset
+                            * interpolator.getInterpolation(childView.getTimeOffset() / maxTimeOffset)));
+                    animatorCopy.setDuration(((Animator) animatorChild).getDuration());
+                    animatorsList.add(animatorCopy);
+                } else if (animatorChild instanceof SpringAnimation) {
+                    SpringAnimation animation = ((SpringAnimation) animatorChild);
+                    SpringAnimation animationClone = new SpringAnimation(childView.getView(), animation.mProperty,
+                            animation.getSpring().getFinalPosition()).setStartValue(animation.mValue);
+                    animationClone.setSpring(animation.getSpring());
+                    animationClone.setStartDelay((long) (maxTimeOffset
+                            * interpolator.getInterpolation(childView.getTimeOffset() / maxTimeOffset)));
+                    dynamicAnimatorsList.add(animationClone);
+                    animation.mProperty.setValue(childView.getView(), animation.mValue);
+                }
             }
+
         }
 
-        animatorSet.playTogether(animatorsList);
+        DynamicAnimators.playTogether(dynamicAnimatorsList);
+        if (!animatorsList.isEmpty())
+            animatorSet.playTogether(animatorsList);
+    }
 
-        return animatorSet;
+    private void sanityCheck(Object animatorChild) {
+        //TODO:
     }
 
     public static class SpruceBuilder {
 
         private final ViewGroup viewGroup;
         private final ExclusionHelper exclusionHelper = new ExclusionHelper();
-        private Animator[] animators;
+        private Object[] animators;
         private SortFunction sortFunction;
         private Interpolator interpolator = new LinearInterpolator();
 
@@ -161,7 +182,7 @@ public class Spruce {
          * @param animators Animator array to apply to the ViewGroup children
          * @return SpruceBuilder object
          */
-        public SpruceBuilder animateWith(Animator... animators) {
+        public SpruceBuilder animateWith(Object... animators) {
             this.animators = animators;
             return this;
         }

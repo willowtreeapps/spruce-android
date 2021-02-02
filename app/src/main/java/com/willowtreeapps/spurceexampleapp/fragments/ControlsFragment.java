@@ -23,6 +23,7 @@
 package com.willowtreeapps.spurceexampleapp.fragments;
 
 import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
@@ -105,7 +106,7 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
 
     private AlertDialog.Builder builderSingle;
 
-    private Animator[] animators;
+    private Object[] animators;
     private LinearSort.Direction direction;
     private CorneredSort.Corner corner;
 
@@ -145,9 +146,9 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
 
         btnInterpolator.setAllCaps(false);
 
-        animators = new Animator[]{
-                DefaultAnimations.shrinkAnimator(parent, /*duration=*/800),
-                DefaultAnimations.fadeInAnimator(parent, /*duration=*/800)
+        animators = new Object[]{
+                DefaultAnimations.dynamicTranUp(parent),
+                DefaultAnimations.dynamicFadeIn(parent)
         };
 
         initInterpolatorSelection();
@@ -407,6 +408,7 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
         setupSort();
     }
 
+    @SuppressLint("StringFormatMatches")
     private void setupSort() {
         SortFunction sortFunction;
         switch (sortDropDown.getSelectedItemPosition()) {

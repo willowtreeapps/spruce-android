@@ -27,6 +27,10 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.view.View;
 
+import com.willowtreeapps.spruce.dynamics.DynamicAnimation;
+import com.willowtreeapps.spruce.dynamics.SpringAnimation;
+import com.willowtreeapps.spruce.dynamics.SpringForce;
+
 /**
  * Convenience methods for retrieving default view animators
  */
@@ -60,7 +64,7 @@ public class DefaultAnimations {
     }
 
     public static Animator fadeInAnimator(View view, long duration) {
-        return ObjectAnimator.ofFloat(view, View.ALPHA, FADE_IN_TO)
+        return ObjectAnimator.ofFloat(view, View.ALPHA, 0f, 1f)
                 .setDuration(duration);
     }
 
@@ -69,4 +73,23 @@ public class DefaultAnimations {
                 .setDuration(duration);
     }
 
+    public static SpringAnimation dynamicTranUp(View view) {
+        SpringAnimation tranUp = new SpringAnimation(view, DynamicAnimation.TRANSLATION_Y)
+                .setStartValue(200f);
+        tranUp.setSpring(new SpringForce());
+        tranUp.getSpring().setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY);
+        tranUp.getSpring().setStiffness(SpringForce.STIFFNESS_LOW);
+        tranUp.getSpring().setFinalPosition(0f);
+        return tranUp;
+    }
+
+    public static SpringAnimation dynamicFadeIn(View view) {
+        SpringAnimation tranUp = new SpringAnimation(view, DynamicAnimation.ALPHA)
+                .setStartValue(0f);
+        tranUp.setSpring(new SpringForce());
+        tranUp.getSpring().setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY);
+        tranUp.getSpring().setStiffness(SpringForce.STIFFNESS_MEDIUM);
+        tranUp.getSpring().setFinalPosition(1f);
+        return tranUp;
+    }
 }
