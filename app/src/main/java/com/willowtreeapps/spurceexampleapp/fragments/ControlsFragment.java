@@ -51,6 +51,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.willowtreeapps.spruce.Spruce;
+import com.willowtreeapps.spruce.SpruceAnimator;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
 import com.willowtreeapps.spruce.sort.ContinuousSort;
 import com.willowtreeapps.spruce.sort.ContinuousWeightedSort;
@@ -85,7 +86,7 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
     private static final int RANDOM_SORT = 7;
     private static final int SNAKE_SORT = 8;
 
-    private Animator spruceAnimator;
+    private SpruceAnimator spruceAnimator;
     private SeekBar seekBar;
     private Spinner sortDropDown;
     private RadioGroup linearRadioGroup;

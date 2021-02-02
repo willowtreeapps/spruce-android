@@ -300,7 +300,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
     private static final float THRESHOLD_MULTIPLIER = 0.75f;
 
     // Internal tracking for velocity.
-    float mVelocity = 0;
+    public float mVelocity = 0;
 
     // Internal tracking for value.
     public float mValue = UNSET;
@@ -329,8 +329,8 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
     boolean mRunning = false;
 
     // Min and max values that defines the range of the animation values.
-    float mMaxValue = Float.MAX_VALUE;
-    float mMinValue = -mMaxValue;
+    public float mMaxValue = Float.MAX_VALUE;
+    public float mMinValue = -mMaxValue;
 
     // Last frame time. Always gets reset to -1  at the end of the animation.
     private long mLastFrameTime = 0;

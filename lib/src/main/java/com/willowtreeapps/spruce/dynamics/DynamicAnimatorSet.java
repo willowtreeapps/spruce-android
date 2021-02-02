@@ -22,19 +22,41 @@
 
 package com.willowtreeapps.spruce.dynamics;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DynamicAnimators {
+/**
+ * This class is eqivalent to {@link android.view.animation.AnimationSet} for dynamic animations.
+ */
+public class DynamicAnimatorSet {
+
+    private List<DynamicAnimation<?>> anim = new ArrayList<>();
+
     /**
      * Sets up this AnimatorSet to play all of the supplied animations at the same time.
      *
      * @param items The animations that will be started simultaneously.
      */
-    public static void playTogether(List<DynamicAnimation<?>> items) {
-        if (items != null && items.size() > 0) {
-            for (DynamicAnimation<?> anim : items) {
-                anim.start();
-            }
+    public void playTogether(List<DynamicAnimation<?>> items) {
+        anim = items;
+    }
+
+    /**
+     * This method is used to cancel the animation.
+     */
+    public void cancel() {
+        for (DynamicAnimation<?> anim : anim) {
+            anim.cancel();
+        }
+    }
+
+
+    /**
+     * This method is used to start all queued dynamic animations.
+     */
+    public void start() {
+        for (DynamicAnimation<?> anim : anim) {
+            anim.start();
         }
     }
 }

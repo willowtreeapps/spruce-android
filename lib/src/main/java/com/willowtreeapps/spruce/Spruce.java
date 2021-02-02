@@ -32,7 +32,8 @@ import android.view.animation.LinearInterpolator;
 import androidx.annotation.NonNull;
 
 import com.willowtreeapps.spruce.dynamics.DynamicAnimation;
-import com.willowtreeapps.spruce.dynamics.DynamicAnimators;
+import com.willowtreeapps.spruce.dynamics.DynamicAnimatorSet;
+import com.willowtreeapps.spruce.dynamics.FlingAnimation;
 import com.willowtreeapps.spruce.dynamics.SpringAnimation;
 import com.willowtreeapps.spruce.exclusion.ExclusionHelper;
 import com.willowtreeapps.spruce.sort.SortFunction;
@@ -44,7 +45,7 @@ import java.util.List;
 public class Spruce {
 
     private final ViewGroup viewGroup;
-    private AnimatorSet animatorSet;
+    private SpruceAnimator animator;
 
     private Spruce(SpruceBuilder builder) throws IllegalArgumentException {
         this.viewGroup = builder.viewGroup;
@@ -74,7 +75,9 @@ public class Spruce {
 
         sortFunction.sortChildren(viewGroup, children);
         childrenWithTime = sortFunction.getViewListWithTimeOffsets(viewGroup, children);
-        animatorSet = new AnimatorSet();
+        AnimatorSet animatorSet = new AnimatorSet();
+        DynamicAnimatorSet dynamicAnimatorSet = new DynamicAnimatorSet();
+        animator = new SpruceAnimator();
         List<Animator> animatorsList = new ArrayList<>();
         List<DynamicAnimation<?>> dynamicAnimatorsList = new ArrayList<>();
 
@@ -96,25 +99,63 @@ public class Spruce {
                     animatorsList.add(animatorCopy);
                 } else if (animatorChild instanceof SpringAnimation) {
                     SpringAnimation animation = ((SpringAnimation) animatorChild);
+                    // Cloning Spring Animation.
                     SpringAnimation animationClone = new SpringAnimation(childView.getView(), animation.mProperty,
                             animation.getSpring().getFinalPosition()).setStartValue(animation.mValue);
                     animationClone.setSpring(animation.getSpring());
+                    animationClone.setMinValue(animation.mMinValue);
+                    animationClone.setMaxValue(animation.mMaxValue);
+                    // Setting start delay
                     animationClone.setStartDelay((long) (maxTimeOffset
                             * interpolator.getInterpolation(childView.getTimeOffset() / maxTimeOffset)));
                     dynamicAnimatorsList.add(animationClone);
+                    // seeking the animation to first frame
+                    animation.mProperty.setValue(childView.getView(), animation.mValue);
+                } else if (animatorChild instanceof FlingAnimation) {
+                    FlingAnimation animation = ((FlingAnimation) animatorChild);
+                    // Cloning Spring Animation.
+                    FlingAnimation animationClone = new FlingAnimation(childView.getView(), animation.mProperty)
+                            .setStartValue(animation.mValue);
+                    animationClone.setMaxValue(animation.mMaxValue);
+                    animationClone.setMinValue(animation.mMinValue);
+                    animationClone.setFriction(animation.getFriction());
+                    animationClone.setStartVelocity(animation.mVelocity);
+                    // Setting start delay
+                    animationClone.setStartDelay((long) (maxTimeOffset
+                            * interpolator.getInterpolation(childView.getTimeOffset() / maxTimeOffset)));
+                    dynamicAnimatorsList.add(animationClone);
+                    // seeking the animation to first frame
                     animation.mProperty.setValue(childView.getView(), animation.mValue);
                 }
             }
 
         }
 
-        DynamicAnimators.playTogether(dynamicAnimatorsList);
-        if (!animatorsList.isEmpty())
-            animatorSet.playTogether(animatorsList);
+        // Queueing Animations.
+        dynamicAnimatorSet.playTogether(dynamicAnimatorsList);
+        animatorSet.playTogether(animatorsList);
+
+        //Playing Animations.
+        dynamicAnimatorSet.start();
+        animatorSet.start();
+
+        //Providing the user all the animations for the ease of cancelling and starting.
+        animator.setAnimatorSet(animatorSet);
+        animator.setDynamicAnimatorSet(dynamicAnimatorSet);
     }
 
+    /**
+     * Sanity check is important, this will restrict the user to use only {@link Animator} and
+     * {@link DynamicAnimation}
+     *
+     * @param animatorChild current object from the loop.
+     */
     private void sanityCheck(Object animatorChild) {
-        //TODO:
+        if (!(animatorChild instanceof DynamicAnimation<?>) &&
+                !(animatorChild instanceof Animator)) {
+            throw new UnsupportedOperationException("Error: Items added for animation should be the subtype of"
+                    + "DynamicAnimation or Animator.");
+        }
     }
 
     public static class SpruceBuilder {
@@ -179,7 +220,7 @@ public class Spruce {
         /**
          * Apply one to many animations to the ViewGroup
          *
-         * @param animators Animator array to apply to the ViewGroup children
+         * @param animators Object array to apply to the ViewGroup children animations
          * @return SpruceBuilder object
          */
         public SpruceBuilder animateWith(Object... animators) {
@@ -190,11 +231,12 @@ public class Spruce {
         /**
          * Creates a Spruce instance and starts the sequence of animations
          *
-         * @return Spruce The Spruce object to apply operations to.
+         * @return SpruceAnimator The object is a wrapper that contains
+         * both native and {@link SpringAnimation}
          */
-        public Animator start() {
+        public SpruceAnimator start() {
             Spruce spruce = new Spruce(this);
-            return spruce.animatorSet;
+            return spruce.animator;
         }
     }
 }

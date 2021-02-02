@@ -22,7 +22,6 @@
 
 package com.willowtreeapps.spurceexampleapp.fragments;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -38,6 +37,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.willowtreeapps.spruce.Spruce;
+import com.willowtreeapps.spruce.SpruceAnimator;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
 import com.willowtreeapps.spruce.sort.DefaultSort;
 import com.willowtreeapps.spurceexampleapp.R;
@@ -52,7 +52,7 @@ public class ListViewFragment extends Fragment {
 
     private ListView listView;
     private CheckBox excludeView;
-    private Animator spruceAnimator;
+    private SpruceAnimator spruceAnimator;
 
     public static ListViewFragment newInstance() {
         return new ListViewFragment();
@@ -62,7 +62,7 @@ public class ListViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         listView = container.findViewById(R.id.list_view);
-        excludeView = (CheckBox) container.findViewById(R.id.view_exclusion);
+        excludeView = container.findViewById(R.id.view_exclusion);
 
         // Create the animator after the list view has finished laying out
         listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
