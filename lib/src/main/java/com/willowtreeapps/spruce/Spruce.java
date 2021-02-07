@@ -31,10 +31,10 @@ import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.NonNull;
 
-import com.willowtreeapps.spruce.dynamics.DynamicAnimation;
+import com.willowtreeapps.spruce.dynamics.SpruceDynamics;
 import com.willowtreeapps.spruce.dynamics.DynamicAnimatorSet;
-import com.willowtreeapps.spruce.dynamics.FlingAnimation;
-import com.willowtreeapps.spruce.dynamics.SpringAnimation;
+import com.willowtreeapps.spruce.dynamics.SpruceFlingAnimation;
+import com.willowtreeapps.spruce.dynamics.SpruceSpringAnimation;
 import com.willowtreeapps.spruce.exclusion.ExclusionHelper;
 import com.willowtreeapps.spruce.sort.SortFunction;
 import com.willowtreeapps.spruce.sort.SpruceTimedView;
@@ -79,7 +79,7 @@ public class Spruce {
         DynamicAnimatorSet dynamicAnimatorSet = new DynamicAnimatorSet();
         animator = new SpruceAnimator();
         List<Animator> animatorsList = new ArrayList<>();
-        List<DynamicAnimation<?>> dynamicAnimatorsList = new ArrayList<>();
+        List<SpruceDynamics<?>> dynamicAnimatorsList = new ArrayList<>();
 
         //This max value is used to the time of interpolation.
         float maxTimeOffset = childrenWithTime.get(childrenWithTime.size() - 1).getTimeOffset();
@@ -97,10 +97,10 @@ public class Spruce {
                             * interpolator.getInterpolation(childView.getTimeOffset() / maxTimeOffset)));
                     animatorCopy.setDuration(((Animator) animatorChild).getDuration());
                     animatorsList.add(animatorCopy);
-                } else if (animatorChild instanceof SpringAnimation) {
-                    SpringAnimation animation = ((SpringAnimation) animatorChild);
+                } else if (animatorChild instanceof SpruceSpringAnimation) {
+                    SpruceSpringAnimation animation = ((SpruceSpringAnimation) animatorChild);
                     // Cloning Spring Animation.
-                    SpringAnimation animationClone = new SpringAnimation(childView.getView(), animation.getAnimationProperty(),
+                    SpruceSpringAnimation animationClone = new SpruceSpringAnimation(childView.getView(), animation.getAnimationProperty(),
                             animation.getSpring().getFinalPosition()).setStartValue(animation.mValue);
                     animationClone.setSpring(animation.getSpring());
                     animationClone.setMinValue(animation.mMinValue);
@@ -111,10 +111,10 @@ public class Spruce {
                     dynamicAnimatorsList.add(animationClone);
                     // seeking the animation to first frame
                     animation.getAnimationProperty().setValue(childView.getView(), animation.mValue);
-                } else if (animatorChild instanceof FlingAnimation) {
-                    FlingAnimation animation = ((FlingAnimation) animatorChild);
+                } else if (animatorChild instanceof SpruceFlingAnimation) {
+                    SpruceFlingAnimation animation = ((SpruceFlingAnimation) animatorChild);
                     // Cloning Spring Animation.
-                    FlingAnimation animationClone = new FlingAnimation(childView.getView(), animation.getAnimationProperty())
+                    SpruceFlingAnimation animationClone = new SpruceFlingAnimation(childView.getView(), animation.getAnimationProperty())
                             .setStartValue(animation.mValue);
                     animationClone.setMaxValue(animation.mMaxValue);
                     animationClone.setMinValue(animation.mMinValue);
@@ -126,7 +126,7 @@ public class Spruce {
                     dynamicAnimatorsList.add(animationClone);
                     // seeking the animation to first frame
                     animation.getAnimationProperty().setValue(childView.getView(), animation.mValue);
-                } else if (animatorChild instanceof DynamicAnimation<?>) {
+                } else if (animatorChild instanceof SpruceDynamics<?>) {
                     //TODO: handle this in the future.
                 }
             }
@@ -148,12 +148,12 @@ public class Spruce {
 
     /**
      * Sanity check is important, this will restrict the user to use only {@link Animator} and
-     * {@link DynamicAnimation}
+     * {@link SpruceDynamics}
      *
      * @param animatorChild current object from the loop.
      */
     private void sanityCheck(Object animatorChild) {
-        if (!(animatorChild instanceof DynamicAnimation<?>) &&
+        if (!(animatorChild instanceof SpruceDynamics<?>) &&
                 !(animatorChild instanceof Animator)) {
             throw new UnsupportedOperationException("Error: Items added for animation should be the subtype of"
                     + "DynamicAnimation or Animator.");
@@ -234,7 +234,7 @@ public class Spruce {
          * Creates a Spruce instance and starts the sequence of animations
          *
          * @return SpruceAnimator The object is a wrapper that contains
-         * both native and {@link SpringAnimation}
+         * both native and {@link SpruceSpringAnimation}
          */
         public SpruceAnimator start() {
             Spruce spruce = new Spruce(this);

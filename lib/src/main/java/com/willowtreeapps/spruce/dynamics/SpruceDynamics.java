@@ -47,7 +47,7 @@ import java.util.ArrayList;
  *
  * @param <T> subclass of DynamicAnimation
  */
-public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
+public abstract class SpruceDynamics<T extends SpruceDynamics<T>>
         implements AnimationHandler.AnimationFrameCallback {
 
     /**
@@ -358,7 +358,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
      *
      * @param floatValueHolder the FloatValueHolder instance to be animated.
      */
-    DynamicAnimation(final FloatValueHolder floatValueHolder) {
+    SpruceDynamics(final FloatValueHolder floatValueHolder) {
         mTarget = null;
         mProperty = new FloatPropertyCompat("FloatValueHolder") {
             @Override
@@ -391,7 +391,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
      * @param property the property to be animated
      */
 
-    <K> DynamicAnimation(K object, FloatPropertyCompat<K> property) {
+    <K> SpruceDynamics(K object, FloatPropertyCompat<K> property) {
         mTarget = object;
         mProperty = property;
         if (mProperty == ROTATION || mProperty == ROTATION_X
@@ -834,7 +834,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
          * @param value     the final value when the animation stopped
          * @param velocity  the final velocity when the animation stopped
          */
-        void onAnimationEnd(DynamicAnimation animation, boolean canceled, float value,
+        void onAnimationEnd(SpruceDynamics animation, boolean canceled, float value,
                             float velocity);
     }
 
@@ -853,6 +853,6 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
          * @param value     the current value of the animation
          * @param velocity  the current velocity of the animation
          */
-        void onAnimationUpdate(DynamicAnimation animation, float value, float velocity);
+        void onAnimationUpdate(SpruceDynamics animation, float value, float velocity);
     }
 }

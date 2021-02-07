@@ -110,7 +110,7 @@ public final class SpringForce implements Force {
     private double mFinalPosition = UNSET;
 
     // Internal state to hold a value/velocity pair.
-    private final DynamicAnimation.MassState mMassState = new DynamicAnimation.MassState();
+    private final SpruceDynamics.MassState mMassState = new SpruceDynamics.MassState();
 
     /**
      * Creates a spring force. Note that final position of the spring must be set through
@@ -277,8 +277,8 @@ public final class SpringForce implements Force {
      * Internal only call for Spring to calculate the spring position/velocity using
      * an analytical approach.
      */
-    DynamicAnimation.MassState updateValues(double lastDisplacement, double lastVelocity,
-            long timeElapsed) {
+    SpruceDynamics.MassState updateValues(double lastDisplacement, double lastVelocity,
+                                          long timeElapsed) {
         init();
 
         double deltaT = timeElapsed / 1000d; // unit: seconds

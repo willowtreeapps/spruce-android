@@ -30,14 +30,14 @@ import java.util.List;
  */
 public class DynamicAnimatorSet {
 
-    private List<DynamicAnimation<?>> anim = new ArrayList<>();
+    private List<SpruceDynamics<?>> anim = new ArrayList<>();
 
     /**
      * Sets up this AnimatorSet to play all of the supplied animations at the same time.
      *
      * @param items The animations that will be started simultaneously.
      */
-    public void playTogether(List<DynamicAnimation<?>> items) {
+    public void playTogether(List<SpruceDynamics<?>> items) {
         anim = items;
     }
 
@@ -45,7 +45,7 @@ public class DynamicAnimatorSet {
      * This method is used to cancel the animation.
      */
     public void cancel() {
-        for (DynamicAnimation<?> anim : anim) {
+        for (SpruceDynamics<?> anim : anim) {
             anim.cancel();
         }
     }
@@ -55,7 +55,7 @@ public class DynamicAnimatorSet {
      * This method is used to start all queued dynamic animations.
      */
     public void start() {
-        for (DynamicAnimation<?> anim : anim) {
+        for (SpruceDynamics<?> anim : anim) {
             anim.start();
         }
     }

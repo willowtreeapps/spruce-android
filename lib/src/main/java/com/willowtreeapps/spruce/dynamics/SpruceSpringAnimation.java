@@ -38,7 +38,7 @@ import androidx.annotation.MainThread;
  * <h3>Developer Guides</h3>
  * </div>
  *
- * <p>To create a simple {@link SpringAnimation} that uses the default {@link SpringForce}:</p>
+ * <p>To create a simple {@link SpruceSpringAnimation} that uses the default {@link SpringForce}:</p>
  * <pre class="prettyprint">
  * // Create an animation to animate view's X property, set the rest position of the
  * // default spring to 0, and start the animation with a starting velocity of 5000 (pixel/s).
@@ -47,7 +47,7 @@ import androidx.annotation.MainThread;
  * anim.start();
  * </pre>
  *
- * <p>Alternatively, a {@link SpringAnimation} can take a pre-configured {@link SpringForce}, and
+ * <p>Alternatively, a {@link SpruceSpringAnimation} can take a pre-configured {@link SpringForce}, and
  * use that to drive the animation. </p>
  * <pre class="prettyprint">
  * // Create a low stiffness, low bounce spring at position 0.
@@ -62,7 +62,7 @@ import androidx.annotation.MainThread;
  * anim.start();
  * </pre>
  */
-public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
+public final class SpruceSpringAnimation extends SpruceDynamics<SpruceSpringAnimation> {
 
     private SpringForce mSpring = null;
     private float mPendingPosition = UNSET;
@@ -81,7 +81,7 @@ public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
      *
      * @param floatValueHolder the property to be animated
      */
-    public SpringAnimation(FloatValueHolder floatValueHolder) {
+    public SpruceSpringAnimation(FloatValueHolder floatValueHolder) {
         super(floatValueHolder);
     }
 
@@ -101,7 +101,7 @@ public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
      * @param floatValueHolder the property to be animated
      * @param finalPosition    the final position of the spring to be created.
      */
-    public SpringAnimation(FloatValueHolder floatValueHolder, float finalPosition) {
+    public SpruceSpringAnimation(FloatValueHolder floatValueHolder, float finalPosition) {
         super(floatValueHolder);
         mSpring = new SpringForce(finalPosition);
     }
@@ -115,7 +115,7 @@ public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
      * @param property the property to be animated
      * @param <K>      the class on which the Property is declared
      */
-    public <K> SpringAnimation(K object, FloatPropertyCompat<K> property) {
+    public <K> SpruceSpringAnimation(K object, FloatPropertyCompat<K> property) {
         super(object, property);
     }
 
@@ -129,8 +129,8 @@ public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
      * @param finalPosition the final position of the spring to be created.
      * @param <K>           the class on which the Property is declared
      */
-    public <K> SpringAnimation(K object, FloatPropertyCompat<K> property,
-                               float finalPosition) {
+    public <K> SpruceSpringAnimation(K object, FloatPropertyCompat<K> property,
+                                     float finalPosition) {
         super(object, property);
         mSpring = new SpringForce(finalPosition);
     }
@@ -152,7 +152,7 @@ public final class SpringAnimation extends DynamicAnimation<SpringAnimation> {
      * @param force a pre-defined spring force that drives the animation
      * @return the animation that the spring force is set on
      */
-    public SpringAnimation setSpring(SpringForce force) {
+    public SpruceSpringAnimation setSpring(SpringForce force) {
         mSpring = force;
         return this;
     }

@@ -27,8 +27,8 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.view.View;
 
-import com.willowtreeapps.spruce.dynamics.DynamicAnimation;
-import com.willowtreeapps.spruce.dynamics.SpringAnimation;
+import com.willowtreeapps.spruce.dynamics.SpruceDynamics;
+import com.willowtreeapps.spruce.dynamics.SpruceSpringAnimation;
 import com.willowtreeapps.spruce.dynamics.SpringForce;
 
 /**
@@ -74,8 +74,8 @@ public class DefaultAnimations {
                 .setDuration(duration);
     }
 
-    public static SpringAnimation dynamicTranslationUpwards(View view) {
-        SpringAnimation tranUp = new SpringAnimation(view, DynamicAnimation.TRANSLATION_Y)
+    public static SpruceSpringAnimation dynamicTranslationUpwards(View view) {
+        SpruceSpringAnimation tranUp = new SpruceSpringAnimation(view, SpruceDynamics.TRANSLATION_Y)
                 .setStartValue(200f);
         tranUp.setSpring(new SpringForce());
         tranUp.getSpring().setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY);
@@ -84,8 +84,8 @@ public class DefaultAnimations {
         return tranUp;
     }
 
-    public static SpringAnimation dynamicFadeIn(View view) {
-        SpringAnimation tranUp = new SpringAnimation(view, DynamicAnimation.ALPHA)
+    public static SpruceSpringAnimation dynamicFadeIn(View view) {
+        SpruceSpringAnimation tranUp = new SpruceSpringAnimation(view, SpruceDynamics.ALPHA)
                 .setStartValue(FADE_FROM);
         tranUp.setSpring(new SpringForce());
         tranUp.getSpring().setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY);

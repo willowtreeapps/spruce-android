@@ -29,7 +29,7 @@ package com.willowtreeapps.spruce.dynamics;
  * FloatValueHolder will have its value updated via {@link #setValue(float)}. The caller can
  * obtain the up-to-date animation value via {@link FloatValueHolder#getValue()}.
  *
- * <p> Here is an example for creating a {@link FlingAnimation} with a FloatValueHolder:
+ * <p> Here is an example for creating a {@link SpruceFlingAnimation} with a FloatValueHolder:
  * <pre class="prettyprint">
  * // Create a fling animation with an initial velocity of 5000 (pixel/s) and an initial position
  * // of 20f.
@@ -38,8 +38,8 @@ package com.willowtreeapps.spruce.dynamics;
  * anim.start();
  * </pre>
  *
- * @see SpringAnimation#SpringAnimation(FloatValueHolder)
- * @see FlingAnimation#FlingAnimation(FloatValueHolder)
+ * @see SpruceSpringAnimation#SpruceSpringAnimation(FloatValueHolder)
+ * @see SpruceFlingAnimation#SpruceFlingAnimation(FloatValueHolder)
  */
 
 public class FloatValueHolder {

@@ -29,7 +29,7 @@ import androidx.annotation.FloatRange;
  * velocity) and gradually slows down. The fling animation will come to a stop when the velocity of
  * the animation is below the threshold derived from {@link #setMinimumVisibleChange(float)},
  * or when the value of the animation has gone beyond the min or max value defined via
- * {@link DynamicAnimation#setMinValue(float)} or {@link DynamicAnimation#setMaxValue(float)}.
+ * {@link SpruceDynamics#setMinValue(float)} or {@link SpruceDynamics#setMaxValue(float)}.
  * It is recommended to restrict the fling animation with min and/or max value, such that the
  * animation can end when it goes beyond screen bounds, thus preserving CPU cycles and resources.
  *
@@ -44,7 +44,7 @@ import androidx.annotation.FloatRange;
  * flingAnim.start();
  * </pre>
  */
-public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
+public final class SpruceFlingAnimation extends SpruceDynamics<SpruceFlingAnimation> {
 
     private final DragForce mFlingForce = new DragForce();
 
@@ -60,7 +60,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
      *
      * @param floatValueHolder the property to be animated
      */
-    public FlingAnimation(FloatValueHolder floatValueHolder) {
+    public SpruceFlingAnimation(FloatValueHolder floatValueHolder) {
         super(floatValueHolder);
         mFlingForce.setValueThreshold(getValueThreshold());
     }
@@ -72,7 +72,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
      * @param property the property to be animated
      * @param <K> the class on which the property is declared
      */
-    public <K> FlingAnimation(K object, FloatPropertyCompat<K> property) {
+    public <K> SpruceFlingAnimation(K object, FloatPropertyCompat<K> property) {
         super(object, property);
         mFlingForce.setValueThreshold(getValueThreshold());
     }
@@ -85,7 +85,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
      * @return the animation whose friction will be scaled
      * @throws IllegalArgumentException if the input friction is not positive
      */
-    public FlingAnimation setFriction(
+    public SpruceFlingAnimation setFriction(
             @FloatRange(from = 0.0, fromInclusive = false) float friction) {
         if (friction <= 0) {
             throw new IllegalArgumentException("Friction must be positive");
@@ -112,7 +112,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
      * @return the Animation whose min value is being set
      */
     @Override
-    public FlingAnimation setMinValue(float minValue) {
+    public SpruceFlingAnimation setMinValue(float minValue) {
         super.setMinValue(minValue);
         return this;
     }
@@ -125,7 +125,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
      * @return the Animation whose max value is being set
      */
     @Override
-    public FlingAnimation setMaxValue(float maxValue) {
+    public SpruceFlingAnimation setMaxValue(float maxValue) {
         super.setMaxValue(maxValue);
         return this;
     }
@@ -152,7 +152,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
      * @return the Animation whose start velocity is being set
      */
     @Override
-    public FlingAnimation setStartVelocity(float startVelocity) {
+    public SpruceFlingAnimation setStartVelocity(float startVelocity) {
         super.setStartVelocity(startVelocity);
         return this;
     }
@@ -209,7 +209,7 @@ public final class FlingAnimation extends DynamicAnimation<FlingAnimation> {
         private float mVelocityThreshold;
 
         // Internal state to hold a value/velocity pair.
-        private final DynamicAnimation.MassState mMassState = new DynamicAnimation.MassState();
+        private final SpruceDynamics.MassState mMassState = new SpruceDynamics.MassState();
 
         void setFrictionScalar(float frictionScalar) {
             mFriction = frictionScalar * DEFAULT_FRICTION;
