@@ -41,6 +41,7 @@ public class DefaultAnimations {
     private static final float ORIGINAL_SCALE = 1.0F;
     private static final float FADE_AWAY_TO = 0.0F;
     private static final float FADE_IN_TO = 1.0F;
+    private static final float FADE_FROM = 0.0F;
     private static final float START_ROTATION = 0F;
     private static final float END_ROTATION = 360F;
 
@@ -64,7 +65,7 @@ public class DefaultAnimations {
     }
 
     public static Animator fadeInAnimator(View view, long duration) {
-        return ObjectAnimator.ofFloat(view, View.ALPHA, 0f, 1f)
+        return ObjectAnimator.ofFloat(view, View.ALPHA, FADE_FROM, FADE_IN_TO)
                 .setDuration(duration);
     }
 
@@ -73,23 +74,23 @@ public class DefaultAnimations {
                 .setDuration(duration);
     }
 
-    public static SpringAnimation dynamicTranUp(View view) {
+    public static SpringAnimation dynamicTranslationUpwards(View view) {
         SpringAnimation tranUp = new SpringAnimation(view, DynamicAnimation.TRANSLATION_Y)
                 .setStartValue(200f);
         tranUp.setSpring(new SpringForce());
         tranUp.getSpring().setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY);
         tranUp.getSpring().setStiffness(SpringForce.STIFFNESS_LOW);
-        tranUp.getSpring().setFinalPosition(0f);
+        tranUp.getSpring().setFinalPosition(FADE_FROM);
         return tranUp;
     }
 
     public static SpringAnimation dynamicFadeIn(View view) {
         SpringAnimation tranUp = new SpringAnimation(view, DynamicAnimation.ALPHA)
-                .setStartValue(0f);
+                .setStartValue(FADE_FROM);
         tranUp.setSpring(new SpringForce());
         tranUp.getSpring().setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY);
         tranUp.getSpring().setStiffness(SpringForce.STIFFNESS_MEDIUM);
-        tranUp.getSpring().setFinalPosition(1f);
+        tranUp.getSpring().setFinalPosition(FADE_IN_TO);
         return tranUp;
     }
 }
