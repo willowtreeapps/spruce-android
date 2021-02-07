@@ -184,7 +184,7 @@ These are the option that SpruceDynamics exposes to the developers:
 
 
 You can create your own Spring/Fling animations from SpruceDynamics and add them to the '.animateWith' function for
-playing the dynamic animations.
+playing the animations in the respective ViewGroup
 
 ```java
 Animator spruceAnimator = new Spruce
