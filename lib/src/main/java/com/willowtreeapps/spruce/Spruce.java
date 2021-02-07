@@ -100,7 +100,7 @@ public class Spruce {
                 } else if (animatorChild instanceof SpringAnimation) {
                     SpringAnimation animation = ((SpringAnimation) animatorChild);
                     // Cloning Spring Animation.
-                    SpringAnimation animationClone = new SpringAnimation(childView.getView(), animation.mProperty,
+                    SpringAnimation animationClone = new SpringAnimation(childView.getView(), animation.getAnimationProperty(),
                             animation.getSpring().getFinalPosition()).setStartValue(animation.mValue);
                     animationClone.setSpring(animation.getSpring());
                     animationClone.setMinValue(animation.mMinValue);
@@ -110,11 +110,11 @@ public class Spruce {
                             * interpolator.getInterpolation(childView.getTimeOffset() / maxTimeOffset)));
                     dynamicAnimatorsList.add(animationClone);
                     // seeking the animation to first frame
-                    animation.mProperty.setValue(childView.getView(), animation.mValue);
+                    animation.getAnimationProperty().setValue(childView.getView(), animation.mValue);
                 } else if (animatorChild instanceof FlingAnimation) {
                     FlingAnimation animation = ((FlingAnimation) animatorChild);
                     // Cloning Spring Animation.
-                    FlingAnimation animationClone = new FlingAnimation(childView.getView(), animation.mProperty)
+                    FlingAnimation animationClone = new FlingAnimation(childView.getView(), animation.getAnimationProperty())
                             .setStartValue(animation.mValue);
                     animationClone.setMaxValue(animation.mMaxValue);
                     animationClone.setMinValue(animation.mMinValue);
@@ -125,7 +125,7 @@ public class Spruce {
                             * interpolator.getInterpolation(childView.getTimeOffset() / maxTimeOffset)));
                     dynamicAnimatorsList.add(animationClone);
                     // seeking the animation to first frame
-                    animation.mProperty.setValue(childView.getView(), animation.mValue);
+                    animation.getAnimationProperty().setValue(childView.getView(), animation.mValue);
                 } else if (animatorChild instanceof DynamicAnimation<?>) {
                     //TODO: handle this in the future.
                 }
