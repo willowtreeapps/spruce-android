@@ -174,6 +174,43 @@ Spruce gives you a wide variety of stock interpolators to choose from.
 
 Checkout [interpolator documentation](https://developer.android.com/reference/android/view/animation/Interpolator) for more information.
 
+## Spruce Dynamics
+
+Spruce now supports Dynamic Animations. Spruce Dynamics is an extension of the [androidx dynamic animations](https://developer.android.com/jetpack/androidx/releases/dynamicanimation).
+
+These are the option that SpruceDynamics exposes to the developers:
+- Allows start delay for dynamic animations
+- Animation Property is now exposed (developers can set progress of the animations dynamically) 
+
+
+You can create your own Spring/Fling animations from SpruceDynamics and add them to the '.animateWith' function for
+playing the dynamic animations.
+
+```java
+Animator spruceAnimator = new Spruce
+        .SpruceBuilder(parentViewGroup)
+        .sortWith(new LinearSort(/*interObjectDelay=*/100L, /*reversed=*/false, LinearSort.Direction.TOP_TO_BOTTOM))
+        .animateWith(DefaultAnimations.dynamicTranslationUpwards(parent))
+        .start();
+```
+
+Above all these, With spruce, you can implement a combination of both Android Animations and Spruce Dynamics at the same time.
+
+ ```java
+
+ animators = new Object[]{
+         DefaultAnimations.dynamicTranslationUpwards(parent),
+         DefaultAnimations.dynamicFadeIn(parent),
+         DefaultAnimations.shrinkAnimator(parent,800)
+ };
+
+
+ Animator spruceAnimator = new Spruce
+         .SpruceBuilder(parentViewGroup)
+         .sortWith(new LinearSort(/*interObjectDelay=*/100L, /*reversed=*/false, LinearSort.Direction.TOP_TO_BOTTOM))
+         .animateWith(animators)
+         .start();
+ ```
 
 ## Stock Animators
 To make everybody's lives easier, the stock animators perform basic `View` animations that a lot of apps use today. Mix and match these animators to get the core motion you are looking for.
@@ -183,6 +220,8 @@ To make everybody's lives easier, the stock animators perform basic `View` anima
 - `DefaultAnimations.fadeAwayAnimator(View view, long duration)`
 - `DefaultAnimations.fadeInAnimator(View view, long duration)`
 - `DefaultAnimations.spinAnimator(View view, long duration)`
+- `DefaultAnimations.dynamicTranslationUpwards(View view)`
+- `DefaultAnimations.dynamicFadeIn(View view, long duration)`
 
 Experiment which ones work for you! If you think of anymore feel free to add them to the library yourself!
 
