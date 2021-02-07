@@ -100,7 +100,7 @@ public class RecyclerFragment extends Fragment {
                 .sortWith(new DefaultSort(100))
                 .excludeViews(getExcludedViews(), R_L_MODE)
                 .animateWith(DefaultAnimations.dynamicFadeIn(recyclerView),
-                        DefaultAnimations.dynamicTranUp(recyclerView))
+                        DefaultAnimations.dynamicTranslationUpwards(recyclerView))
                 .start();
     }
 

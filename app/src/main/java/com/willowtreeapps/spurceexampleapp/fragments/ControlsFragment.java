@@ -22,7 +22,6 @@
 
 package com.willowtreeapps.spurceexampleapp.fragments;
 
-import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -148,7 +147,7 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
         btnInterpolator.setAllCaps(false);
 
         animators = new Object[]{
-                DefaultAnimations.dynamicTranUp(parent),
+                DefaultAnimations.dynamicTranslationUpwards(parent),
                 DefaultAnimations.dynamicFadeIn(parent)
         };
 

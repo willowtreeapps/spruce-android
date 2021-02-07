@@ -98,8 +98,8 @@ public class ListViewFragment extends Fragment {
         spruceAnimator = new Spruce.SpruceBuilder(listView)
                 .sortWith(new DefaultSort(100))
                 .excludeViews(getExcludedViews(), R_L_MODE)
-                .animateWith(DefaultAnimations.shrinkAnimator(listView, 800),
-                        ObjectAnimator.ofFloat(listView, "translationX", -listView.getWidth(), 0f).setDuration(800))
+                .animateWith(DefaultAnimations.dynamicFadeIn(listView),
+                        DefaultAnimations.dynamicTranslationUpwards(listView))
                 .start();
     }
 

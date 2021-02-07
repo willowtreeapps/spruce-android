@@ -323,7 +323,7 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
     }
 
     // View property id.
-    public FloatPropertyCompat mProperty;
+    private FloatPropertyCompat mProperty;
 
     // Package private tracking of animation lifecycle state. Visible to subclass animations.
     boolean mRunning = false;
@@ -373,6 +373,16 @@ public abstract class DynamicAnimation<T extends DynamicAnimation<T>>
         };
         mMinVisibleChange = MIN_VISIBLE_CHANGE_PIXELS;
     }
+
+
+    /**
+     * This method is used to get the animation poperty of the Dynamic animation that we are building.
+     * @return current {@link FloatPropertyCompat}
+     */
+    public FloatPropertyCompat getAnimationProperty() {
+        return mProperty;
+    }
+
 
     /**
      * Creates a dynamic animation to animate the given property for the given {@link View}
