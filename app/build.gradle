@@ -23,15 +23,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion rootProject.ext.compile_sdk_version
 
     defaultConfig {
         applicationId "com.willowtreeapps.spurceexampleapp"
-        minSdkVersion 16
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        minSdkVersion rootProject.ext.min_sdk_version
+        targetSdkVersion rootProject.ext.target_sdk_version
+        versionCode rootProject.ext.version_code
+        versionName rootProject.ext.version_name
         multiDexEnabled true
 
     }
@@ -44,11 +43,9 @@ android {
 }
 
 dependencies {
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    testImplementation 'junit:junit:4.12'
+    implementation "androidx.appcompat:appcompat:$androidx_appcompact"
     implementation project(':lib')
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation "androidx.recyclerview:recyclerview:$recycler_view"
+    implementation "androidx.multidex:multidex:$multidex"
+    implementation "com.jakewharton.timber:timber:$timber"
 }
