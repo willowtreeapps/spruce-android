@@ -22,7 +22,7 @@
 
 package com.willowtreeapps.spurceexampleapp.fragments;
 
-import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
@@ -50,6 +50,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.willowtreeapps.spruce.Spruce;
+import com.willowtreeapps.spruce.SpruceAnimator;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
 import com.willowtreeapps.spruce.sort.ContinuousSort;
 import com.willowtreeapps.spruce.sort.ContinuousWeightedSort;
@@ -84,7 +85,7 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
     private static final int RANDOM_SORT = 7;
     private static final int SNAKE_SORT = 8;
 
-    private Animator spruceAnimator;
+    private SpruceAnimator spruceAnimator;
     private SeekBar seekBar;
     private Spinner sortDropDown;
     private RadioGroup linearRadioGroup;
@@ -105,7 +106,7 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
 
     private AlertDialog.Builder builderSingle;
 
-    private Animator[] animators;
+    private Object[] animators;
     private LinearSort.Direction direction;
     private CorneredSort.Corner corner;
 
@@ -145,9 +146,9 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
 
         btnInterpolator.setAllCaps(false);
 
-        animators = new Animator[]{
-                DefaultAnimations.shrinkAnimator(parent, /*duration=*/800),
-                DefaultAnimations.fadeInAnimator(parent, /*duration=*/800)
+        animators = new Object[]{
+                DefaultAnimations.dynamicTranslationUpwards(parent),
+                DefaultAnimations.dynamicFadeIn(parent)
         };
 
         initInterpolatorSelection();
@@ -407,6 +408,7 @@ public class ControlsFragment extends Fragment implements RadioGroupGridLayout.O
         setupSort();
     }
 
+    @SuppressLint("StringFormatMatches")
     private void setupSort() {
         SortFunction sortFunction;
         switch (sortDropDown.getSelectedItemPosition()) {

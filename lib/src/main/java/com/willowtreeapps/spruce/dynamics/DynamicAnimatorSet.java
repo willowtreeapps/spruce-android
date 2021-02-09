@@ -20,32 +20,43 @@
  *
  */
 
-apply plugin: 'com.android.application'
+package com.willowtreeapps.spruce.dynamics;
 
-android {
-    compileSdkVersion rootProject.ext.compile_sdk_version
+import java.util.ArrayList;
+import java.util.List;
 
-    defaultConfig {
-        applicationId "com.willowtreeapps.spurceexampleapp"
-        minSdkVersion rootProject.ext.min_sdk_version
-        targetSdkVersion rootProject.ext.target_sdk_version
-        versionCode rootProject.ext.version_code
-        versionName rootProject.ext.version_name
-        multiDexEnabled true
+/**
+ * This class is eqivalent to {@link android.view.animation.AnimationSet} for dynamic animations.
+ */
+public class DynamicAnimatorSet {
 
+    private List<SpruceDynamics<?>> anim = new ArrayList<>();
+
+    /**
+     * Sets up this AnimatorSet to play all of the supplied animations at the same time.
+     *
+     * @param items The animations that will be started simultaneously.
+     */
+    public void playTogether(List<SpruceDynamics<?>> items) {
+        anim = items;
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+    /**
+     * This method is used to cancel the animation.
+     */
+    public void cancel() {
+        for (SpruceDynamics<?> anim : anim) {
+            anim.cancel();
         }
     }
-}
 
-dependencies {
-    implementation "androidx.appcompat:appcompat:$androidx_appcompact"
-    implementation project(':lib')
-    implementation "androidx.recyclerview:recyclerview:$recycler_view"
-    implementation "androidx.multidex:multidex:$multidex"
-    implementation "com.jakewharton.timber:timber:$timber"
+
+    /**
+     * This method is used to start all queued dynamic animations.
+     */
+    public void start() {
+        for (SpruceDynamics<?> anim : anim) {
+            anim.start();
+        }
+    }
 }

@@ -24,16 +24,18 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven-publish'
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion rootProject.ext.compile_sdk_version
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0.3"
+        minSdkVersion rootProject.ext.min_sdk_version
+        targetSdkVersion rootProject.ext.target_sdk_version
+        versionCode rootProject.ext.version_code
+        versionName rootProject.ext.version_name
         setProperty("archivesBaseName", "spruce-android")
         multiDexEnabled false
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -44,6 +46,14 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
 }
@@ -56,18 +66,28 @@ task javadocs(type: Javadoc) {
 }
 
 dependencies {
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.19.0'
-    testImplementation 'org.robolectric:robolectric:4.1'
+    implementation "androidx.appcompat:appcompat:$androidx_appcompact"
+    implementation "androidx.core:core-ktx:$kotlin_project_version"
+    implementation "androidx.collection:collection-ktx:$kotlin_collections_ktx"
+
+    // Local Unit tests
+    testImplementation "junit:junit:$local_junit_version"
+    testImplementation "org.mockito:mockito-core:$local_mokito_version"
+    testImplementation "org.robolectric:robolectric:$local_robo_electric_version"
+
+
+    // UI Testing
+    androidTestImplementation "androidx.test:runner:$ui_test_runner_version"
+    androidTestImplementation "androidx.test.ext:junit:$ui_junit_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$ui_espresso_core_version"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$ui_espresso_intent_version"
 }
 
 def siteUrl = 'https://github.com/willowtreeapps/spruce-android'
 def gitUrl = 'https://github.com/willowtreeapps/spruce-android.git'
-group = "com.willowtreeapps.spruce"
-version = "1.0.3"
+group = rootProject.ext.group_name
+version = rootProject.ext.version_name
 
 install {
     repositories.mavenInstaller {
@@ -76,21 +96,21 @@ install {
             project {
                 packaging 'aar'
 
-                name 'spruce-android'
-                description = 'lightweight animation library'
+                name rootProject.ext.lib_name
+                description = rootProject.ext.lib_desc
                 url siteUrl
 
                 licenses {
                     license {
-                        name 'MIT License'
-                        url 'https://opensource.org/licenses/MIT'
+                        name rootProject.ext.license_name
+                        url rootProject.ext.license_url
                     }
                 }
                 developers {
                     developer {
-                        id 'willowtreeapps'
-                        name 'WillowTree Inc'
-                        email 'developer@willowtreeapps.com'
+                        id rootProject.ext.dev_id
+                        name rootProject.ext.dev_name
+                        email rootProject.ext.dev_email
                     }
                 }
                 scm {
@@ -107,9 +127,9 @@ publishing {
     publications {
         MyPublication(MavenPublication) {
             MyPublication(MavenPublication) {
-                groupId 'com.willowtreeapps.spruce'
-                artifactId 'spruce-android'
-                version '1.0.3'
+                groupId rootProject.ext.group_name
+                artifactId rootProject.ext.lib_name
+                version rootProject.ext.version_name
             }
 
             pom.withXml {
@@ -172,8 +192,8 @@ artifacts {
 }
 
 if (project.hasProperty("bintrayUser") &&
-    project.hasProperty("bintrayApikey") &&
-    project.hasProperty("bintrayGpgPassword")) {
+        project.hasProperty("bintrayApikey") &&
+        project.hasProperty("bintrayGpgPassword")) {
 
     bintray {
         user = project.properties.bintrayUser
@@ -183,14 +203,14 @@ if (project.hasProperty("bintrayUser") &&
         publications = ['MyPublication']
         pkg {
             repo = "maven"
-            name = "com.willowtreeapps.spruce"
+            name = rootProject.ext.group_name
             websiteUrl = siteUrl
             vcsUrl = gitUrl
             licenses = ["MIT"]
             publish = true
             version {
-                name = '1.0.3'
-                vcsTag = '1.0.3'
+                name = rootProject.ext.version_name
+                vcsTag = rootProject.ext.version_name
                 gpg {
                     sign = true
                     passphrase = project.properties.bintrayGpgPassword

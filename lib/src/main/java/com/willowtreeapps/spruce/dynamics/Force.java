@@ -20,32 +20,14 @@
  *
  */
 
-apply plugin: 'com.android.application'
+package com.willowtreeapps.spruce.dynamics;
 
-android {
-    compileSdkVersion rootProject.ext.compile_sdk_version
+/**
+ * Hide this for now, in case we want to change the API.
+ */
+interface Force {
+    // Acceleration based on position.
+    float getAcceleration(float position, float velocity);
 
-    defaultConfig {
-        applicationId "com.willowtreeapps.spurceexampleapp"
-        minSdkVersion rootProject.ext.min_sdk_version
-        targetSdkVersion rootProject.ext.target_sdk_version
-        versionCode rootProject.ext.version_code
-        versionName rootProject.ext.version_name
-        multiDexEnabled true
-
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
-
-dependencies {
-    implementation "androidx.appcompat:appcompat:$androidx_appcompact"
-    implementation project(':lib')
-    implementation "androidx.recyclerview:recyclerview:$recycler_view"
-    implementation "androidx.multidex:multidex:$multidex"
-    implementation "com.jakewharton.timber:timber:$timber"
+    boolean isAtEquilibrium(float value, float velocity);
 }

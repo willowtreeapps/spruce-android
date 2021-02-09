@@ -27,6 +27,10 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.view.View;
 
+import com.willowtreeapps.spruce.dynamics.SpruceDynamics;
+import com.willowtreeapps.spruce.dynamics.SpruceSpringAnimation;
+import com.willowtreeapps.spruce.dynamics.SpringForce;
+
 /**
  * Convenience methods for retrieving default view animators
  */
@@ -37,6 +41,7 @@ public class DefaultAnimations {
     private static final float ORIGINAL_SCALE = 1.0F;
     private static final float FADE_AWAY_TO = 0.0F;
     private static final float FADE_IN_TO = 1.0F;
+    private static final float FADE_FROM = 0.0F;
     private static final float START_ROTATION = 0F;
     private static final float END_ROTATION = 360F;
 
@@ -60,7 +65,7 @@ public class DefaultAnimations {
     }
 
     public static Animator fadeInAnimator(View view, long duration) {
-        return ObjectAnimator.ofFloat(view, View.ALPHA, FADE_IN_TO)
+        return ObjectAnimator.ofFloat(view, View.ALPHA, FADE_FROM, FADE_IN_TO)
                 .setDuration(duration);
     }
 
@@ -69,4 +74,23 @@ public class DefaultAnimations {
                 .setDuration(duration);
     }
 
+    public static SpruceSpringAnimation dynamicTranslationUpwards(View view) {
+        SpruceSpringAnimation tranUp = new SpruceSpringAnimation(view, SpruceDynamics.TRANSLATION_Y)
+                .setStartValue(200f);
+        tranUp.setSpring(new SpringForce());
+        tranUp.getSpring().setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY);
+        tranUp.getSpring().setStiffness(SpringForce.STIFFNESS_LOW);
+        tranUp.getSpring().setFinalPosition(FADE_FROM);
+        return tranUp;
+    }
+
+    public static SpruceSpringAnimation dynamicFadeIn(View view) {
+        SpruceSpringAnimation tranUp = new SpruceSpringAnimation(view, SpruceDynamics.ALPHA)
+                .setStartValue(FADE_FROM);
+        tranUp.setSpring(new SpringForce());
+        tranUp.getSpring().setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY);
+        tranUp.getSpring().setStiffness(SpringForce.STIFFNESS_MEDIUM);
+        tranUp.getSpring().setFinalPosition(FADE_IN_TO);
+        return tranUp;
+    }
 }

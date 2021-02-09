@@ -20,32 +20,17 @@
  *
  */
 
-apply plugin: 'com.android.application'
+package com.willowtreeapps.spruce;
 
-android {
-    compileSdkVersion rootProject.ext.compile_sdk_version
+import android.app.Activity;
+import android.os.Bundle;
 
-    defaultConfig {
-        applicationId "com.willowtreeapps.spurceexampleapp"
-        minSdkVersion rootProject.ext.min_sdk_version
-        targetSdkVersion rootProject.ext.target_sdk_version
-        versionCode rootProject.ext.version_code
-        versionName rootProject.ext.version_name
-        multiDexEnabled true
+import com.willowtreeapps.spruce.R;
 
+public class AnimationActivity extends Activity {
+    @Override
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        setContentView(R.layout.anim_layout);
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
-
-dependencies {
-    implementation "androidx.appcompat:appcompat:$androidx_appcompact"
-    implementation project(':lib')
-    implementation "androidx.recyclerview:recyclerview:$recycler_view"
-    implementation "androidx.multidex:multidex:$multidex"
-    implementation "com.jakewharton.timber:timber:$timber"
 }

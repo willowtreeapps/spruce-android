@@ -22,8 +22,6 @@
 
 package com.willowtreeapps.spurceexampleapp.fragments;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,10 +35,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willowtreeapps.spruce.Spruce;
+import com.willowtreeapps.spruce.SpruceAnimator;
 import com.willowtreeapps.spruce.animation.DefaultAnimations;
 import com.willowtreeapps.spruce.sort.DefaultSort;
 import com.willowtreeapps.spurceexampleapp.R;
 import com.willowtreeapps.spurceexampleapp.model.ExampleData;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class RecyclerFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CheckBox excludeView;
-    private Animator spruceAnimator;
+    private SpruceAnimator spruceAnimator;
 
     public static RecyclerFragment newInstance() {
         return new RecyclerFragment();
@@ -60,9 +61,10 @@ public class RecyclerFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-        recyclerView = (RecyclerView) container.findViewById(R.id.recycler);
-        excludeView = (CheckBox) container.findViewById(R.id.view_exclusion);
+    public View onCreateView(@NotNull LayoutInflater inflater,
+                             ViewGroup container, @Nullable Bundle savedInstanceState) {
+        recyclerView = container.findViewById(R.id.recycler);
+        excludeView = container.findViewById(R.id.view_exclusion);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
@@ -97,8 +99,8 @@ public class RecyclerFragment extends Fragment {
         spruceAnimator = new Spruce.SpruceBuilder(recyclerView)
                 .sortWith(new DefaultSort(100))
                 .excludeViews(getExcludedViews(), R_L_MODE)
-                .animateWith(DefaultAnimations.shrinkAnimator(recyclerView, 800),
-                        ObjectAnimator.ofFloat(recyclerView, "translationX", -recyclerView.getWidth(), 0f).setDuration(800))
+                .animateWith(DefaultAnimations.dynamicFadeIn(recyclerView),
+                        DefaultAnimations.dynamicTranslationUpwards(recyclerView))
                 .start();
     }
 
@@ -149,7 +151,7 @@ public class RecyclerFragment extends Fragment {
 
             ViewHolder(View itemView) {
                 super(itemView);
-                placeholderView = (RelativeLayout) itemView.findViewById(R.id.placeholder_view);
+                placeholderView = itemView.findViewById(R.id.placeholder_view);
                 placeholderView.setOnClickListener(this);
             }
 
