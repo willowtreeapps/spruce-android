@@ -37,7 +37,7 @@ ext {
     compile_sdk_version = 30
 
     //Library data
-    version_name = '1.0.3'
+    version_name = '1.1.0'
     version_code = 1
     group_name = "com.willowtreeapps.spruce"
     lib_name = 'spruce-android'
