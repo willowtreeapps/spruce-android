@@ -38,6 +38,7 @@ import androidx.test.rule.ActivityTestRule;
 import com.willowtreeapps.spruce.AnimationActivity;
 import com.willowtreeapps.spruce.R;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -101,7 +102,7 @@ public class SpruceSpringTests {
         };
         final SpruceSpringAnimation anim = new SpruceSpringAnimation(animObj, property, 1f);
         anim.addEndListener((animation, canceled, value, velocity) -> assertEquals(1f, property.getValue(animObj), 0f));
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> anim.start());
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(anim::start);
 
     }
 
@@ -132,8 +133,8 @@ public class SpruceSpringTests {
         anim.addUpdateListener(updateListener);
         anim.addEndListener((animation, canceled, value, velocity) -> {
             assertEquals(anim.hashCode(), animation.hashCode());
-            assertTrue(1000f == value);
-            assertTrue(0f == velocity);
+            assertEquals(1000f, value, 0.0);
+            assertEquals(0f, velocity, 0.0);
         });
 
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> anim.setStartValue(0).start());
@@ -150,16 +151,16 @@ public class SpruceSpringTests {
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
             SpruceDynamics.OnAnimationEndListener listener1 = (animation, canceled, value, velocity) -> {
                 assertEquals(anim.hashCode(), animation.hashCode());
-                assertEquals(canceled, true);
-                assertTrue(0f == value);
-                assertTrue(0f == velocity);
+                assertTrue(canceled);
+                assertEquals(0f, value, 0.0);
+                assertEquals(0f, velocity, 0.0);
             };
 
             SpruceDynamics.OnAnimationEndListener listener2 = (animation, canceled, value, velocity) -> {
                 assertEquals(anim.hashCode(), animation.hashCode());
-                assertTrue(canceled == false);
-                assertTrue(-200f == value);
-                assertTrue(0f == velocity);
+                assertFalse(canceled);
+                assertEquals(-200f, value, 0.0);
+                assertEquals(0f, velocity, 0.0);
             };
 
             anim.addEndListener(listener1);
@@ -242,9 +243,9 @@ public class SpruceSpringTests {
                 anim3.setStartValue(800).addUpdateListener(updateListener).addEndListener(l3)
                         .addEndListener((animation, canceled, value, velocity) -> {
                             assertEquals(anim3.hashCode(), animation.hashCode());
-                            assertTrue(!canceled);
-                            assertTrue(value == 0f);
-                            assertTrue(velocity == 0f);
+                            assertFalse(canceled);
+                            assertEquals(0f, value, 0.0);
+                            assertEquals(0f, velocity, 0.0);
                         }).start();
                 anim1.setStartValue(800).addUpdateListener(updateListener).addEndListener(l1)
                         .start();
@@ -312,10 +313,10 @@ public class SpruceSpringTests {
                     .start();
             anim2.setStartValue(360).addUpdateListener(updateListener).addEndListener(l2)
                     .addEndListener((animation, canceled, value, velocity) -> {
-                        assertTrue(anim2.hashCode() == animation.hashCode());
-                        assertTrue(!canceled);
-                        assertTrue(value == 0f);
-                        assertTrue(velocity == 0f);
+                        assertEquals(anim2.hashCode(), animation.hashCode());
+                        assertFalse(canceled);
+                        assertEquals(0f, value, 0.0);
+                        assertEquals(0f, velocity, 0.0);
                     }).start();
             anim3.setStartValue(360).addEndListener(l3).start();
         });
@@ -365,18 +366,18 @@ public class SpruceSpringTests {
                     .addEndListener(listeners[i]);
         }
 
-        for (int i = 0; i < dampingRatios.length; i++) {
+        for (float dampingRatio : dampingRatios) {
             for (int j = 0; j < stiffness.length; j++) {
-                springs[j].setDampingRatio(dampingRatios[i]);
+                springs[j].setDampingRatio(dampingRatio);
                 springAnims[j].setStartValue(0).setStartVelocity(500);
                 listeners[j].endTime = -1;
             }
 
             springAnims[1].addEndListener((animation, canceled, value, velocity) -> {
-                assertTrue(animation.hashCode() == springAnims[1].hashCode());
-                assertTrue(!canceled);
-                assertTrue(0f == value);
-                assertTrue(0f == velocity);
+                assertEquals(animation.hashCode(), springAnims[1].hashCode());
+                assertFalse(canceled);
+                assertEquals(0f, value, 0.0);
+                assertEquals(0f, velocity, 0.0);
             });
             InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
                 @Override
@@ -462,10 +463,10 @@ public class SpruceSpringTests {
 
         final SpruceDynamics.OnAnimationUpdateListener mockUpdateListener = (animation, value, velocity) -> updateCount += 1;
         final SpruceDynamics.OnAnimationEndListener mockEndListener = (animation, canceled, value, velocity) -> {
-            assertTrue(anim.hashCode() == animation.hashCode());
-            assertTrue(!canceled);
-            assertTrue(value == 0f);
-            assertTrue(velocity == 0f);
+            assertEquals(anim.hashCode(), animation.hashCode());
+            assertFalse(canceled);
+            assertEquals(0f, value, 0.0);
+            assertEquals(0f, velocity, 0.0);
         };
         final SpruceDynamics.OnAnimationUpdateListener updateListener =
                 (animation, value, velocity) -> {
@@ -494,10 +495,10 @@ public class SpruceSpringTests {
     public void testAnimateToFinalPosition() throws InterruptedException {
         final SpruceSpringAnimation anim = new SpruceSpringAnimation(mView1, SpruceDynamics.SCALE_Y, 0.0f);
         final SpruceDynamics.OnAnimationEndListener mockEndListener = (animation, canceled, value, velocity) -> {
-            assertTrue(anim.hashCode() == animation.hashCode());
-            assertTrue(!canceled);
-            assertTrue(1.0f == value);
-            assertTrue(0.0f == velocity);
+            assertEquals(anim.hashCode(), animation.hashCode());
+            assertFalse(canceled);
+            assertEquals(1.0f, value, 0.0);
+            assertEquals(0.0f, velocity, 0.0);
         };
         anim.addEndListener(mockEndListener);
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> anim.animateToFinalPosition(0.0f));
@@ -517,15 +518,15 @@ public class SpruceSpringTests {
         FloatValueHolder valueHolder = new FloatValueHolder(0.5f);
         final SpruceSpringAnimation anim = new SpruceSpringAnimation(valueHolder);
         SpruceDynamics.OnAnimationUpdateListener mockListener =
-                (animation, value, velocity) -> assertTrue(anim.hashCode() == animation.hashCode());
+                (animation, value, velocity) -> assertEquals(anim.hashCode(), animation.hashCode());
         anim.addUpdateListener(mockListener);
 
         final SpruceDynamics.OnAnimationEndListener endListener =
                 (animation, canceled, value, velocity) -> {
-                    assertTrue(anim.hashCode() == animation.hashCode());
-                    assertTrue(!canceled);
-                    assertTrue(value == 0f);
-                    assertTrue(velocity == 0f);
+                    assertEquals(anim.hashCode(), animation.hashCode());
+                    assertFalse(canceled);
+                    assertEquals(0f, value, 0.0);
+                    assertEquals(0f, velocity, 0.0);
                 };
         anim.addEndListener(endListener);
 
@@ -581,7 +582,6 @@ public class SpruceSpringTests {
                 new SpruceDynamics.OnAnimationUpdateListener[properties.length];
         for (int i = 0; i < properties.length; i++) {
             anims[i] = new SpruceSpringAnimation(mView1, properties[i], 1);
-            final int finalI = i;
             anims[i].addUpdateListener(
                     new SpruceDynamics.OnAnimationUpdateListener() {
                         boolean mIsFirstFrame = true;
@@ -631,9 +631,7 @@ public class SpruceSpringTests {
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
             anim.setAnimationHandler(anim.getAnimationHandler());
         });
-        runRunnableOnNewThread(() -> {
-            anim.start();
-        });
+        runRunnableOnNewThread(anim::start);
     }
 
     /**
@@ -646,9 +644,7 @@ public class SpruceSpringTests {
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
             anim.setAnimationHandler(anim.getAnimationHandler());
         });
-        runRunnableOnNewThread(() -> {
-            anim.cancel();
-        });
+        runRunnableOnNewThread(anim::cancel);
     }
 
     /**
@@ -661,9 +657,7 @@ public class SpruceSpringTests {
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
             anim.setAnimationHandler(anim.getAnimationHandler());
         });
-        runRunnableOnNewThread(() -> {
-            anim.skipToEnd();
-        });
+        runRunnableOnNewThread(anim::skipToEnd);
     }
 
     /**
@@ -704,7 +698,7 @@ public class SpruceSpringTests {
             try {
                 anim.start();
                 fail("No exception is thrown when calling start() from non-main thread.");
-            } catch (UnsupportedOperationException e) {
+            } catch (UnsupportedOperationException ignored) {
             }
 
             // Expect exception from having a final position < min value
@@ -713,7 +707,7 @@ public class SpruceSpringTests {
                 // Final position < min value, expect exception.
                 anim.setStartValue(50).animateToFinalPosition(40);
                 fail("No exception is thrown when spring position is less than min value.");
-            } catch (UnsupportedOperationException e) {
+            } catch (UnsupportedOperationException ignored) {
             }
 
             // Expect exception from not setting spring final position before calling start.
@@ -722,7 +716,7 @@ public class SpruceSpringTests {
                 // Final position < min value, expect exception.
                 anim.setStartValue(60).animateToFinalPosition(70);
                 fail("No exception is thrown when spring position is greater than max value.");
-            } catch (UnsupportedOperationException e) {
+            } catch (UnsupportedOperationException ignored) {
             }
         });
     }
@@ -739,7 +733,7 @@ public class SpruceSpringTests {
             try {
                 anim.skipToEnd();
                 fail("No exception is thrown when calling skipToEnd() on an undamped spring");
-            } catch (UnsupportedOperationException e) {
+            } catch (UnsupportedOperationException ignored) {
             }
         });
 
@@ -754,7 +748,7 @@ public class SpruceSpringTests {
 
         anim.setAnimationHandler(handler);
 
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> anim.start());
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(anim::start);
 
         assertTrue(scheduler.mCallback);
         assertEquals(handler, anim.getAnimationHandler());
@@ -766,7 +760,7 @@ public class SpruceSpringTests {
         boolean mCallback;
 
         @Override
-        public void postFrameCallback(Runnable frameCallback) {
+        public void postFrameCallback(@NotNull Runnable frameCallback) {
             mCallback = true;
         }
 

@@ -40,6 +40,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("unchecked")
@@ -91,10 +92,10 @@ public class SpruceFlingTests {
         };
         final SpruceFlingAnimation anim = new SpruceFlingAnimation(animObj, property);
         SpruceDynamics.OnAnimationEndListener listener = (animation, canceled, value, velocity) -> {
-            assertTrue(animation.hashCode() == anim.hashCode());
-            assertTrue(!canceled);
+            assertEquals(animation.hashCode(), anim.hashCode());
+            assertFalse(canceled);
             assertTrue(value > 110f);
-            assertTrue(velocity == 0f);
+            assertEquals(velocity, 0f,0f);
         };
         anim.addEndListener(listener);
         InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
@@ -116,13 +117,13 @@ public class SpruceFlingTests {
         final SpruceFlingAnimation anim = new SpruceFlingAnimation(floatValueHolder).setStartVelocity(-2500);
 
         SpruceDynamics.OnAnimationEndListener listener = (animation, canceled, value, velocity) -> {
-            assertTrue(anim.hashCode() == animation.hashCode());
-            assertTrue(!canceled);
+            assertEquals(anim.hashCode(),animation.hashCode());
+            assertFalse(canceled);
             assertTrue(value < -50f);
-            assertTrue(velocity == 0);
+            assertEquals(0, velocity, 0.0);
         };
         anim.addEndListener(listener);
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> anim.start());
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(anim::start);
     }
 
 
@@ -142,10 +143,10 @@ public class SpruceFlingTests {
         animLowFriction.setFriction(lowFriction);
 
         SpruceDynamics.OnAnimationEndListener listener = (animation, canceled, value, velocity) -> {
-            assertTrue(animation.hashCode() == animHighFriction.hashCode());
-            assertTrue(!canceled);
+            assertEquals(animation.hashCode(), animHighFriction.hashCode());
+            assertFalse(canceled);
             assertTrue(value > 200f);
-            assertTrue(velocity == 0f);
+            assertEquals(0f, velocity, 0.0);
         };
 
         animHighFriction.addEndListener(listener);
@@ -157,7 +158,7 @@ public class SpruceFlingTests {
         // By the time high scalar animation finishes, the lower friction animation should still be
         // running.
         assertTrue(animLowFriction.isRunning());
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> animLowFriction.cancel());
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(animLowFriction::cancel);
 
         assertEquals(lowFriction, animLowFriction.getFriction(), 0f);
         assertEquals(highFriction, animHighFriction.getFriction(), 0f);
@@ -186,10 +187,10 @@ public class SpruceFlingTests {
         animLowThreshold.setMinimumVisibleChange(lowThreshold);
 
         SpruceDynamics.OnAnimationEndListener listener = (animation, canceled, value, velocity) -> {
-            assertTrue(animHighThreshold.hashCode() == animation.hashCode());
-            assertTrue(!canceled);
+            assertEquals(animHighThreshold.hashCode(), animation.hashCode());
+            assertFalse(canceled);
             assertTrue(value > 200f);
-            assertTrue(velocity == 0f);
+            assertEquals(0f, velocity, 0.0);
         };
         animHighThreshold.addEndListener(listener);
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
@@ -200,7 +201,7 @@ public class SpruceFlingTests {
         // By the time high scalar animation finishes, the lower friction animation should still be
         // running.
         assertTrue(animLowThreshold.isRunning());
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> animLowThreshold.cancel());
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(animLowThreshold::cancel);
 
         assertEquals(lowThreshold, animLowThreshold.getMinimumVisibleChange(), 0f);
         assertEquals(highThreshold, animHighThreshold.getMinimumVisibleChange(), 0f);
